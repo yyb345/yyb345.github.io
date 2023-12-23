@@ -16,16 +16,16 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="title: Langchain原理解析与实践date: 2023-12-20 23:13:26 最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。 LangChain属于哪一层​    LangChain是基于LLM之上的，在应">
+    <meta name="description" content="title: Langchain原理解析与实践date: 2023-12-20 23:13:26 tags: 最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。 LangChain属于哪一层​    LangChain是基于LLM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="杨一博的博客">
 <meta property="og:url" content="http://example.com/2023/12/20/langchain/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="title: Langchain原理解析与实践date: 2023-12-20 23:13:26 最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。 LangChain属于哪一层​    LangChain是基于LLM之上的，在应">
+<meta property="og:description" content="title: Langchain原理解析与实践date: 2023-12-20 23:13:26 tags: 最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。 LangChain属于哪一层​    LangChain是基于LLM">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/images/langchain_chatglm.png">
 <meta property="article:published_time" content="2023-12-19T18:07:54.724Z">
-<meta property="article:modified_time" content="2023-12-23T10:34:09.033Z">
+<meta property="article:modified_time" content="2023-12-23T10:36:17.282Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/images/langchain_chatglm.png">
@@ -294,6 +294,7 @@
                 
                 <hr>
 <p>title: Langchain原理解析与实践<br>date: 2023-12-20 23:13:26</p>
+<p>tags:</p>
 <p>最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。</p>
 <h3 id="LangChain属于哪一层"><a href="#LangChain属于哪一层" class="headerlink" title="LangChain属于哪一层"></a>LangChain属于哪一层</h3><p>​    LangChain是基于LLM之上的，在应用层和底层LLM之前的一个很好的编程框架，如果把LLM比喻为各种类型的数据库、中间件等这些基础设施，应用层是各种业务逻辑的组合之外，那么LangChain就负责桥接与业务层和底层LLM模型，让开发者可以快速地实现对接各种底层模型和快速实现业务逻辑的软件开发框架。</p>
 <p>   那么LangChain是如何做到的呢？试想一下，现在底层有一个大模型的推理能力，除了在对话框手动输入跟他聊天之外。如何用计算机方式跟它互动呢？如果把一次LLM调用当作一个原子能力，如何编排这些原子能力来解决一些业务需求呢？Langchain就是来解决这个事情的。</p>
