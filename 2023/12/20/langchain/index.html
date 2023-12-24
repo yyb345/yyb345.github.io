@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/images/langchain_chatglm.png">
 <meta property="article:published_time" content="2023-12-20T15:09:33.000Z">
-<meta property="article:modified_time" content="2023-12-23T10:42:04.668Z">
+<meta property="article:modified_time" content="2023-12-24T12:18:59.409Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="AI,LangChain,LLM">
 <meta name="twitter:card" content="summary_large_image">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k words
+          2k words
         
       </span>
     
@@ -250,7 +250,7 @@
         
         
         
-          18 mins
+          17 mins
         
       </span>
     
@@ -296,7 +296,7 @@
                 <p>最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。</p>
 <h3 id="LangChain属于哪一层"><a href="#LangChain属于哪一层" class="headerlink" title="LangChain属于哪一层"></a>LangChain属于哪一层</h3><p>​    LangChain是基于LLM之上的，在应用层和底层LLM之前的一个很好的编程框架，如果把LLM比喻为各种类型的数据库、中间件等这些基础设施，应用层是各种业务逻辑的组合之外，那么LangChain就负责桥接与业务层和底层LLM模型，让开发者可以快速地实现对接各种底层模型和快速实现业务逻辑的软件开发框架。</p>
 <p>   那么LangChain是如何做到的呢？试想一下，现在底层有一个大模型的推理能力，除了在对话框手动输入跟他聊天之外。如何用计算机方式跟它互动呢？如果把一次LLM调用当作一个原子能力，如何编排这些原子能力来解决一些业务需求呢？Langchain就是来解决这个事情的。</p>
-<h3 id="LangChain的几个核心概念"><a href="#LangChain的几个核心概念" class="headerlink" title="LangChain的几个核心概念"></a>LangChain的几个核心概念</h3><h4 id="格式化数据（I-x2F-O）"><a href="#格式化数据（I-x2F-O）" class="headerlink" title="格式化数据（I&#x2F;O）"></a>格式化数据（I&#x2F;O）</h4><h4 id="Retriver"><a href="#Retriver" class="headerlink" title="Retriver"></a>Retriver</h4><p>   检索是为了解决大模型打通用户的本身数据，做一些面向业务属性的东西。这里的检索并非传统的关系型数据库，更多的是与大模型的本身逻辑相似的，比如向量数据库。</p>
+<h3 id="LangChain的几个核心概念"><a href="#LangChain的几个核心概念" class="headerlink" title="LangChain的几个核心概念"></a>LangChain的几个核心概念</h3><h4 id="格式化数据（I-x2F-O）"><a href="#格式化数据（I-x2F-O）" class="headerlink" title="格式化数据（I&#x2F;O）"></a>格式化数据（I&#x2F;O）</h4><h4 id="Retriver"><a href="#Retriver" class="headerlink" title="Retriver"></a>Retriver</h4><p>   检索是为了解决大模型打通用户的本身数据，做一些面向业务属性的东西。这里的检索并非传统的关系型数据库，更多的是与大模型的本身逻辑相似的，比如向量数据库。抽象的来讲，RAG（检索增强生成）这个领域</p>
 <h5 id="一个经典的结合LLM和外部用户的文档进行智能答疑的场景"><a href="#一个经典的结合LLM和外部用户的文档进行智能答疑的场景" class="headerlink" title="一个经典的结合LLM和外部用户的文档进行智能答疑的场景"></a>一个经典的结合LLM和外部用户的文档进行智能答疑的场景</h5><p>文档-&gt;分词-&gt;embedding-&gt;向量数据库</p>
 <p>query-&gt;向量数据库查询-&gt;TOP N-&gt;上下文+ 用户提问 + prompt -&gt; LLM -&gt; 返回结果</p>
 <p>一个经典的图如下：</p>
@@ -319,15 +319,12 @@
 <p>​     向量数据库底层存储的是一堆向量，它提供了根据向量相似度进行查询的能力，一般情况下，向量相似度代表了现实世界中物体的相似度。比如”我的名字是小明“ 和“我叫小明”这两句话所代表的含义几乎是相同的，那么在embedding之后，基于向量数据库进行查询的时候，它们俩的相似度就会很近。</p>
 <p>现在市面上常见的向量数据库有xxx</p>
 <h4 id="Chain"><a href="#Chain" class="headerlink" title="Chain"></a>Chain</h4><p>各种类型的chain，chain代表了各种业务类型的组合，类似于工作流的编排。</p>
-<h4 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h4><p>LLM本身提供了记忆的能力，LangChain需要使用外部存储保存这些历史的会话和记忆.</p>
+<h4 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h4><p>LLM本身提供了记忆的能力，同时提供了接口，开发者可以将历史的对话记录传入给LLM。LangChain需要使用外部存储保存这些历史的会话和记忆。可以使用数据库、缓存等进行保存。</p>
 <h4 id="Agent"><a href="#Agent" class="headerlink" title="Agent"></a>Agent</h4><p>重点是代理工具</p>
 <p>   代理工具可以让应用程序基于大模型的推理能力，然后进行代理工具或代理服务的调用。因为LLM是没有“联网”的能力的，如果想解决特定的应用场景，代理工具是个完美的选择。</p>
 <p>代理工具通常包含三个方面： 用户输入、prompt编排LLM思考与路由代理的过程、背后的代理服务。其中难点可能就在于prompt设计了。通常的“套路”是这样的：</p>
-<h3 id="LangChain的在实际场景中的实践"><a href="#LangChain的在实际场景中的实践" class="headerlink" title="LangChain的在实际场景中的实践"></a>LangChain的在实际场景中的实践</h3><h4 id="汇总类"><a href="#汇总类" class="headerlink" title="汇总类"></a>汇总类</h4><p><strong>关键技术：文档如何拆分、embedding过程、 TOPN 向量距离的选择</strong></p>
-<h4 id="Chain-1"><a href="#Chain-1" class="headerlink" title="Chain"></a>Chain</h4><p>各种类型的chain，chain代表了各种业务类型的组合，类似于工作流的编排。</p>
-<h4 id="Memory-1"><a href="#Memory-1" class="headerlink" title="Memory"></a>Memory</h4><p>记忆是将对话记录，</p>
-<h4 id="Agent-1"><a href="#Agent-1" class="headerlink" title="Agent"></a>Agent</h4><p>重点是代理工具</p>
-<h3 id="LangChain的在实际场景中的实践-1"><a href="#LangChain的在实际场景中的实践-1" class="headerlink" title="LangChain的在实际场景中的实践"></a>LangChain的在实际场景中的实践</h3><h4 id="汇总类-1"><a href="#汇总类-1" class="headerlink" title="汇总类"></a>汇总类</h4>
+<h3 id="LangChain的在实际场景中的实践"><a href="#LangChain的在实际场景中的实践" class="headerlink" title="LangChain的在实际场景中的实践"></a>LangChain的在实际场景中的实践</h3><h4 id="智能问答"><a href="#智能问答" class="headerlink" title="智能问答"></a>智能问答</h4><p>：prompt+embedding+ 向量数据库+agent </p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
                 
               </div>
             
@@ -395,6 +392,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/12/23/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="自动化测试">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">自动化测试</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
