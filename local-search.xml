@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>LLMAgent学习笔记</title>
+    <link href="/2024/01/07/LLMAgent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <url>/2024/01/07/LLMAgent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[<p>上文介绍了LangChain的基本原理，但是越来越发现Agent的重要性</p><h1 id="Agent基本概念"><a href="#Agent基本概念" class="headerlink" title="Agent基本概念"></a>Agent基本概念</h1><p>Planning</p><p>Thinking</p><p>Action</p><p>Memory</p><h1 id="多Agent-Framework"><a href="#多Agent-Framework" class="headerlink" title="多Agent Framework"></a>多Agent Framework</h1><p>MetaGPT</p><img src="https://docs.deepwisdom.ai/main/image/guide/tutorials/multi_agents_flowchart.png" alt="img" style="zoom: 33%;" /><p>核心的元素：观察、提示词+工具、返回结果集成到上下文中。</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>自动化测试</title>
     <link href="/2023/12/23/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
     <url>/2023/12/23/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/</url>
