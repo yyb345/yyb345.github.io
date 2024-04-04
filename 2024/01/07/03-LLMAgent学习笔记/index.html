@@ -16,24 +16,27 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。 LangChain属于哪一层​    LangChain是基于LLM之上的，在应用层和底层LLM之前的一个很好的编程框架，如果把LLM比喻为各种类型的数据库、中间件等这些基础设施，">
+    <meta name="description" content="上文介绍了LangChain的基本原理，但是越来越发现Agent的重要性 Agent基本概念Planning Thinking Action Memory 多Agent FrameworkMetaGPT   核心的元素：观察、提示词+工具、返回结果集成到上下文中。 semantic kernel是微软开发的一个基于LLM之上的开发框架，与Langchain类似。但是它从设计上就将function">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LangChain原理解析">
-<meta property="og:url" content="http://example.com/2023/12/20/langchain/index.html">
+<meta property="og:title" content="03-AI技术-LLMAgent学习笔记">
+<meta property="og:url" content="https://yyb345.github.io/2024/01/07/03-LLMAgent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。 LangChain属于哪一层​    LangChain是基于LLM之上的，在应用层和底层LLM之前的一个很好的编程框架，如果把LLM比喻为各种类型的数据库、中间件等这些基础设施，">
+<meta property="og:description" content="上文介绍了LangChain的基本原理，但是越来越发现Agent的重要性 Agent基本概念Planning Thinking Action Memory 多Agent FrameworkMetaGPT   核心的元素：观察、提示词+工具、返回结果集成到上下文中。 semantic kernel是微软开发的一个基于LLM之上的开发框架，与Langchain类似。但是它从设计上就将function">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/langchain_chatglm.png">
-<meta property="article:published_time" content="2023-12-20T15:09:33.000Z">
-<meta property="article:modified_time" content="2024-01-04T16:14:43.364Z">
+<meta property="og:image" content="https://docs.deepwisdom.ai/main/image/guide/tutorials/multi_agents_flowchart.png">
+<meta property="og:image" content="https://yyb345.github.io/images/chatgpt_store.png">
+<meta property="og:image" content="https://yyb345.github.io/images/chatGPT_builder_configure.png">
+<meta property="og:image" content="https://yyb345.github.io/images/chatGPT_builder_configure_2.png">
+<meta property="og:image" content="https://yyb345.github.io/images/chatGPT_builder_action.png">
+<meta property="article:published_time" content="2024-01-07T14:30:26.000Z">
+<meta property="article:modified_time" content="2024-04-04T09:04:14.157Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="AI,LangChain,LLM">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/langchain_chatglm.png">
+<meta name="twitter:image" content="https://docs.deepwisdom.ai/main/image/guide/tutorials/multi_agents_flowchart.png">
   
   
   
-  <title>LangChain原理解析 - 杨一博的博客</title>
+  <title>03-AI技术-LLMAgent学习笔记 - 杨一博的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -71,7 +74,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"format":"{} 次","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"AJEMKhCdWWpUWaO4oVIrLUzP-gzGzoHsz","app_key":"WuvpqIe68DmHGjjGPRBFENa1","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"yyb345.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"format":"{} 次","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"AJEMKhCdWWpUWaO4oVIrLUzP-gzGzoHsz","app_key":"WuvpqIe68DmHGjjGPRBFENa1","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -216,7 +219,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="LangChain原理解析"></span>
+            <span id="subtitle" data-typed-text="03-AI技术-LLMAgent学习笔记"></span>
           
         </div>
 
@@ -227,8 +230,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-20 23:09" pubdate>
-          December 20, 2023 pm
+        <time datetime="2024-01-07 22:30" pubdate>
+          January 7, 2024 pm
         </time>
       </span>
     
@@ -239,7 +242,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k words
+          321 words
         
       </span>
     
@@ -250,7 +253,7 @@
         
         
         
-          13 mins
+          3 mins
         
       </span>
     
@@ -288,40 +291,43 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">LangChain原理解析</h1>
+            <h1 style="display: none">03-AI技术-LLMAgent学习笔记</h1>
             
             
               <div class="markdown-body">
                 
-                <p>最新越发觉得AI的发展，对未来是一场革命，LangChain已经在工程设计上有了最佳实践，类似于AI时代的编程模型或编程框架，有点Spring框架的意思。之前在LangChain上也有些最佳实践，所以在这里分享记录下。</p>
-<h3 id="LangChain属于哪一层"><a href="#LangChain属于哪一层" class="headerlink" title="LangChain属于哪一层"></a>LangChain属于哪一层</h3><p>​    LangChain是基于LLM之上的，在应用层和底层LLM之前的一个很好的编程框架，如果把LLM比喻为各种类型的数据库、中间件等这些基础设施，应用层是各种业务逻辑的组合之外，那么LangChain就负责桥接与业务层和底层LLM模型，让开发者可以快速地实现对接各种底层模型和快速实现业务逻辑的软件开发框架。</p>
-<p>   那么LangChain是如何做到的呢？试想一下，现在底层有一个大模型的推理能力，除了在对话框手动输入跟他聊天之外。如何用计算机方式跟它互动呢？如果把一次LLM调用当作一个原子能力，如何编排这些原子能力来解决一些业务需求呢？Langchain就是来解决这个事情的。</p>
-<h3 id="LangChain的几个核心概念"><a href="#LangChain的几个核心概念" class="headerlink" title="LangChain的几个核心概念"></a>LangChain的几个核心概念</h3><h4 id="格式化数据（I-x2F-O）"><a href="#格式化数据（I-x2F-O）" class="headerlink" title="格式化数据（I&#x2F;O）"></a>格式化数据（I&#x2F;O）</h4><h4 id="Retriver"><a href="#Retriver" class="headerlink" title="Retriver"></a>Retriver</h4><p>   检索是为了解决大模型打通用户的本身数据，做一些面向业务属性的东西。这里的检索并非传统的关系型数据库，更多的是与大模型的本身逻辑相似的，比如向量数据库。</p>
-<h5 id="一个经典的结合LLM和外部用户的文档进行智能答疑的场景"><a href="#一个经典的结合LLM和外部用户的文档进行智能答疑的场景" class="headerlink" title="一个经典的结合LLM和外部用户的文档进行智能答疑的场景"></a>一个经典的结合LLM和外部用户的文档进行智能答疑的场景</h5><p>文档-&gt;分词-&gt;embedding-&gt;向量数据库</p>
-<p>query-&gt;向量数据库查询-&gt;TOP N-&gt;上下文+ 用户提问 + prompt -&gt; LLM -&gt; 返回结果</p>
-<p>一个经典的图如下：</p>
-<img src="/images/langchain_chatglm.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:20%;" />
+                <p>上文介绍了LangChain的基本原理，但是越来越发现Agent的重要性</p>
+<h1 id="Agent基本概念"><a href="#Agent基本概念" class="headerlink" title="Agent基本概念"></a>Agent基本概念</h1><p>Planning</p>
+<p>Thinking</p>
+<p>Action</p>
+<p>Memory</p>
+<h1 id="多Agent-Framework"><a href="#多Agent-Framework" class="headerlink" title="多Agent Framework"></a>多Agent Framework</h1><p>MetaGPT</p>
+<img src="https://docs.deepwisdom.ai/main/image/guide/tutorials/multi_agents_flowchart.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom: 33%;" />
+
+<p>核心的元素：观察、提示词+工具、返回结果集成到上下文中。</p>
+<h1 id="semantic-kernel"><a href="#semantic-kernel" class="headerlink" title="semantic kernel"></a>semantic kernel</h1><p>是微软开发的一个基于LLM之上的开发框架，与Langchain类似。但是它从设计上就将function 和prompt 作为一个kerne作为一个原子操作。所以，天然就支持这种workflow的概念。</p>
+<h1 id="GPT-STORE"><a href="#GPT-STORE" class="headerlink" title="GPT STORE"></a>GPT STORE</h1><h2 id="应用市场"><a href="#应用市场" class="headerlink" title="应用市场"></a>应用市场</h2> <img src="/images/chatgpt_store.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:20%;" />
 
 
 
-<p><strong>关键技术：文档如何拆分、embedding过程、 TOPN 向量距离的选择</strong></p>
-<p>embedding技术选型</p>
-<p> embedding是将现实中的物体通过向量化的方法转化为高维向量，可被机器学习模型所识别。他是一种映射，同时也保证了能清晰地表达现实物体的特征。基于此，可以进行一些归类分析、回归分析等。</p>
-<p>现在市面上常见的embedding方法有通义千问的embedding等方法。</p>
-<p>向量数据库</p>
-<p>​     向量数据库底层存储的是一堆向量，它提供了根据向量相似度进行查询的能力，一般情况下，向量相似度代表了现实世界中物体的相似度。比如”我的名字是小明“ 和“我叫小明”这两句话所代表的含义几乎是相同的，那么在embedding之后，基于向量数据库进行查询的时候，它们俩的相似度就会很近。</p>
-<p>现在市面上常见的向量数据库有xxx</p>
-<h4 id="Chain"><a href="#Chain" class="headerlink" title="Chain"></a>Chain</h4><p>各种类型的chain，chain代表了各种业务类型的组合，类似于工作流的编排。</p>
-<h4 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h4><p>LLM本身提供了记忆的能力，同时提供了接口，开发者可以将历史的对话记录传入给LLM。LangChain需要使用外部存储保存这些历史的会话和记忆。可以使用数据库、缓存等进行保存。</p>
-<h4 id="Agent"><a href="#Agent" class="headerlink" title="Agent"></a>Agent</h4><h5 id="重点是代理工具"><a href="#重点是代理工具" class="headerlink" title="重点是代理工具"></a>重点是代理工具</h5><p>   代理工具可以让应用程序基于大模型的推理能力，然后进行代理工具或代理服务的调用。因为LLM是没有“联网”的能力的，如果想解决特定的应用场景，代理工具是个完美的选择。</p>
-<p>代理工具通常包含三个方面： 用户输入、prompt编排LLM思考与路由代理的过程、背后的代理服务。其中难点可能就在于prompt设计了。通常的“套路”是这样的：</p>
-<h5 id="ReAct-模型："><a href="#ReAct-模型：" class="headerlink" title="ReAct 模型："></a>ReAct 模型：</h5><p>输入：用户的问题</p>
-<p>思考过程：如果是情况1（这个是需要LLM进行意图识别进行思考的），那么推理和提取出一些关键参数，调用agent1，如果是情况2，那么推理和提取出一些关键参数，调用agent2</p>
-<p>Act：调用agent1对应一个JSON格式化的输入，调用function1，返回结果。</p>
-<p>观察：观察调用后的结果，再结合推理的能力，再进行循环思考。</p>
-<h3 id="LangChain的在实际场景中的实践"><a href="#LangChain的在实际场景中的实践" class="headerlink" title="LangChain的在实际场景中的实践"></a>LangChain的在实际场景中的实践</h3><h4 id="智能问答"><a href="#智能问答" class="headerlink" title="智能问答"></a>智能问答</h4><p>Embedding 是将FAQ的知识库</p>
-<p>prompt+embedding+ 向量数据库+agent </p>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
+<h2 id="构建应用"><a href="#构建应用" class="headerlink" title="构建应用"></a>构建应用</h2><ol>
+<li>构建自己的GPT应用</li>
+</ol>
+<img src="/images/chatGPT_builder_configure.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:20%;" />
+
+<ol start="2">
+<li>知识库&#x2F;能力&#x2F;外部action能力配置</li>
+</ol>
+<img src="/images/chatGPT_builder_configure_2.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:20%;" />
+
+<ol start="3">
+<li><p>action配置的能力</p>
+<p>语法像semantic kernel的语法</p>
+</li>
+</ol>
+<img src="/images/chatGPT_builder_action.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:20%;" />
+
+
                 
               </div>
             
@@ -329,13 +335,6 @@
             <div>
               <div class="post-metas my-3">
   
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/AI-LangChain-LLM/">#AI,LangChain,LLM</a>
-      
-    </div>
   
 </div>
 
@@ -345,8 +344,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>LangChain原理解析</div>
-      <div>http://example.com/2023/12/20/langchain/</div>
+      <div>03-AI技术-LLMAgent学习笔记</div>
+      <div>https://yyb345.github.io/2024/01/07/03-LLMAgent学习笔记/</div>
     </div>
     <div class="license-meta">
       
@@ -358,7 +357,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>December 20, 2023</div>
+          <div>January 7, 2024</div>
         </div>
       
       
@@ -390,9 +389,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/23/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="自动化测试">
+                      <a href="/2024/04/04/01-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B7%A5%E7%A8%8B%E6%8A%80%E6%9C%AF%E6%B1%87%E6%80%BB/" title="01-AI技术-大模型工程技术汇总">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">自动化测试</span>
+                        <span class="hidden-mobile">01-AI技术-大模型工程技术汇总</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -400,8 +399,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/12/20/kafka%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98/" title="kafka脑裂问题">
-                        <span class="hidden-mobile">kafka脑裂问题</span>
+                      <a href="/2023/12/23/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="自动化测试">
+                        <span class="hidden-mobile">自动化测试</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
