@@ -100,9 +100,9 @@
   
   
   <entry>
-    <title>低代码中的关键技术</title>
-    <link href="/2023/06/11/%E4%BD%8E%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF/"/>
-    <url>/2023/06/11/%E4%BD%8E%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF/</url>
+    <title>低代码技术</title>
+    <link href="/2023/06/11/%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%8A%80%E6%9C%AF/"/>
+    <url>/2023/06/11/%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%8A%80%E6%9C%AF/</url>
     
     <content type="html"><![CDATA[<p>低代码在某些场景下的开发效率会很高，比如xxx。因此有必要研究一下低代码场景下的一些核心功能。</p><h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>表单搭建</p><ol><li>Google Forms：<ul><li>优点：简单易用，免费使用，与Google账号和Google Drive无缝集成，可轻松创建各种类型的表单，支持多种问题类型和自定义选项。</li><li>缺点：功能相对较基础，定制性较低，对于复杂的表单需求可能不够满足。</li></ul></li><li>Microsoft Forms：<ul><li>优点：集成于Microsoft Office 365，支持与Microsoft Teams、SharePoint等工具无缝协作，具备丰富的表单设计和逻辑控制功能，易于创建和分享表单。</li><li>缺点：功能相对较简化，仅限于Microsoft Office 365生态系统。</li></ul></li><li>JotForm：<ul><li>优点：提供丰富的表单模板和设计工具，具备强大的表单逻辑和自动化功能，支持在线支付和集成多种第三方应用程序。</li><li>缺点：高级功能需要付费订阅，某些特定功能可能需要额外的配置和集成。</li></ul></li><li>Wufoo：<ul><li>优点：用户友好的界面，提供多种预设计表单模板，支持自定义设计和布局，具备强大的报告和分析功能。</li><li>缺点：部分高级功能需要付费订阅，集成和扩展性相对有限。</li></ul></li><li>Typeform：<ul><li>优点：独特的用户体验，通过交互式设计和动态问答形式创建表单，支持多媒体内容和自定义主题，提供强大的数据分析和可视化功能。</li><li>缺点：某些高级功能和定制选项需要付费订阅，特殊设计可能需要一定的学习曲线。</li></ul></li></ol><h2 id="工作流"><a href="#工作流" class="headerlink" title="工作流"></a>工作流</h2><h3 id="工作流引擎"><a href="#工作流引擎" class="headerlink" title="工作流引擎"></a>工作流引擎</h3><ol><li><p>Apache Airflow: 优点：</p><ul><li>支持可扩展的任务调度和工作流编排，具有高度灵活性。</li><li>提供可视化的用户界面和丰富的插件生态系统。</li><li>具备良好的可编程性和可定制性，适用于复杂的工作流需求。</li></ul><p>缺点：</p><ul><li>部署和配置较为复杂，对于初学者来说有一定的学习曲线。</li><li>可视化界面相对简单，不够直观。</li></ul></li><li><p>Camunda BPM: 优点：</p><ul><li>提供全面的业务流程管理解决方案，具有强大的工作流引擎功能。</li><li>支持复杂的流程编排和规则引擎。</li><li>提供了用户友好的建模工具和监控面板。</li></ul><p>缺点：</p><ul><li>需要一定的开发技能和理解业务流程建模的概念。</li><li>需要额外的配置和集成才能适应特定的环境和需求。</li></ul></li><li><p>IBM Business Automation Workflow: 优点：</p><ul><li>提供完整的工作流和决策管理解决方案，包括流程建模、执行和监控。</li><li>支持高度可扩展的分布式架构和大规模部署。</li><li>具备强大的决策规则引擎和自动化决策能力。</li></ul><p>缺点：</p><ul><li>高度定制化和企业级功能可能会导致复杂性增加。</li><li>相对较高的成本和学习曲线，适用于大型企业和复杂业务场景。</li></ul></li><li><p>Microsoft Power Automate (以前的Microsoft Flow): 优点：</p><ul><li>与Microsoft Office 365和其他Microsoft产品集成紧密，易于使用和配置。</li><li>提供丰富的连接器和模板，便于快速构建常见的工作流程。</li><li>可以通过低代码方式进行自定义扩展。</li></ul><p>缺点：</p><ul><li>功能相对较简化，不适用于复杂的工作流需求。</li><li>集成主要面向Microsoft生态系统，对其他系统和平台的支持有限。</li></ul></li></ol><table><thead><tr><th align="left">工作流引擎</th><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td align="left">Smart-engine</td><td></td><td></td></tr><tr><td align="left"></td><td></td><td></td></tr><tr><td align="left"></td><td></td><td></td></tr></tbody></table><h3 id="工作流搭建"><a href="#工作流搭建" class="headerlink" title="工作流搭建"></a>工作流搭建</h3><h3 id="事件中心"><a href="#事件中心" class="headerlink" title="事件中心"></a>事件中心</h3><p>事件中心一般包括 消息出发、HTTP触发等方式。</p><h3 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h3><p>连接器一般用来连接工作流和微服务的调用。核心功能有代理执行和参数映射</p><h2 id="工作表"><a href="#工作表" class="headerlink" title="工作表"></a>工作表</h2><p>用来进行用户数据存储。用户数据存储可以用传统的Mysql，也可以用分布式数据库XXX。</p><p>EXCEL导入是一个比较常见的功能，Easy-Excel是一个不错的框架。</p><h3 id="数据空间"><a href="#数据空间" class="headerlink" title="数据空间"></a>数据空间</h3>]]></content>
     
@@ -132,11 +132,11 @@
   
   
   <entry>
-    <title>开放平台相关</title>
-    <link href="/2023/05/07/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
-    <url>/2023/05/07/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</url>
+    <title>开放平台技术</title>
+    <link href="/2023/05/07/%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0%E6%8A%80%E6%9C%AF/"/>
+    <url>/2023/05/07/%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0%E6%8A%80%E6%9C%AF/</url>
     
-    <content type="html"><![CDATA[<p>ISV身份：</p><p>应用：</p><h3 id="授权："><a href="#授权：" class="headerlink" title="授权："></a>授权：</h3><p>​    在淘宝开放平台上，授权是一种控制访问权限的机制。当开发者希望访问淘宝平台的用户数据或使用某些功能时，他们需要先向淘宝开放平台申请授权。用户可以根据自己的需求选择授权给特定的应用程序或服务，以便控制对自己个人信息的访问和使用。</p><p>​    授权通常涉及用户的身份验证和权限管理。开发者需要通过OAuth等认证协议来验证用户的身份，并获得用户的授权许可。用户可以选择授予应用程序特定的权限，例如读取商品信息、下单、发表评价等。用户在授权过程中可以查看应用程序请求的权限范围，并可以随时取消或更改授权。</p><p>API</p><p>消息</p><p>SPI</p><p>SDK</p><p>错误码</p><h3 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h3><p>高性能技术：异步化、多级缓存、流控</p><h3 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h3>]]></content>
+    <content type="html"><![CDATA[<h3 id="授权："><a href="#授权：" class="headerlink" title="授权："></a>授权：</h3><p>​    在淘宝开放平台上，授权是一种控制访问权限的机制。当开发者希望访问淘宝平台的用户数据或使用某些功能时，他们需要先向淘宝开放平台申请授权。用户可以根据自己的需求选择授权给特定的应用程序或服务，以便控制对自己个人信息的访问和使用。</p><p>​    授权通常涉及用户的身份验证和权限管理。开发者需要通过OAuth等认证协议来验证用户的身份，并获得用户的授权许可。用户可以选择授予应用程序特定的权限，例如读取商品信息、下单、发表评价等。用户在授权过程中可以查看应用程序请求的权限范围，并可以随时取消或更改授权。</p><h3 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h3><p>签名算法、微服务</p><h4 id="高性能技术："><a href="#高性能技术：" class="headerlink" title="高性能技术："></a>高性能技术：</h4><p>异步化：</p><p>多级缓存：</p><p>流控：</p><h3 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h3><h3 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a>SPI</h3><p>服务端提供</p><h3 id="SDK"><a href="#SDK" class="headerlink" title="SDK"></a>SDK</h3><p>SDK生成技术</p>]]></content>
     
     
     
