@@ -16,16 +16,16 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="什么是脑裂？​     脑裂是分布式系统高可用（High Avaliablity）场景下容易出现的问题。我们知道，在分布式系统中常常用多副本来解决容错性问题，多副本中会选举出一个Leader负责与客户端进行交互，但由于各种原因分布式集群中会出现脑裂的情况 zookeeper脑裂问题 - tantexian的博客空间 - OSCHINAmy.oschina.net&#x2F;tantexian&amp;#x">
+    <meta name="description" content="本文介绍了我在公司内遇到的kafka实际难题以及是如何解决的，以此记录一下。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="05-消息队列-kafka脑裂问题">
 <meta property="og:url" content="https://yyb345.github.io/2023/12/20/kafka%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="什么是脑裂？​     脑裂是分布式系统高可用（High Avaliablity）场景下容易出现的问题。我们知道，在分布式系统中常常用多副本来解决容错性问题，多副本中会选举出一个Leader负责与客户端进行交互，但由于各种原因分布式集群中会出现脑裂的情况 zookeeper脑裂问题 - tantexian的博客空间 - OSCHINAmy.oschina.net&#x2F;tantexian&amp;#x">
+<meta property="og:description" content="本文介绍了我在公司内遇到的kafka实际难题以及是如何解决的，以此记录一下。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://picx.zhimg.com/80/v2-071a5a1f9984922f258d09c589c40ad0_1440w.png?source=d16d100b">
 <meta property="article:published_time" content="2023-12-19T18:12:34.000Z">
-<meta property="article:modified_time" content="2024-04-04T09:04:33.736Z">
+<meta property="article:modified_time" content="2024-09-28T13:56:07.124Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="稳定性">
 <meta name="twitter:card" content="summary_large_image">
@@ -114,7 +114,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
+      <strong>杨的技术博客</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -250,7 +250,7 @@
         
         
         
-          10 mins
+          11 mins
         
       </span>
     
@@ -293,7 +293,10 @@
             
               <div class="markdown-body">
                 
-                <h2 id="什么是脑裂？"><a href="#什么是脑裂？" class="headerlink" title="什么是脑裂？"></a>什么是脑裂？</h2><p>​     脑裂是分布式系统高可用（High Avaliablity）场景下容易出现的问题。我们知道，在分布式系统中常常用多副本来解决容错性问题，多副本中会选举出一个Leader负责与客户端进行交互，但由于各种原因分布式集群中会出现脑裂的情况</p>
+                <p>本文介绍了我在公司内遇到的kafka实际难题以及是如何解决的，以此记录一下。</p>
+<span id="more"></span>`
+
+<h2 id="什么是脑裂？"><a href="#什么是脑裂？" class="headerlink" title="什么是脑裂？"></a>什么是脑裂？</h2><p>​     脑裂是分布式系统高可用（High Avaliablity）场景下容易出现的问题。我们知道，在分布式系统中常常用多副本来解决容错性问题，多副本中会选举出一个Leader负责与客户端进行交互，但由于各种原因分布式集群中会出现脑裂的情况</p>
 <p>zookeeper脑裂问题 - tantexian的博客空间 - OSCHINAmy.oschina.net&#x2F;tantexian&#x2F;blog&#x2F;2876309</p>
 <p> 这篇文章给出了详细的解释。这里再简单概述以下，基本上是由于网络或者其他原因导致master出现假死，这时候会触发系统进行新的master选举，此时系统中就会出现两个master，产生一系列问题。</p>
 <h2 id="什么是kafka-controller？"><a href="#什么是kafka-controller？" class="headerlink" title="什么是kafka controller？"></a>什么是kafka controller？</h2><p>​    kafka controller相当于整个kafka集群的<strong>master</strong>，负责topic的创建、删除、以及partition的状态机转换，broker的上线、下线等。那么controller是如何选举出来的呢？它是通过抢占方式在zookeeper上注册临时节点来实现的，第一个注册成功的即为controller。关键之处来了，由于<strong>zookeeper临时节点的有效性是通过session来判断的，若在session timeout时间内，controller所在的broker断掉，则会触发新的controller选举。</strong></p>
