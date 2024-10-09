@@ -16,24 +16,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本文主要介绍了开放平台网关涉及的高性能、高可用等核心技术以及与开源的网关技术Spring Cloud gateway进行对比。">
+    <meta name="description" content="Hexo 是一个基于 Node.js 的静态博客框架，允许你使用 Markdown 编写文章，然后通过 Hexo 生成静态网页。以下是一些常用的 Hexo 命令：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="开放平台技术">
-<meta property="og:url" content="https://yyb345.github.io/2023/05/07/%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:title" content="hexo">
+<meta property="og:url" content="https://yyb345.github.io/2023/12/20/undefined/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="本文主要介绍了开放平台网关涉及的高性能、高可用等核心技术以及与开源的网关技术Spring Cloud gateway进行对比。">
+<meta property="og:description" content="Hexo 是一个基于 Node.js 的静态博客框架，允许你使用 Markdown 编写文章，然后通过 Hexo 生成静态网页。以下是一些常用的 Hexo 命令：">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/user-attachments/assets/452505a2-6ade-414a-adff-d837e9ec2db9">
-<meta property="og:image" content="https://yyb345.github.io/2023/05/07/images/smartqa.jpg">
-<meta property="article:published_time" content="2023-05-07T15:13:26.000Z">
-<meta property="article:modified_time" content="2024-09-28T13:54:58.271Z">
+<meta property="article:published_time" content="2023-12-19T18:09:33.000Z">
+<meta property="article:modified_time" content="2024-09-28T13:57:55.192Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://github.com/user-attachments/assets/452505a2-6ade-414a-adff-d837e9ec2db9">
   
   
   
-  <title>开放平台技术 - 杨一博的博客</title>
+  <title>hexo - 杨一博的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="开放平台技术"></span>
+            <span id="subtitle" data-typed-text="hexo"></span>
           
         </div>
 
@@ -227,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-07 23:13" pubdate>
-          May 7, 2023 pm
+        <time datetime="2023-12-20 02:09" pubdate>
+          December 20, 2023 am
         </time>
       </span>
     
@@ -239,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k words
+          678 words
         
       </span>
     
@@ -250,7 +247,7 @@
         
         
         
-          20 mins
+          6 mins
         
       </span>
     
@@ -288,168 +285,18 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">开放平台技术</h1>
+            <h1 style="display: none">hexo</h1>
             
             
               <div class="markdown-body">
                 
-                <p>本文主要介绍了开放平台网关涉及的高性能、高可用等核心技术以及与开源的网关技术Spring Cloud gateway进行对比。</p>
-<span id="more"></span>`
-
-<h2 id="网关技术架构"><a href="#网关技术架构" class="headerlink" title="网关技术架构"></a>网关技术架构</h2> <div style="text-align: center;">  
-    <img src="https://github.com/user-attachments/assets/452505a2-6ade-414a-adff-d837e9ec2db9" srcset="/img/loading.gif" lazyload alt="image" style="width: 300px; height: auto;" />  
-</div>
+                <p>Hexo 是一个基于 Node.js 的静态博客框架，允许你使用 Markdown 编写文章，然后通过 Hexo 生成静态网页。以下是一些常用的 Hexo 命令：</p>
+<span id="more"></span>
 
 
 
-<p>业务网关</p>
-<p>商业模式：商家 &lt;&#x3D;&gt; ISV &lt;&#x3D;&gt; 开放平台（网关+数据推送+电商云） &lt;&#x3D;&gt; 交易中台</p>
-<p>技术模型：服务市场（ERP软件售卖给商家） + 开放平台控制台（ISV+应用+SDK+API文档）+ 电商云 + API内部开放</p>
-<h2 id="核心指标"><a href="#核心指标" class="headerlink" title="核心指标"></a>核心指标</h2><h4 id="网关核心指标"><a href="#网关核心指标" class="headerlink" title="网关核心指标"></a>网关核心指标</h4><p>​	性能指标：RT 、吞吐量QPS<br>​	稳定性指标：SLA可用性4个9<br>​	业务指标：API的成功率</p>
-<p>ISV核心指标：</p>
-<p>​    应用开发和迭代效率 和 稳定性</p>
-<h2 id="核心技术点"><a href="#核心技术点" class="headerlink" title="核心技术点"></a>核心技术点</h2><h4 id="Jetty有哪些比较好的设计？"><a href="#Jetty有哪些比较好的设计？" class="headerlink" title="Jetty有哪些比较好的设计？"></a>Jetty有哪些比较好的设计？</h4><p>Jetty（connector、线程池、Handler三部分）</p>
-<p>I&#x2F;O模型（NIO）、池化技术、减少系统调用、零拷贝、高效的并发编程模型（用原子变量和CAS取代锁、ConcurrentLinkedQueue无锁化队列）</p>
-<p><strong>问题：为什么是servelet，不采用netty？</strong></p>
-<h4 id="异步化具体是如何做的？"><a href="#异步化具体是如何做的？" class="headerlink" title="异步化具体是如何做的？"></a>异步化具体是如何做的？</h4><p>异步化：HSF异步化callback&#x2F;Jetty异步</p>
-<h4 id="高性能缓存是如何做的？"><a href="#高性能缓存是如何做的？" class="headerlink" title="高性能缓存是如何做的？"></a>高性能缓存是如何做的？</h4><p>多层元数据缓存：bloomfiter&#x2F; 本地缓存&#x2F;分布式缓存</p>
-<p>解决缓存穿透的问题：bloom filter 或 缓存&lt;K,NULL&gt;可以解决，本处采用bloom filter ，猜测大概率是因为如何设置为null值的话，内存无限制增长。</p>
-<h4 id="流控是如何做的？"><a href="#流控是如何做的？" class="headerlink" title="流控是如何做的？"></a>流控是如何做的？</h4><p>流控：令牌桶算法 &#x2F; 漏桶算法</p>
-<h4 id="隐私安全是如何做的？"><a href="#隐私安全是如何做的？" class="headerlink" title="隐私安全是如何做的？"></a>隐私安全是如何做的？</h4><p>安全：收货地址、手机号、姓名等进行加密、解密。加解密的技术细节是怎样的？</p>
-<h4 id="去中心化是如何做的？"><a href="#去中心化是如何做的？" class="headerlink" title="去中心化是如何做的？"></a>去中心化是如何做的？</h4><p>为什么要做去中心化？以及是如何做的？</p>
-<h4 id="常见的排查指标以及排查思路"><a href="#常见的排查指标以及排查思路" class="headerlink" title="常见的排查指标以及排查思路"></a>常见的排查指标以及排查思路</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>指标维度</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>业务接口</td>
-<td>接口QPS、RT（TP99）</td>
-</tr>
-<tr>
-<td>Flink</td>
-<td>反压、数据倾斜情况</td>
-</tr>
-<tr>
-<td>缓存</td>
-<td>本地缓存、分布式缓存、缓存不一致</td>
-</tr>
-<tr>
-<td>消息队列</td>
-<td>数据消费进度</td>
-</tr>
-<tr>
-<td>数据库</td>
-<td>并发事务、慢SQL</td>
-</tr>
-<tr>
-<td>JVM</td>
-<td>GC情况&#x2F;Jstack&#x2F;线程池负载</td>
-</tr>
-<tr>
-<td>操作系统</td>
-<td>文件缓存、网络连接数、文件句柄数量</td>
-</tr>
-<tr>
-<td>硬件</td>
-<td>CPU占用率&#x2F;磁盘&#x2F;网络情况</td>
-</tr>
-<tr>
-<td>业务日志定位</td>
-<td>SLS日志</td>
-</tr>
-<tr>
-<td>全链路排查</td>
-<td>traceId，每个trace的调用情况</td>
-</tr>
-<tr>
-<td>代码排查</td>
-<td>Arthas排查</td>
-</tr>
-</tbody></table>
-<p>CPU利用率不高，线程数增大，GC频率无明显变化，RT变高，大概率是依赖的服务超时或者死锁</p>
-<p>CPU利用率变高，线程数增大，GC频率明显变快，分析Jmap，有可能会有内存泄漏</p>
-<h2 id="数据中心"><a href="#数据中心" class="headerlink" title="数据中心"></a>数据中心</h2><p>SLS-&gt;Flink SQL-&gt;hologress   </p>
-<p>API维度、应用维度、商家维度、API-应用维度</p>
-<p>分钟级、天级</p>
-<p>FlinkSQL技术栈</p>
-<h2 id="API工作台"><a href="#API工作台" class="headerlink" title="API工作台"></a>API工作台</h2><p>API DevOps平台、API文档生成、API文档搜索（OpenSearch）</p>
-<h4 id="基于注解的二方包快速生成API"><a href="#基于注解的二方包快速生成API" class="headerlink" title="基于注解的二方包快速生成API"></a>基于注解的二方包快速生成API</h4><h4 id="基于HSF元数据快速生成API"><a href="#基于HSF元数据快速生成API" class="headerlink" title="基于HSF元数据快速生成API"></a>基于HSF元数据快速生成API</h4><h4 id="基于SmartEngine的工作流驱动API发布"><a href="#基于SmartEngine的工作流驱动API发布" class="headerlink" title="基于SmartEngine的工作流驱动API发布"></a>基于SmartEngine的工作流驱动API发布</h4><h4 id="智能答疑"><a href="#智能答疑" class="headerlink" title="智能答疑"></a>智能答疑</h4><p>从0到1搭建答疑体系，采用HanLP技术</p>
- <div style="text-align: center;">  
-    <img src="../images/smartqa.jpg" srcset="/img/loading.gif" lazyload alt="image" style="width: 400px; height: auto;" />  
-</div>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs javascript">初始化博客：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo init &lt;folder&gt;<br>cd &lt;folder&gt;<br>用于在指定文件夹中初始化一个 <span class="hljs-title class_">Hexo</span> 博客。<br><br>生成静态文件：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo generate<br>用于将 <span class="hljs-title class_">Markdown</span> 文件转换为静态 <span class="hljs-variable constant_">HTML</span> 文件。<br><br>启动本地服务器：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo server<br>用于启动一个本地服务器，可以在浏览器中预览生成的静态网页。默认地址是 <span class="hljs-attr">http</span>:<span class="hljs-comment">//localhost:4000。</span><br><br>新建文章：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo <span class="hljs-keyword">new</span> [layout] &lt;title&gt;<br>用于新建一篇文章。可选的 layout 参数可以是 post（默认）、page 等。<br><br>部署到远程仓库（如<span class="hljs-title class_">GitHub</span>）：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo deploy<br>用于将生成的静态文件部署到配置好的远程仓库。<br><br>清理缓存文件：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo clean<br>用于清理 <span class="hljs-title class_">Hexo</span> 生成过程中产生的临时文件。<br><br>查看帮助：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo --help<br>用于查看 <span class="hljs-title class_">Hexo</span> 的帮助信息，包括可用命令和选项。<br><br>这些是一些基本的 <span class="hljs-title class_">Hexo</span> 命令，你可以根据需要进一步了解 <span class="hljs-title class_">Hexo</span> 的配置和插件系统以及其他更高级的用法。<br></code></pre></td></tr></table></figure>
 
-
-
-
-
-
-<h2 id="SDK技术"><a href="#SDK技术" class="headerlink" title="SDK技术"></a>SDK技术</h2><p>客户端调用示例代码（JAVA语言举例）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">TaobaoClient</span> <span class="hljs-variable">client</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultTaobaoClient</span>(url, appkey, secret);<br><span class="hljs-type">TradeFullinfoGetRequest</span> <span class="hljs-variable">req</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TradeFullinfoGetRequest</span>();<br>req.setFields(<span class="hljs-string">&quot;tid,type,status,payment,orders,promotion_details&quot;</span>);<br>req.setTid(<span class="hljs-number">123456789L</span>);<br>req.setIncludeOaid(<span class="hljs-string">&quot;include_oaid&quot;</span>);<br><span class="hljs-type">TradeFullinfoGetResponse</span> <span class="hljs-variable">rsp</span> <span class="hljs-operator">=</span> client.execute(req, sessionKey);<br>System.out.println(rsp.getBody());<br></code></pre></td></tr></table></figure>
-
-<p>GO语言、Java语言、Python语言、Net语言、C++语言等</p>
-<p>基础包：HTTP调用、参数拼接、签名计算、返回结果反序列化</p>
-<h4 id="验签的过程是怎样的？"><a href="#验签的过程是怎样的？" class="headerlink" title="验签的过程是怎样的？"></a>验签的过程是怎样的？</h4><h4 id="个性包文件是如何生成的？"><a href="#个性包文件是如何生成的？" class="headerlink" title="个性包文件是如何生成的？"></a>个性包文件是如何生成的？</h4><p>个性化包：DSL+模版引擎&#x3D;&gt; 代码生成</p>
-<h2 id="授权技术"><a href="#授权技术" class="headerlink" title="授权技术"></a>授权技术</h2><p>服务端授权：code换token</p>
-<h2 id="与其他框架对比"><a href="#与其他框架对比" class="headerlink" title="与其他框架对比"></a>与其他框架对比</h2><h3 id="与开源框架Spring-Cloud-Gateway的对比"><a href="#与开源框架Spring-Cloud-Gateway的对比" class="headerlink" title="与开源框架Spring Cloud Gateway的对比"></a>与开源框架Spring Cloud Gateway的对比</h3><table>
-<thead>
-<tr>
-<th></th>
-<th>TOP</th>
-<th>Spring Cloud Gateway</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>业务</td>
-<td>电商属性</td>
-<td>一般通用</td>
-</tr>
-<tr>
-<td>企业规模</td>
-<td>大型</td>
-<td>中小型</td>
-</tr>
-<tr>
-<td>技术生态</td>
-<td>HSF&#x2F;Diamond&#x2F;Sentiel</td>
-<td>Eruka&#x2F;foregin&#x2F;robin&#x2F;configure等</td>
-</tr>
-<tr>
-<td>路由配置</td>
-<td>有单独的API配置中心</td>
-<td>硬编码或yaml配置</td>
-</tr>
-<tr>
-<td>技术框架</td>
-<td>Jetty+HSF</td>
-<td>Netty+Reactor webflux异步框架</td>
-</tr>
-<tr>
-<td>异步化方式</td>
-<td>Servelet 异步&#x2F;HSF异步</td>
-<td>Reactor mnno框架&#x2F;Netty事件驱动异步</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="与Ngnix的对比"><a href="#与Ngnix的对比" class="headerlink" title="与Ngnix的对比"></a>与Ngnix的对比</h3><p>API网关负责将http请求路由到后端服务中，涉及鉴权、路由等</p>
-<p>Ngnix更多的是http请求的反向代理。</p>
-<p>Ngnix一般可以作为业务API网关的上游。</p>
-<h3 id="与Service-Mesh的对比"><a href="#与Service-Mesh的对比" class="headerlink" title="与Service Mesh的对比"></a>与Service Mesh的对比</h3><p>中心化网关&#x3D;&#x3D;&#x3D;&gt; 去中心化网关&#x3D;&#x3D;&#x3D;&gt; mesh化网关架构</p>
-<p>一个是横向（东西）的流量、一个是纵向（南北）的流量</p>
-<p>一个是业务网关 一个是微服务的流量网关</p>
-<p>Service mesh 解决什么问题？解决微服务化后，各个应用之间的服务通信和治理问题。</p>
-<p>什么是Side Car？解决什么问题？它本质上是一种设计模式，它允许应用程序依赖的组件以容器化或者独立进程的方式部署。</p>
 
                 
               </div>
@@ -467,8 +314,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>开放平台技术</div>
-      <div>https://yyb345.github.io/2023/05/07/开放平台技术/</div>
+      <div>hexo</div>
+      <div>https://yyb345.github.io/2023/12/20/undefined/</div>
     </div>
     <div class="license-meta">
       
@@ -480,7 +327,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>May 7, 2023</div>
+          <div>December 20, 2023</div>
         </div>
       
       
@@ -512,15 +359,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/05/07/Kafka%E5%8E%9F%E7%90%86/" title="04-消息队列-Kafka原理">
+                      <a href="/2023/12/20/undefined/" title="05-消息队列-kafka脑裂问题">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">04-消息队列-Kafka原理</span>
+                        <span class="hidden-mobile">05-消息队列-kafka脑裂问题</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2023/05/07/undefined/" title="04-消息队列-Kafka原理">
+                        <span class="hidden-mobile">04-消息队列-Kafka原理</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

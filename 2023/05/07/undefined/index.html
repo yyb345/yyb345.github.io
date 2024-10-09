@@ -1,0 +1,832 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文主要介绍了开放平台网关涉及的高性能、高可用等核心技术以及与开源的网关技术Spring Cloud gateway进行对比。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="06 API网关技术">
+<meta property="og:url" content="https://yyb345.github.io/2023/05/07/undefined/index.html">
+<meta property="og:site_name" content="杨一博的博客">
+<meta property="og:description" content="本文主要介绍了开放平台网关涉及的高性能、高可用等核心技术以及与开源的网关技术Spring Cloud gateway进行对比。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yyb345.github.io/2023/05/07/images/api_gateway_deploy.png">
+<meta property="og:image" content="https://yyb345.github.io/2023/05/07/images/smartqa.jpg">
+<meta property="article:published_time" content="2023-05-07T15:13:26.000Z">
+<meta property="article:modified_time" content="2024-10-09T07:11:07.432Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yyb345.github.io/2023/05/07/images/api_gateway_deploy.png">
+  
+  
+  
+  <title>06 API网关技术 - 杨一博的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yyb345.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"format":"{} 次","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"AJEMKhCdWWpUWaO4oVIrLUzP-gzGzoHsz","app_key":"WuvpqIe68DmHGjjGPRBFENa1","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>杨的技术博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="06 API网关技术"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-07 23:13" pubdate>
+          May 7, 2023 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">06 API网关技术</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本文主要介绍了开放平台网关涉及的高性能、高可用等核心技术以及与开源的网关技术Spring Cloud gateway进行对比。</p>
+<span id="more"></span>`
+
+<h2 id="网关技术架构"><a href="#网关技术架构" class="headerlink" title="网关技术架构"></a>网关技术架构</h2> <div style="text-align: center;">  
+    <img src="../images/api_gateway_deploy.png" srcset="/img/loading.gif" lazyload alt="image" style="width: 300px; height: auto;" />  
+</div>
+
+
+
+<p>业务网关：电商为主，对其他业务也通用</p>
+<p>商业模式：商家 &lt;&#x3D;&gt; ISV &lt;&#x3D;&gt; 开放平台（网关+数据推送+电商云） &lt;&#x3D;&gt; 交易中台</p>
+<p>技术模型：服务市场（ERP软件售卖给商家） + 开放平台控制台（ISV+应用+SDK+API文档）+ 电商云 + API内部开放</p>
+<h2 id="网关分哪几种"><a href="#网关分哪几种" class="headerlink" title="网关分哪几种"></a>网关分哪几种</h2><p>流量网关、业务网关</p>
+<p>南北向流量、东西向流量</p>
+<p>硬件负载、软负载</p>
+<p>中心化网关、去中心化网关</p>
+<h2 id="核心指标"><a href="#核心指标" class="headerlink" title="核心指标"></a>核心指标</h2><h4 id="网关核心指标"><a href="#网关核心指标" class="headerlink" title="网关核心指标"></a>网关核心指标</h4><p>​	性能指标：RT 、吞吐量QPS<br>​	稳定性指标：SLA可用性4个9<br>​	业务指标：API的成功率</p>
+<p>ISV核心指标：</p>
+<p>​    应用开发和迭代效率 和 稳定性</p>
+<h2 id="核心技术点"><a href="#核心技术点" class="headerlink" title="核心技术点"></a>核心技术点</h2><h4 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h4><p>授权、权限认证、限流、路由、参数转化</p>
+<p>南北向+业务网关</p>
+<h4 id="Jetty有哪些比较好的设计？"><a href="#Jetty有哪些比较好的设计？" class="headerlink" title="Jetty有哪些比较好的设计？"></a>Jetty有哪些比较好的设计？</h4><p>Jetty（connector、线程池、Handler三部分）</p>
+<p>I&#x2F;O模型（NIO）、池化技术、减少系统调用、零拷贝、高效的并发编程模型（用原子变量和CAS取代锁、ConcurrentLinkedQueue无锁化队列）</p>
+<p><strong>问题：为什么是servelet，不采用netty？</strong></p>
+<h4 id="异步化具体是如何做的？"><a href="#异步化具体是如何做的？" class="headerlink" title="异步化具体是如何做的？"></a>异步化具体是如何做的？</h4><p>异步化：HSF异步化callback&#x2F;Jetty serverlet异步</p>
+<h4 id="高性能缓存是如何做的？"><a href="#高性能缓存是如何做的？" class="headerlink" title="高性能缓存是如何做的？"></a>高性能缓存是如何做的？</h4><p>多层元数据缓存：bloomfiter&#x2F; 本地缓存&#x2F;分布式缓存</p>
+<p>缓存穿透解决：采用bloom filter 或 缓存&lt;K,NULL&gt;可以解决，本处采用bloom filter ，猜测大概率是因为如何设置为null值的话，内存无限制增长。</p>
+<p>本地缓存：采用LRU缓存</p>
+<p>分布式缓存：tair中间件（类似redis）</p>
+<h4 id="流控是如何做的？"><a href="#流控是如何做的？" class="headerlink" title="流控是如何做的？"></a>流控是如何做的？</h4><p>算法维度：令牌桶算法（可以应对突发流量） &#x2F; 漏桶算法（输出流量比较均匀）</p>
+<p>机器维度：单机流控（高流量API，减少对redis缓存的调用）&#x2F;集群流控（低流量API）</p>
+<p>业务维度：API&#x2F;Appkey&#x2F;API-Appkey&#x2F;天维度&#x2F;秒维度</p>
+<h4 id="元数据缓存预热"><a href="#元数据缓存预热" class="headerlink" title="元数据缓存预热"></a>元数据缓存预热</h4><p>  所谓服务预热,就是在服务启动完成到对外提供服务之前,针对特定场景提供一些初始化准备操作,比如线程池预热、缓存预热、数据库预热、web预热和jvm预热等等</p>
+<h4 id="隐私安全是如何做的？"><a href="#隐私安全是如何做的？" class="headerlink" title="隐私安全是如何做的？"></a>隐私安全是如何做的？</h4><p>安全：收货地址、手机号、姓名等进行加密、解密。加解密的技术细节是怎样的？</p>
+<h4 id="去中心化是如何做的？"><a href="#去中心化是如何做的？" class="headerlink" title="去中心化是如何做的？"></a>去中心化是如何做的？</h4><p>为什么要做去中心化？以及是如何做的？</p>
+<h4 id="云原生网关"><a href="#云原生网关" class="headerlink" title="云原生网关"></a>云原生网关</h4><p>lstio是东西向流量 sidecar 解决微服务之间的调用治理问题</p>
+<p>为什么要进行云原生？如何做？</p>
+<h4 id="压测是怎么做的？"><a href="#压测是怎么做的？" class="headerlink" title="压测是怎么做的？"></a>压测是怎么做的？</h4><ol>
+<li>带压测标</li>
+<li>数据mock</li>
+<li>压测环境改造</li>
+<li>影子表、缓存和MQ等</li>
+<li>压测复盘</li>
+</ol>
+<h4 id="常见的排查指标以及排查思路"><a href="#常见的排查指标以及排查思路" class="headerlink" title="常见的排查指标以及排查思路"></a>常见的排查指标以及排查思路</h4><table>
+<thead>
+<tr>
+<th></th>
+<th>指标维度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>业务接口</td>
+<td>接口QPS、RT（TP99）</td>
+</tr>
+<tr>
+<td>Flink</td>
+<td>反压、数据倾斜情况</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>本地缓存、分布式缓存、缓存不一致</td>
+</tr>
+<tr>
+<td>消息队列</td>
+<td>数据消费进度</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td>并发事务、慢SQL</td>
+</tr>
+<tr>
+<td>JVM</td>
+<td>GC情况&#x2F;Jstack&#x2F;线程池负载</td>
+</tr>
+<tr>
+<td>操作系统</td>
+<td>文件缓存、网络连接数、文件句柄数量</td>
+</tr>
+<tr>
+<td>硬件</td>
+<td>CPU占用率&#x2F;磁盘&#x2F;网络情况</td>
+</tr>
+<tr>
+<td>业务日志定位</td>
+<td>SLS日志</td>
+</tr>
+<tr>
+<td>全链路排查</td>
+<td>traceId，每个trace的调用情况</td>
+</tr>
+<tr>
+<td>代码排查</td>
+<td>Arthas排查</td>
+</tr>
+</tbody></table>
+<p>CPU利用率不高，线程数增大，GC频率无明显变化，RT变高，大概率是依赖的服务超时或者死锁</p>
+<p>CPU利用率变高，线程数增大，GC频率明显变快，分析Jmap，有可能会有内存泄漏</p>
+<p><u><em>引出：GC的相关知识点和线上排查日志的相关知识点</em></u></p>
+<p>JVM GC常见的报错以及解决方案：</p>
+<p><strong>Promotion Failure</strong>：Old区没有足够的空间来分配年轻代晋升的对象。</p>
+<p><strong>Concurrent Mode Failure</strong>：Old区没有足够的空间来分配新的对象，此时垃圾回收器会退化成 serilaze </p>
+<h2 id="数据中心"><a href="#数据中心" class="headerlink" title="数据中心"></a>数据中心</h2><p><strong>作用</strong>：用于API审计、监控告警、API治理</p>
+<p><strong>流程</strong>：集群异步写日志到本地磁盘-&gt;logtail-&gt;SLS-&gt;Flink SQL-&gt;hologress   </p>
+<p>API维度、应用维度、商家维度、API-应用维度、分钟级、天级</p>
+<p><strong>技术侧</strong>：FlinkSQL技术栈&#x3D;&#x3D;&gt; <em><u>引出实时计算知识点和数仓的相关技术</u></em></p>
+<p>简单的Flink SQL的原理以及常见的业务优化技术</p>
+<p><strong>业务侧</strong>：原始操作日志–&gt;中间进行小范围聚合，产生中间表 -&gt; 面向上层服务可用的数据</p>
+<p>ODS（操作层） -&gt; DWM（中间层）–&gt;DWS（服务层），与传统的数仓少一个去重、过滤空值这一层</p>
+<h2 id="API工作台"><a href="#API工作台" class="headerlink" title="API工作台"></a>API工作台</h2><p>API DevOps平台、API文档生成、API文档搜索（OpenSearch）</p>
+<p>版本管理、API发布（自动化测试、灰度发布等功能）、监控告警、快速回滚等功能</p>
+<h4 id="基于注解的二方包快速生成API"><a href="#基于注解的二方包快速生成API" class="headerlink" title="基于注解的二方包快速生成API"></a>基于注解的二方包快速生成API</h4><h4 id="基于HSF元数据快速生成API"><a href="#基于HSF元数据快速生成API" class="headerlink" title="基于HSF元数据快速生成API"></a>基于HSF元数据快速生成API</h4><h4 id="基于SmartEngine的工作流驱动API发布"><a href="#基于SmartEngine的工作流驱动API发布" class="headerlink" title="基于SmartEngine的工作流驱动API发布"></a>基于SmartEngine的工作流驱动API发布</h4><p><u>引出Spring 工厂模式、IOC和注解扫描+反射+代理</u></p>
+<h2 id="智能答疑"><a href="#智能答疑" class="headerlink" title="智能答疑"></a>智能答疑</h2><p>从0到1搭建答疑体系，采用HanLP技术</p>
+ <div style="text-align: center;">  
+    <img src="../images/smartqa.jpg" srcset="/img/loading.gif" lazyload alt="image" style="width: 400px; height: auto;" />  
+</div>
+
+
+
+<p>引出插件化思想和概念，SPI &amp; 流程可编排</p>
+<h2 id="SDK技术"><a href="#SDK技术" class="headerlink" title="SDK技术"></a>SDK技术</h2><p>客户端调用示例代码（JAVA语言举例）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">TaobaoClient</span> <span class="hljs-variable">client</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultTaobaoClient</span>(url, appkey, secret);<br><span class="hljs-type">TradeFullinfoGetRequest</span> <span class="hljs-variable">req</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TradeFullinfoGetRequest</span>();<br>req.setFields(<span class="hljs-string">&quot;tid,type,status,payment,orders,promotion_details&quot;</span>);<br>req.setTid(<span class="hljs-number">123456789L</span>);<br>req.setIncludeOaid(<span class="hljs-string">&quot;include_oaid&quot;</span>);<br><span class="hljs-type">TradeFullinfoGetResponse</span> <span class="hljs-variable">rsp</span> <span class="hljs-operator">=</span> client.execute(req, sessionKey);<br>System.out.println(rsp.getBody());<br></code></pre></td></tr></table></figure>
+
+<p>GO语言、Java语言、Python语言、Net语言、C++语言等</p>
+<p>基础包：HTTP调用、参数拼接、签名计算、返回结果反序列化</p>
+<h4 id="验签的过程是怎样的？"><a href="#验签的过程是怎样的？" class="headerlink" title="验签的过程是怎样的？"></a>验签的过程是怎样的？</h4><h4 id="个性包文件是如何生成的？"><a href="#个性包文件是如何生成的？" class="headerlink" title="个性包文件是如何生成的？"></a>个性包文件是如何生成的？</h4><p>个性化包：DSL+模版引擎&#x3D;&gt; 代码生成</p>
+<p>http连接是长连接还是短连接？ 回答：短连接。同时如果是长连接，需要客户端和服务端（Ngnix到后端服务器）也支持这种特性，目前是不支持这种特性的。</p>
+<h4 id="其他特性"><a href="#其他特性" class="headerlink" title="其他特性"></a>其他特性</h4><p>多机房容灾</p>
+<p>重试机制</p>
+<p>引出kafka SDK和开放平台SDK的相似和不同之处：</p>
+<p>kafka SDK核心解决消息的收发问题，本质上它屏蔽了网络层的一些通信细节</p>
+<p>开放平台SDK核心解决：网关HTTP协议的拼接和验签过程，同时通过反序列化可以让开发者拿来即用数据结构。</p>
+<h2 id="授权技术"><a href="#授权技术" class="headerlink" title="授权技术"></a>授权技术</h2><p>OAuth2 </p>
+<p>服务端授权：code换token</p>
+<h2 id="与其他框架对比"><a href="#与其他框架对比" class="headerlink" title="与其他框架对比"></a>与其他框架对比</h2><h3 id="Zuul2-0"><a href="#Zuul2-0" class="headerlink" title="Zuul2.0"></a>Zuul2.0</h3><h3 id="与开源框架Spring-Cloud-Gateway的对比"><a href="#与开源框架Spring-Cloud-Gateway的对比" class="headerlink" title="与开源框架Spring Cloud Gateway的对比"></a>与开源框架Spring Cloud Gateway的对比</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>TOP</th>
+<th>Spring Cloud Gateway</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>业务</td>
+<td>电商属性</td>
+<td>一般通用</td>
+</tr>
+<tr>
+<td>企业规模</td>
+<td>大型</td>
+<td>中小型</td>
+</tr>
+<tr>
+<td>技术生态</td>
+<td>HSF&#x2F;Diamond&#x2F;Sentiel</td>
+<td>Eruka&#x2F;foregin&#x2F;robin&#x2F;configure等</td>
+</tr>
+<tr>
+<td>路由配置</td>
+<td>有单独的API配置中心</td>
+<td>硬编码或yaml配置</td>
+</tr>
+<tr>
+<td>技术框架</td>
+<td>Jetty+HSF</td>
+<td>Netty+Reactor webflux异步框架</td>
+</tr>
+<tr>
+<td>异步化方式</td>
+<td>Servelet 异步&#x2F;HSF异步</td>
+<td>Reactor mnno框架&#x2F;Netty事件驱动异步</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>小问题：Spring Cloud的微服务之间为什么是http调用，而不是rpc调用？</p>
+<p>Spring Cloud核心组件原理解析，补充一下。</p>
+<p>foregin的源代码解析。</p>
+<p>Spring Could Config 对标 Diamond</p>
+<p>Spring Could Gateway 对标 API网关</p>
+<p>Spring Eruka 对标 HSF 注册中心</p>
+<p>Hydrix对标 Sentiel</p>
+<h3 id="与Ngnix-x2F-OpenResty的对比"><a href="#与Ngnix-x2F-OpenResty的对比" class="headerlink" title="与Ngnix&#x2F;OpenResty的对比"></a>与Ngnix&#x2F;OpenResty的对比</h3><p>Ngnix流量网关和 业务网关</p>
+<p>API网关负责将http请求路由到后端服务中，涉及鉴权、路由等</p>
+<p>Ngnix更多的是http请求的反向代理。</p>
+<p>Ngnix一般可以作为业务API网关的上游。</p>
+<h3 id="与开源框架Kong的对比"><a href="#与开源框架Kong的对比" class="headerlink" title="与开源框架Kong的对比"></a>与开源框架Kong的对比</h3><p>Kong是流量网关</p>
+<h3 id="与Service-Mesh的对比"><a href="#与Service-Mesh的对比" class="headerlink" title="与Service Mesh的对比"></a>与Service Mesh的对比</h3><p>中心化网关&#x3D;&#x3D;&#x3D;&gt; 去中心化网关&#x3D;&#x3D;&#x3D;&gt; mesh化网关架构</p>
+<p>一个是横向（东西，微服务之间的）的流量、一个是纵向（南北）的流量</p>
+<p>Service mesh 解决什么问题？解决微服务化后，各个应用之间的服务通信和治理问题。</p>
+<p>什么是Side Car？解决什么问题？它本质上是一种设计模式，它允许应用程序依赖的组件以容器化或者独立进程的方式部署。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>06 API网关技术</div>
+      <div>https://yyb345.github.io/2023/05/07/undefined/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>May 7, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/05/07/undefined/" title="04-消息队列-Kafka原理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">04-消息队列-Kafka原理</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

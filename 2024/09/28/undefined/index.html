@@ -16,21 +16,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="低代码在某些场景下的开发效率会很高。因此有必要研究一下低代码场景下的一些核心功能。">
+    <meta name="description" content="二叉树遍历题目号： 144  题目描述：输出前序遍历的结果 1234567891011121314public List&lt;Integer&gt; preorderTraversal(TreeNode root) &amp;#123;       List&lt;Integer&gt; ret &#x3D; new ArrayList&lt;&gt;();       travel(root,ret);">
 <meta property="og:type" content="article">
-<meta property="og:title" content="低代码技术">
-<meta property="og:url" content="https://yyb345.github.io/2023/06/11/%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:title" content="leetcode">
+<meta property="og:url" content="https://yyb345.github.io/2024/09/28/undefined/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="低代码在某些场景下的开发效率会很高。因此有必要研究一下低代码场景下的一些核心功能。">
+<meta property="og:description" content="二叉树遍历题目号： 144  题目描述：输出前序遍历的结果 1234567891011121314public List&lt;Integer&gt; preorderTraversal(TreeNode root) &amp;#123;       List&lt;Integer&gt; ret &#x3D; new ArrayList&lt;&gt;();       travel(root,ret);">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-06-11T12:31:30.000Z">
-<meta property="article:modified_time" content="2024-09-28T14:00:23.430Z">
+<meta property="article:published_time" content="2024-09-28T13:34:18.000Z">
+<meta property="article:modified_time" content="2024-10-09T07:12:41.195Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>低代码技术 - 杨一博的博客</title>
+  <title>leetcode - 杨一博的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="低代码技术"></span>
+            <span id="subtitle" data-typed-text="leetcode"></span>
           
         </div>
 
@@ -224,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-06-11 20:31" pubdate>
-          June 11, 2023 pm
+        <time datetime="2024-09-28 21:34" pubdate>
+          September 28, 2024 pm
         </time>
       </span>
     
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k words
+          350 words
         
       </span>
     
@@ -247,7 +247,7 @@
         
         
         
-          12 mins
+          3 mins
         
       </span>
     
@@ -285,123 +285,16 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">低代码技术</h1>
+            <h1 style="display: none">leetcode</h1>
             
             
               <div class="markdown-body">
                 
-                <p>低代码在某些场景下的开发效率会很高。因此有必要研究一下低代码场景下的一些核心功能。</p>
-<span id="more"></span>
+                <h2 id="二叉树遍历"><a href="#二叉树遍历" class="headerlink" title="二叉树遍历"></a>二叉树遍历</h2><p>题目号： 144 </p>
+<p>题目描述：输出前序遍历的结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> List&lt;Integer&gt; <span class="hljs-title function_">preorderTraversal</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>       List&lt;Integer&gt; ret = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>       travel(root,ret);<br>       <span class="hljs-keyword">return</span> ret;<br>   &#125;<br><br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">travel</span><span class="hljs-params">(TreeNode root,List&lt;Integer&gt; list)</span>&#123;<br>       <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>)&#123;<br>           <span class="hljs-keyword">return</span>;<br>       &#125;<br>       list.add(root.val);<br>       travel(root.left,list);<br>       travel(root.right,list);<br>   &#125;<br></code></pre></td></tr></table></figure>
 
-
-
-<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>表单搭建</p>
-<ol>
-<li>Google Forms：<ul>
-<li>优点：简单易用，免费使用，与Google账号和Google Drive无缝集成，可轻松创建各种类型的表单，支持多种问题类型和自定义选项。</li>
-<li>缺点：功能相对较基础，定制性较低，对于复杂的表单需求可能不够满足。</li>
-</ul>
-</li>
-<li>Microsoft Forms：<ul>
-<li>优点：集成于Microsoft Office 365，支持与Microsoft Teams、SharePoint等工具无缝协作，具备丰富的表单设计和逻辑控制功能，易于创建和分享表单。</li>
-<li>缺点：功能相对较简化，仅限于Microsoft Office 365生态系统。</li>
-</ul>
-</li>
-<li>JotForm：<ul>
-<li>优点：提供丰富的表单模板和设计工具，具备强大的表单逻辑和自动化功能，支持在线支付和集成多种第三方应用程序。</li>
-<li>缺点：高级功能需要付费订阅，某些特定功能可能需要额外的配置和集成。</li>
-</ul>
-</li>
-<li>Wufoo：<ul>
-<li>优点：用户友好的界面，提供多种预设计表单模板，支持自定义设计和布局，具备强大的报告和分析功能。</li>
-<li>缺点：部分高级功能需要付费订阅，集成和扩展性相对有限。</li>
-</ul>
-</li>
-<li>Typeform：<ul>
-<li>优点：独特的用户体验，通过交互式设计和动态问答形式创建表单，支持多媒体内容和自定义主题，提供强大的数据分析和可视化功能。</li>
-<li>缺点：某些高级功能和定制选项需要付费订阅，特殊设计可能需要一定的学习曲线。</li>
-</ul>
-</li>
-</ol>
-<h2 id="工作流"><a href="#工作流" class="headerlink" title="工作流"></a>工作流</h2><h3 id="工作流引擎"><a href="#工作流引擎" class="headerlink" title="工作流引擎"></a>工作流引擎</h3><ol>
-<li><p>Apache Airflow: 优点：</p>
-<ul>
-<li>支持可扩展的任务调度和工作流编排，具有高度灵活性。</li>
-<li>提供可视化的用户界面和丰富的插件生态系统。</li>
-<li>具备良好的可编程性和可定制性，适用于复杂的工作流需求。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>部署和配置较为复杂，对于初学者来说有一定的学习曲线。</li>
-<li>可视化界面相对简单，不够直观。</li>
-</ul>
-</li>
-<li><p>Camunda BPM: 优点：</p>
-<ul>
-<li>提供全面的业务流程管理解决方案，具有强大的工作流引擎功能。</li>
-<li>支持复杂的流程编排和规则引擎。</li>
-<li>提供了用户友好的建模工具和监控面板。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>需要一定的开发技能和理解业务流程建模的概念。</li>
-<li>需要额外的配置和集成才能适应特定的环境和需求。</li>
-</ul>
-</li>
-<li><p>IBM Business Automation Workflow: 优点：</p>
-<ul>
-<li>提供完整的工作流和决策管理解决方案，包括流程建模、执行和监控。</li>
-<li>支持高度可扩展的分布式架构和大规模部署。</li>
-<li>具备强大的决策规则引擎和自动化决策能力。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>高度定制化和企业级功能可能会导致复杂性增加。</li>
-<li>相对较高的成本和学习曲线，适用于大型企业和复杂业务场景。</li>
-</ul>
-</li>
-<li><p>Microsoft Power Automate (以前的Microsoft Flow): 优点：</p>
-<ul>
-<li>与Microsoft Office 365和其他Microsoft产品集成紧密，易于使用和配置。</li>
-<li>提供丰富的连接器和模板，便于快速构建常见的工作流程。</li>
-<li>可以通过低代码方式进行自定义扩展。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>功能相对较简化，不适用于复杂的工作流需求。</li>
-<li>集成主要面向Microsoft生态系统，对其他系统和平台的支持有限。</li>
-</ul>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th align="left">工作流引擎</th>
-<th>优点</th>
-<th>缺点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Smart-engine</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="工作流搭建"><a href="#工作流搭建" class="headerlink" title="工作流搭建"></a>工作流搭建</h3><h3 id="事件中心"><a href="#事件中心" class="headerlink" title="事件中心"></a>事件中心</h3><p>事件中心一般包括 消息出发、HTTP触发等方式。</p>
-<h3 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h3><p>连接器一般用来连接工作流和微服务的调用。核心功能有代理执行和参数映射</p>
-<h2 id="工作表"><a href="#工作表" class="headerlink" title="工作表"></a>工作表</h2><p>用来进行用户数据存储。用户数据存储可以用传统的Mysql，也可以用分布式数据库XXX。</p>
-<p>EXCEL导入是一个比较常见的功能，Easy-Excel是一个不错的框架。</p>
-<h3 id="数据空间"><a href="#数据空间" class="headerlink" title="数据空间"></a>数据空间</h3>
+<h2 id="二叉树搜索"><a href="#二叉树搜索" class="headerlink" title="二叉树搜索"></a>二叉树搜索</h2>
                 
               </div>
             
@@ -418,8 +311,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>低代码技术</div>
-      <div>https://yyb345.github.io/2023/06/11/低代码技术/</div>
+      <div>leetcode</div>
+      <div>https://yyb345.github.io/2024/09/28/undefined/</div>
     </div>
     <div class="license-meta">
       
@@ -431,7 +324,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>June 11, 2023</div>
+          <div>September 28, 2024</div>
         </div>
       
       
@@ -463,18 +356,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/20/hexo/" title="hexo">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">hexo</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/05/07/Kafka%E5%8E%9F%E7%90%86/" title="04-消息队列-Kafka原理">
-                        <span class="hidden-mobile">04-消息队列-Kafka原理</span>
+                      <a href="/2024/06/13/undefined/" title="spring总结">
+                        <span class="hidden-mobile">spring总结</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
