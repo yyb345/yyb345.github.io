@@ -16,23 +16,24 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="李飞飞WORLD LABS获得了2.3亿美元的投资，下面是她某次采访的核心观点">
+    <meta name="description" content="bloomfilter是一种节省空间的概率数据结构，用于测试数据元素是否在一个集合中.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AI技术-李飞飞采访实录">
-<meta property="og:url" content="https://yyb345.github.io/2024/10/11/13-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E9%87%87%E8%AE%BF%E5%AE%9E%E5%BD%95/index.html">
+<meta property="og:title" content="算法-bloomfilter数据结构技术总结">
+<meta property="og:url" content="https://yyb345.github.io/2024/10/11/14-bloomfilter%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="李飞飞WORLD LABS获得了2.3亿美元的投资，下面是她某次采访的核心观点">
+<meta property="og:description" content="bloomfilter是一种节省空间的概率数据结构，用于测试数据元素是否在一个集合中.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://yyb345.github.io/images/FFL-7.jpg">
-<meta property="article:published_time" content="2024-10-10T16:01:21.000Z">
-<meta property="article:modified_time" content="2024-10-10T16:11:29.275Z">
+<meta property="og:image" content="https://mmbiz.qpic.cn/sz_mmbiz_jpg/p4d89evpLkfxNHuicvxq2vjwlo5ibC4SO78RZwERBNibnI8m9AJ2gckF9YIVh6ibT24xGzN7Yq7aWAcWiaN6na0h68g/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="article:published_time" content="2024-10-10T16:35:45.000Z">
+<meta property="article:modified_time" content="2024-10-10T16:45:22.846Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yyb345.github.io/images/FFL-7.jpg">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/sz_mmbiz_jpg/p4d89evpLkfxNHuicvxq2vjwlo5ibC4SO78RZwERBNibnI8m9AJ2gckF9YIVh6ibT24xGzN7Yq7aWAcWiaN6na0h68g/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
   
   
   
-  <title>AI技术-李飞飞采访实录 - 杨一博的博客</title>
+  <title>算法-bloomfilter数据结构技术总结 - 杨一博的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +216,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="AI技术-李飞飞采访实录"></span>
+            <span id="subtitle" data-typed-text="算法-bloomfilter数据结构技术总结"></span>
           
         </div>
 
@@ -226,7 +227,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-11 00:01" pubdate>
+        <time datetime="2024-10-11 00:35" pubdate>
           October 11, 2024 am
         </time>
       </span>
@@ -238,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k words
+          1.5k words
         
       </span>
     
@@ -249,7 +250,7 @@
         
         
         
-          10 mins
+          13 mins
         
       </span>
     
@@ -287,29 +288,40 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">AI技术-李飞飞采访实录</h1>
+            <h1 style="display: none">算法-bloomfilter数据结构技术总结</h1>
             
             
               <div class="markdown-body">
                 
-                <p>李飞飞WORLD LABS获得了2.3亿美元的投资，下面是她某次采访的核心观点</p>
+                <p>bloomfilter是一种节省空间的概率数据结构，用于测试数据元素是否在一个集合中.</p>
 <span id="more"></span>
 
-<p><em><strong>最新事件</strong>：李飞飞WORLD LABS获得了2.3亿美元的投资，并接受彭博社采访，输出的核心观点：空间智能是一种可以理解、解释、生成真实世界，甚至可以与其交互的一种智能。这个真实的世界是由3D构成的，基础元素是像素，像图像就是二维的像素构成的。</em></p>
-<div style="text-align: center;">  <img src="/images/FFL-7.jpg" srcset="/img/loading.gif" lazyload alt="deploy_model" style="zoom:30%;" />   </div>  
-
-<div style="text-align: center;"> 2024年9月23日AI talk hosted by computer history mesum   </div>  
 
 
+<p><em>前言：bloomfilter是一种节省空间的概率数据结构，用于测试数据元素是否在一个集合中。核心是通过一个位数组来存储经过一组hash计算之后的值，通过判断位数组位置是否为1来判断元素是否存在。本质上是通过<strong>计算换空间</strong>的一种算法。类似的数据结构还有Trie前缀树，它是通过计算公共前缀来节省空间的。</em></p>
+<h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><ol>
+<li>大数据Hbase的rowkey是否存在某个数据块、API网关应用是否存在、邮件中某个用户是否在黑名单等</li>
+<li>解决缓存穿透问题，用于提前过滤掉无用的查询或者调用，减轻数据库的压力。</li>
+</ol>
+<h3 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h3><p><strong>解决什么问题</strong>：利用hash函数和位存储来解决判断是否一个元素存在的问题，因为可能会有hash冲突，所以当返回结果是true时，元素不一定会存在，但返回false，元素一定不存在。</p>
+<p><strong>核心数据结构</strong>：一组hash函数和位存储</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BloomFilter</span>&lt;T&gt; &#123;<br>    <span class="hljs-keyword">private</span> BitSet bitSet;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> size;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> hashFunctions;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">BloomFilter</span><span class="hljs-params">(<span class="hljs-type">int</span> size, <span class="hljs-type">int</span> hashFunctions)</span> &#123;<br>        <span class="hljs-built_in">this</span>.size = size;<br>        <span class="hljs-built_in">this</span>.hashFunctions = hashFunctions;<br>        <span class="hljs-built_in">this</span>.bitSet = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BitSet</span>(size);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">(T value)</span> &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; hashFunctions; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">hash</span> <span class="hljs-operator">=</span> hashFunction(i, value);<br>            bitSet.set(hash % size);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">contains</span><span class="hljs-params">(T value)</span> &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; hashFunctions; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">hash</span> <span class="hljs-operator">=</span> hashFunction(i, value);<br>            <span class="hljs-keyword">if</span> (!bitSet.get(hash % size)) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br></code></pre></td></tr></table></figure>
 
-<p>​                                              </p>
-<p><strong>主持人：简要介绍下AI的发展历程？</strong><br><strong>飞飞</strong>：1990年代是AI的冬天，也是变革的开始。统计学方法流行，machine learning在NLP、计算机视觉、语音识别等场景上已经有所突破。李飞飞在2000年代当时还是博士生 ，神经网络已经诞生了。同时互联网开始诞生，意味着数据的产生和GPU的快速发展。2012 年之后，在华尔街开始诞生了很多AI的创业公司。不得不提及<strong>ImageNet</strong>（<strong>飞飞的代表作</strong>） 起源于2006，是一个数据集。1500万张图像，22000 物理的分类。开源的数据集，用于研究和挑战分类识别。AI的三个基本元素：<strong>神经网络（反向传播）、大数据、GPU计算</strong>。数据驱动神经网络和AI技术真正地被证明。</p>
-<p><strong>飞飞</strong>：2016年AlphGO战胜了李世石。第一次让<strong>公众意识到</strong>计算机可以像人类一样思考，并且强于人类。也同时诞生了强化学习的概念。2016-2022 更多的投资在AI领域，Tech Clash， 自动驾驶2017。2022年10月 chatGPT诞生。在这之前gpt2已经让她意识到gpt的威力和强大之处。AlphaGO和ChatGPT的是让每个个体都接触到AI的技术。同时华盛顿政府注意到AI。</p>
-<p><strong>飞飞</strong>：LLM （Large Language Model 大语言模型）的可解释性，模式识别、预测、甚至可以解释给你一些东西,也就是<strong>推理</strong>能力。</p>
-<p><strong>主持人</strong>：如何评价此次AI的技术变革以及其带来的影响<strong>？</strong><br><strong>飞飞</strong>：这次AI 数字化变革，不仅仅是技术，更多地是让公众也就是普通人意识到AI技术带来的变革。语言只是一种智能化的形式，第一次工业革命和生物上DNA的发现也是智能。同时互联网的文本数据集已经几乎被挖掘尽了。她预测3-5年之后，不仅仅是商业化的进步比较明显，科学领域的研究发现也会更多。</p>
-<p><strong>主持人</strong>：<strong>空间智能和具身机器人的发展如何看待？</strong><br>飞飞：距离很远，但是已经迫不及待。人类语言的学习，3D世界比语言的发展更早一些。规划你的生活、看见真实的世界，解释、生成与3D世界进行交互。</p>
-<p><strong>主持人：AGI意味着什么？</strong><br>飞飞：AGI更多地是一个互联网工业化的用词，对于我们科技工作者来说，我会把它定义为 North-Star 问题。</p>
-<p>PS: 有兴趣的朋友可以关注下ImageNet以及North-Star问题</p>
+
+
+<h3 id="Java数据结构BitSet实现"><a href="#Java数据结构BitSet实现" class="headerlink" title="Java数据结构BitSet实现"></a>Java数据结构BitSet实现</h3><h4 id="1-构建一个BitSet"><a href="#1-构建一个BitSet" class="headerlink" title="1.构建一个BitSet"></a>1.构建一个BitSet</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 初始化-&gt; nbits为容量，</span><br><span class="hljs-type">long</span>[] words = <span class="hljs-keyword">new</span> <span class="hljs-title class_">long</span>[wordIndex(nbits-<span class="hljs-number">1</span>) + <span class="hljs-number">1</span>]; <span class="hljs-comment">// 存储</span><br><br><span class="hljs-comment">// 相当于 N/64,这里用移位操作,向右移6位，也就是除以2^6</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">wordIndex</span><span class="hljs-params">(<span class="hljs-type">int</span> bitIndex)</span> &#123;<br>   <span class="hljs-keyword">return</span> bitIndex &gt;&gt; ADDRESS_BITS_PER_WORD; <span class="hljs-comment">// ADDRESS_BITS_PER_WORD为6</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>BitSet数据结构：<strong>容量N、****Long[]</strong>(一个Long是8个Byte，一个Byte是8个bit，那么就是64个bit)</p>
+<h4 id="2-添加元素"><a href="#2-添加元素" class="headerlink" title="2. 添加元素"></a>2. 添加元素</h4><p>假设我们添加一个Key，经过hash计算后得到的值为7，那么意味着第7个位置为0，那么对应到Long的值为128，那么与此处之前的Long值进行或运算，意味着添加成功。</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/p4d89evpLkfxNHuicvxq2vjwlo5ibC4SO78RZwERBNibnI8m9AJ2gckF9YIVh6ibT24xGzN7Yq7aWAcWiaN6na0h68g/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><em>BitSet添加一个元素的过程</em></p>
+<p><strong>开源的实现</strong></p>
+<p>Guava: <a target="_blank" rel="noopener" href="https://github.com/google/guava/blob/master/guava/src/com/google/common/hash/BloomFilter.java">https://github.com/google/guava/blob/master/guava/src/com/google/common/hash/BloomFilter.java</a></p>
+<p><strong>优势与不足</strong></p>
+<p>优势：节省内存，通常可以降低70%左右的内存</p>
+<p>不足：有一定的误判率、不可删除元素</p>
 
                 
               </div>
@@ -328,7 +340,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/AI%E6%8A%80%E6%9C%AF/" class="category-chain-item">AI技术</a>
+  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="category-chain-item">后端技术</a>
   
   
 
@@ -340,6 +352,13 @@
     </div>
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+      
+    </div>
+  
 </div>
 
 
@@ -348,8 +367,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>AI技术-李飞飞采访实录</div>
-      <div>https://yyb345.github.io/2024/10/11/13-李飞飞采访实录/</div>
+      <div>算法-bloomfilter数据结构技术总结</div>
+      <div>https://yyb345.github.io/2024/10/11/14-bloomfilter技术总结/</div>
     </div>
     <div class="license-meta">
       
@@ -393,18 +412,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/11/14-bloomfilter%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/" title="算法-bloomfilter数据结构技术总结">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">算法-bloomfilter数据结构技术总结</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/10/12-SpringCloud%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/" title="微服务-SpringCloud技术总结">
-                        <span class="hidden-mobile">微服务-SpringCloud技术总结</span>
+                      <a href="/2024/10/11/13-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E9%87%87%E8%AE%BF%E5%AE%9E%E5%BD%95/" title="AI技术-李飞飞采访实录">
+                        <span class="hidden-mobile">AI技术-李飞飞采访实录</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
