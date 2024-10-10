@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>微服务-SpringCloud技术总结</title>
+    <link href="/2024/10/10/12-SpringCloud%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/"/>
+    <url>/2024/10/10/12-SpringCloud%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/</url>
+    
+    <content type="html"><![CDATA[<p>本文围绕Spring Cloud技术最进行详细介绍。</p><span id="more"></span><p>Eruka</p><p>Foeign</p><p>Hydrix</p><p>Spring Cloud Gateway</p><p>Spring Cloud Config</p><p>阿里巴巴Dubbo 或HSF技术</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>后端技术</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>实时计算-Flink技术总结</title>
+    <link href="/2024/10/10/11-%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97flink/"/>
+    <url>/2024/10/10/11-%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97flink/</url>
+    
+    <content type="html"><![CDATA[<p>本文记录了Flink技术的一些基本概念和关键技术。</p><span id="more"></span><h4 id="Flink是什么？"><a href="#Flink是什么？" class="headerlink" title="Flink是什么？"></a>Flink是什么？</h4><p>​    实时流计算框架、无界数据</p><h4 id="同类竞品"><a href="#同类竞品" class="headerlink" title="同类竞品"></a>同类竞品</h4><p>   Spark Streaming（mini batch处理）</p><h5 id="与其他Hadoop生态之间的依赖关系"><a href="#与其他Hadoop生态之间的依赖关系" class="headerlink" title="与其他Hadoop生态之间的依赖关系"></a>与其他Hadoop生态之间的依赖关系</h5><p> Hbase作为外部存储（列式存储）应对大数据存储，背后是Htable，底层是HDFS数据。</p><p> Redis作为外部缓存，处理一些高频访问的场景，比如黑名单、白名单等</p><h4 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h4><p> 因为现实场景中有很多实时计算的场景，同时spark 有局限性。</p><h4 id="具体是如何实现的？"><a href="#具体是如何实现的？" class="headerlink" title="具体是如何实现的？"></a>具体是如何实现的？</h4><p><strong>部署框架</strong>：资源调度（Yarn、K8s、本地部署）、Job Manager（JobGraph、容灾等功能） 、 Task Manager（具体的执行节点）、后端state（内存、rocksDB或HDFS）</p><p><strong>资源是如何分配的</strong>： TaskSlot、相互之间通信（actor系统） 、内存管理（堆内、堆外内存）</p><p><strong>内部技术框架</strong>：算子（具体的计算逻辑，包括map、reduce、keyby、 groupby等）、窗口（用户侧接口，包括滑动窗口、翻转窗口等）、checkpoint（分布式快照） 、State（用于存储算子执行过程中的数据）、watermark机制</p><p><strong>几个关键的技术</strong>：State技术、Checkpoint技术、反压技术、exactly once技术、高性能技术、JobGraph技术</p><p><strong>Flink SQL 技术</strong></p><p>&#x2F;&#x2F; 待开始</p><h4 id="有哪些使用场景？"><a href="#有哪些使用场景？" class="headerlink" title="有哪些使用场景？"></a>有哪些使用场景？</h4><ol><li>计算当前微博热搜 TOP N</li><li>计算当前用户DAU、用户停留时长等</li></ol><h4 id="经典的一些问题"><a href="#经典的一些问题" class="headerlink" title="经典的一些问题"></a>经典的一些问题</h4><h5 id="1-性能出现瓶颈怎么办？如何进行调优？"><a href="#1-性能出现瓶颈怎么办？如何进行调优？" class="headerlink" title="1. 性能出现瓶颈怎么办？如何进行调优？"></a>1. 性能出现瓶颈怎么办？如何进行调优？</h5><p> <strong>问题定位</strong>： 否有反压、数据是否有倾斜 </p><p> <strong>解决方案</strong>：资源调整（并行度、作业参数调优、Java内存调优）、用户代码调优（数据打散、预聚合等）</p><h5 id="2-Exactly-once-是如何保证的？"><a href="#2-Exactly-once-是如何保证的？" class="headerlink" title="2. Exactly once 是如何保证的？"></a>2. Exactly once 是如何保证的？</h5><p>   checkpoint 、二阶段提交协议、下游保证分布式事务</p><h5 id="3-高性能技术有哪些？"><a href="#3-高性能技术有哪些？" class="headerlink" title="3. 高性能技术有哪些？"></a>3. 高性能技术有哪些？</h5><p>  &#x2F;&#x2F; TODO 待开始</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>大数据</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>消息队列-kafka rocketmq pulsar对比</title>
     <link href="/2024/10/10/08-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AF%B9%E6%AF%94/"/>
     <url>/2024/10/10/08-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AF%B9%E6%AF%94/</url>
@@ -29,7 +67,7 @@
   
   
   <entry>
-    <title>API网关核心技术</title>
+    <title>网关-API网关核心技术</title>
     <link href="/2024/10/07/06-API%E7%BD%91%E5%85%B3/"/>
     <url>/2024/10/07/06-API%E7%BD%91%E5%85%B3/</url>
     
@@ -54,6 +92,12 @@
     
     <content type="html"><![CDATA[<p>本文详细介绍了leetcode相关分类与解法。</p><span id="more"></span><h2 id="核心分类"><a href="#核心分类" class="headerlink" title="核心分类"></a>核心分类</h2><p>一维数组</p><p>二维矩阵</p><h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>快排</p><p>归并排序</p><h3 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h3><ol><li>搜索插入的位置</li><li>X的平方根</li><li><a href="https://www.cplusplus.com/reference/valarray/pow/">pow(x,n)</a>   递归进行计算 </li><li><a href="https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/">#153 寻找旋转排序数组中的最小值</a> </li><li>求复合某条件的最小值的最大值</li></ol><h3 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h3><ol><li>两数之和 第二轮</li><li>连续子数组之和大于目标值  <a href="https://leetcode.cn/problems/minimum-size-subarray-sum/">#209 长度最小的子数组</a>   【滑动窗口】有关</li></ol><h3 id="回溯"><a href="#回溯" class="headerlink" title="回溯"></a>回溯</h3><p>  <strong>Visited数组、访问过的变量List、终止条件、状态位标记复位和List回退</strong></p><ol><li>单词搜索 </li><li>全排列 </li><li>给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。</li><li>电话号码的组合</li><li>括号生成（左括号数量+右边括号数量）</li></ol><h3 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h3><ol><li>单词拆分（一个长word和List[]单词）（搜索+中间状态存储）</li><li>被围绕的区域，标记围绕的O为X <a href="https://leetcode.cn/problems/surrounded-regions/?envType=study-plan-v2&envId=top-interview-150">被围绕的区域</a> </li><li>岛屿的数量 第一轮</li><li><a href="https://leetcode.cn/problems/jump-game-ii/">#45 跳跃游戏 II</a> 贪心算法，本质上也是个搜索问题。</li></ol><h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><p>什么情况下用贪心算法，贪心算法看起来比较简单，局部最优–&gt; 全局最优</p><p>我个人理解本质上是个搜索问题，只不过减枝了大部分不需要的搜索，那么问题来了，如何设计和寻找减枝的算法呢？先用暴力算法，然后再思考，有哪些不必要的计算？</p><ol><li>加油站⛽️问题  <a href="https://leetcode.cn/problems/gas-station/description/?envType=study-plan-v2&envId=top-interview-150">加油站</a>  O(n^2)–&gt;O(n) </li><li>买卖股票🏦的问题（一次和多次） </li><li>容器盛水问题 【贪心+双指针】O(n^2)–&gt;O(n) </li><li>跳跃游戏，<a href="https://leetcode.cn/problems/jump-game/?envType=study-plan-v2&envId=top-interview-150">跳跃游戏</a> <a href="https://leetcode.cn/problems/jump-game-ii/?envType=study-plan-v2&envId=top-interview-150">跳跃游戏2</a> nums[i]代表可以往前跳几步，是否可以到最后一步</li></ol><h3 id="链表-➡️➡️"><a href="#链表-➡️➡️" class="headerlink" title="链表 ➡️➡️"></a>链表 ➡️➡️</h3><ol><li>反转链表 </li><li>删除倒数K个节点 –快慢指针</li><li>链表数学+1</li><li>有序链表的合并</li><li>环形链表 <a href="https://leetcode.cn/problems/linked-list-cycle?envType=study-plan-v2&envId=top-interview-150">环形链表</a>  【快慢指针】 第一轮</li><li>随机链表复制 【第一步 链表复制 &amp; 需要有一个Map保存 旧链表与新链表节点的映射，第二步 随机指针添加】</li><li><a href="https://leetcode.cn/problems/rotate-list/">#61 旋转链表</a>  【先找到尾部节点，并且计算链表长度；然后再找到倒数第K+1个节点，然后进行指针转化】</li><li>分隔链表 <a href="https://leetcode.cn/problems/partition-list/?envType=study-plan-v2&envId=top-interview-150">分隔链表</a> 第一轮</li></ol><h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><ol><li>最长连续不重复子字符串 第一轮</li><li></li></ol><h3 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h3><ol><li>括号匹配 第一轮</li><li>最小栈 申请两个栈，一个原始的数据栈，另一个是保存当前最小值的栈。</li><li>单调栈</li></ol><h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>在Java中的数据结构叫 优先队列，默认是最小堆。如果是最大堆，需要改下compare函数。</p><h3 id="二叉树-🌲"><a href="#二叉树-🌲" class="headerlink" title="二叉树 🌲"></a>二叉树 🌲</h3><p><strong>本质上是搜索【从上往下、从下往上、前、中、后】 解题思路：1. 从上往下搜索的过程中引入全局存储，可以记录搜索的路径等 2. 递归&#x2F;递归一般是从下往上传递结果值，也可以是从下往上按照规则进行搜索，从上反推。</strong></p><p><strong>递归结果的值再进行逻辑判断。</strong></p><ol><li>前、中、后序遍历</li><li>层次遍历（右视图、Z之形打印等）</li><li>判断对称树</li><li>二叉树最近公共祖先  review</li><li>二叉树转为链表  （PreNode和左右child节点提前保存）</li><li>二叉树+target数字，是否存在根节点到叶子结点之和为目标值。</li></ol><h4 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h4><ol><li><a href="https://leetcode.cn/problems/kth-smallest-element-in-a-bst/">#230 二叉搜索树中第K小的元素</a>  中序遍历 O(K)</li><li><a href="https://leetcode.cn/problems/validate-binary-search-tree?envType=study-plan-v2&envId=top-interview-150">验证二叉搜索树</a> </li><li>验证二叉搜索树的后序遍历序列是否合法 再看下</li><li>二叉搜索树最近公共祖先</li><li><a href="https://leetcode.cn/problems/minimum-absolute-difference-in-bst/">#530 二叉搜索树的最小绝对差</a>  【中序遍历+前置节点】 </li><li>判断是否为二叉搜索树 <a href="https://leetcode.cn/problems/validate-binary-search-tree/?envType=study-plan-v2&envId=top-interview-150">判断是否为二叉搜索树</a> 【中序遍历+数值区间】</li></ol><h3 id="动态规划-🟪🟪➡️🟪🟪"><a href="#动态规划-🟪🟪➡️🟪🟪" class="headerlink" title="动态规划 🟪🟪➡️🟪🟪"></a>动态规划 🟪🟪➡️🟪🟪</h3><ul><li>前置状态存储的含义</li><li>状态转移方程  </li><li>一维和多维</li></ul><ol><li>最长回文子串  dp[i][j]&#x3D;true&#x2F;false代表是否是回文串【二维】O(N^2)</li><li>最小路径和   向➡️向⬇️ 移动【二维】  O(N^2)</li><li>最长递增子序列 【一维】F[N]代表小于等于nums[N]的子数组的最大长度 O(N^2)</li></ol><h3 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h3><p>本质上是个搜索问题，按照“业务逻辑”搜索，并且标记状态，然后继续进行搜索。</p><ol><li>最长连续序列–先保存数据，然后再进行连续数字搜索。 </li><li>合并区间  – 先排序，再合并 O(NLogN)</li><li></li></ol><h2 id="错题本❌"><a href="#错题本❌" class="headerlink" title="错题本❌"></a>错题本❌</h2><ol><li>优先队列，默认是最小堆。</li><li>二分搜索，注意边界条件，使用[1,2] 和[1,2,3]作为测试用例验证</li><li>回溯，注意终止条件，以及visited、以及状态回溯等。</li></ol>]]></content>
     
+    
+    <categories>
+      
+      <category>后端技术</category>
+      
+    </categories>
     
     
     <tags>
@@ -92,9 +136,9 @@
   
   
   <entry>
-    <title>Spring&amp;Spring Cloud技术总结</title>
-    <link href="/2024/06/13/10-Spring&amp;Spring%20Cloud%E6%80%BB%E7%BB%93/"/>
-    <url>/2024/06/13/10-Spring&amp;Spring%20Cloud%E6%80%BB%E7%BB%93/</url>
+    <title>编程框架-Spring技术总结</title>
+    <link href="/2024/06/13/10-Spring%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/"/>
+    <url>/2024/06/13/10-Spring%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/</url>
     
     <content type="html"><![CDATA[<p>本文围绕Spring技术最核心的是IOC和AOP的两个概念进行详细介绍。</p><span id="more"></span><h1 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>IOC是控制反转，传统的编程情况下，如果一个对象依赖另一个对象，是需要程序员自己定义和初始化一个对象的。现在在Spring框架下，初始化的工作交给了Spring。Spring来负责管理这部分工作。那么具体是如何管理的呢？</p><ol><li>扫描类与类之间的关系</li><li>有一个对象容器，存放每个对象</li></ol><h2 id="关键过程"><a href="#关键过程" class="headerlink" title="关键过程"></a>关键过程</h2><p>有几个关键的概念：SpringContext  BeanFactory  FactoryBean</p><h2 id="常见的问题："><a href="#常见的问题：" class="headerlink" title="常见的问题："></a>常见的问题：</h2><h4 id="如果存在循环依赖怎么办？"><a href="#如果存在循环依赖怎么办？" class="headerlink" title="如果存在循环依赖怎么办？"></a>如果存在循环依赖怎么办？</h4><p>  spring三层缓存</p><h4 id="Spring生命周期可以用来做什么？"><a href="#Spring生命周期可以用来做什么？" class="headerlink" title="Spring生命周期可以用来做什么？"></a>Spring生命周期可以用来做什么？</h4><p>   初始化、属性赋值</p><p>   PostProcess afterproerset</p><h4 id="FactoryBean-跟-BeanFactory有什么区别？"><a href="#FactoryBean-跟-BeanFactory有什么区别？" class="headerlink" title="FactoryBean 跟 BeanFactory有什么区别？"></a>FactoryBean 跟 BeanFactory有什么区别？</h4><p>  FactoryBean是一种特殊的bean，一般使用场景是将繁琐的初始化事项屏蔽，对外提供一个Bean，比如与数据库的连接</p><p>  BeanFactory是用来生产Bean的，它提供了通用的接口。</p><h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>AOP是面向切面编程。面向切面相当于对一段函数进行能力强化，一般场景是打印日志、权限控制等。那么它是如何实现的呢？</p><p> 动态代理，使用JDK动态代理或者CGLIB进行代理，JDK是利用<strong>反射机制</strong>，对有实现<strong>接口的类</strong>进行代理。CGLIB是通过生成子类来实现的。JDK代理是本身JDK自带的。CGLIB是一个外部库，它是通过字节码agent技术</p><p>具体实现方式</p><p>设计模式：</p><p>工场模式、责任链模式、代理模式、单例模式、适配器模式</p>]]></content>
     

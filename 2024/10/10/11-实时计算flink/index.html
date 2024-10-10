@@ -16,26 +16,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本文对常见的消息队列kafka rocketmq pulsar进行了全方位的对比，涉及部署架构、存储结构、网络通信层以及功能特性等方面。">
+    <meta name="description" content="本文记录了Flink技术的一些基本概念和关键技术。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="消息队列-kafka rocketmq pulsar对比">
-<meta property="og:url" content="https://yyb345.github.io/2024/10/10/08-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:title" content="实时计算-Flink技术总结">
+<meta property="og:url" content="https://yyb345.github.io/2024/10/10/11-%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97flink/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="本文对常见的消息队列kafka rocketmq pulsar进行了全方位的对比，涉及部署架构、存储结构、网络通信层以及功能特性等方面。">
+<meta property="og:description" content="本文记录了Flink技术的一些基本概念和关键技术。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://yyb345.github.io/images/deploy_model.jpg">
-<meta property="og:image" content="https://yyb345.github.io/Users/lyc/Desktop/code/interview_notes/Bigdata/kafka/rocketmq_netty.webp">
-<meta property="og:image" content="https://yyb345.github.io/images/mq_log_store.jpg">
-<meta property="article:published_time" content="2024-10-10T13:42:08.000Z">
-<meta property="article:modified_time" content="2024-10-10T13:56:29.080Z">
+<meta property="article:published_time" content="2024-10-10T14:23:15.000Z">
+<meta property="article:modified_time" content="2024-10-10T14:25:47.210Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yyb345.github.io/images/deploy_model.jpg">
   
   
   
-  <title>消息队列-kafka rocketmq pulsar对比 - 杨一博的博客</title>
+  <title>实时计算-Flink技术总结 - 杨一博的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -218,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="消息队列-kafka rocketmq pulsar对比"></span>
+            <span id="subtitle" data-typed-text="实时计算-Flink技术总结"></span>
           
         </div>
 
@@ -229,7 +224,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-10 21:42" pubdate>
+        <time datetime="2024-10-10 22:23" pubdate>
           October 10, 2024 pm
         </time>
       </span>
@@ -241,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3k words
+          778 words
         
       </span>
     
@@ -252,7 +247,7 @@
         
         
         
-          25 mins
+          7 mins
         
       </span>
     
@@ -290,132 +285,35 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">消息队列-kafka rocketmq pulsar对比</h1>
+            <h1 style="display: none">实时计算-Flink技术总结</h1>
             
             
               <div class="markdown-body">
                 
-                <p>本文对常见的消息队列kafka rocketmq pulsar进行了全方位的对比，涉及部署架构、存储结构、网络通信层以及功能特性等方面。</p>
+                <p>本文记录了Flink技术的一些基本概念和关键技术。</p>
 <span id="more"></span>
 
-<h1 id="常见消息队列kafka-rocketmq-pulsar对比"><a href="#常见消息队列kafka-rocketmq-pulsar对比" class="headerlink" title="常见消息队列kafka rocketmq pulsar对比"></a>常见消息队列kafka rocketmq pulsar对比</h1><h2 id="部署架构"><a href="#部署架构" class="headerlink" title="部署架构"></a>部署架构</h2><img src="/images/deploy_model.jpg" srcset="/img/loading.gif" lazyload alt="deploy_model" style="zoom:30%;" />
-
-<p>kafka：zookeeper集群、broker集群</p>
-<p>RocketMq：NameServer集群、broker集群</p>
-<p>Pulsar：bookeeper集群（日志存储系统）、broker集群 ，典型地计算与存储分离的架构。</p>
-<h2 id="元数据存储"><a href="#元数据存储" class="headerlink" title="元数据存储"></a>元数据存储</h2><p>kafka：2.8版本以前是在zookeeper上存储 2.8版本之后，抛弃zookeeper，采用类似RAFT协议，主要考虑到当集群节点比较多，topic数量比较多时，zookeeper就会成为系统瓶颈。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java">/brokers<br>	/broker/ids/   所有的broker节点，每个broker的配置文件中都需要指定一个数字类型的id<br>	/broker/topics/  所有的topic注册信息；<br>	/brokers/topics/[topic_name]/partitions/ 某个topic的partitions所有分配信息；<br><br>/controller<br>	/controller_epoch Controller的选举次数（默认从<span class="hljs-number">1</span>开始）<br><br>/consumers<br>	/consumers/[group_id]/ids/ Consumer订阅信息，每个consumer都有一个唯一的ID用来标记消费者信息；<br>	/consumers/[group_id]/owners/[topic_name]/[partition_id]  consumer group对应的各个topic及partition的消费者线程。<br>	/consumers/[group_id]/offsets/[topic_name]/[partition_id] consumer group对应的各个topic及partition的消费偏移量。<br><br>/admin<br>	/admin/reassign_partitions  partition重分配信息；<br>	/admin/preferred_replica_election 最优replica选举信息；<br>	/admin/delete_topics  近期删除的topic；<br>/isr_change_notification/  ISR变更通知信息；<br>                 <br></code></pre></td></tr></table></figure>
 
 
-
-<p>Rocketmq：存储在nameserver上</p>
-<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><h3 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h3><p>  kafka：</p>
-<p> 通用的通信协议格式：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-type">RequestMessage</span> =&gt; <span class="hljs-type">ApiKey</span> <span class="hljs-type">ApiVersion</span> <span class="hljs-type">CorrelationId</span> <span class="hljs-type">ClientId</span> <span class="hljs-type">RequestMessage</span><br>  <span class="hljs-type">ApiKey</span> =&gt; int16<br>  <span class="hljs-type">ApiVersion</span> =&gt; int16<br>  <span class="hljs-type">CorrelationId</span> =&gt; int32<br>  <span class="hljs-type">ClientId</span> =&gt; string<br>  <span class="hljs-type">RequestMessage</span> =&gt; <span class="hljs-type">MetadataRequest</span> | <span class="hljs-type">ProduceRequest</span> | <span class="hljs-type">FetchRequest</span> | <span class="hljs-type">OffsetRequest</span> | <span class="hljs-type">OffsetCommitRequest</span> | <span class="hljs-type">OffsetFetchReques</span><br></code></pre></td></tr></table></figure>
-
-<p>  rocketmq：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br>+ frame_size | header_length |         header_body        |     body     +<br>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br>+   <span class="hljs-number">4</span>bytes   |     <span class="hljs-number">4</span>bytes    | (<span class="hljs-number">21</span> + r_len + e_len) bytes | remain bytes +<br>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br></code></pre></td></tr></table></figure>
-
-<p>  pulsar：</p>
-<h3 id="通信框架"><a href="#通信框架" class="headerlink" title="通信框架"></a>通信框架</h3><p>kafka：基于Java NIO开发的kafka network 客户端</p>
-<p>rocketMq：基于Netty异步网络I&#x2F;O通信框架开发，NettyRemotingClient和NettyRemotingServer</p>
-<p>epoll和NIO的区别，NIO是select轮询，epoll是事件驱动。</p>
-<p>pulsar：基于Netty异步网络I&#x2F;O通信框架开发。</p>
-<img src="/Users/lyc/Desktop/code/interview_notes/Bigdata/kafka/rocketmq_netty.webp" srcset="/img/loading.gif" lazyload alt="rocketmq_netty" style="zoom:30%;" />
-
-
-
-<h2 id="存储层"><a href="#存储层" class="headerlink" title="存储层"></a>存储层</h2><h3 id="存储与计算是否分离？"><a href="#存储与计算是否分离？" class="headerlink" title="存储与计算是否分离？"></a>存储与计算是否分离？</h3><img src="/images/mq_log_store.jpg" srcset="/img/loading.gif" lazyload alt="mq_log_store" style="zoom:30%;" />
-
-
-
-<h3 id="存储格式"><a href="#存储格式" class="headerlink" title="存储格式"></a>存储格式</h3><p><strong>索引文件</strong>：Index文件，稀疏索引</p>
-<p><strong>日志文件</strong>：存储每条日志</p>
-<p>kafka：每个topic，每个分区，在一个日志文件中。</p>
-<p>rocketmq：多个topic的分区记录可以存储在一个日志文件中 commit log</p>
-<p>pulsar：每个topic每个分区的数据单独存储在bookeeper中</p>
-<h3 id="刷盘机制"><a href="#刷盘机制" class="headerlink" title="刷盘机制"></a>刷盘机制</h3><p>异步刷盘、同步刷盘</p>
-<h2 id="Producer层"><a href="#Producer层" class="headerlink" title="Producer层"></a>Producer层</h2><p>同步发送、异步发送（Callback或Future）、批量发送</p>
-<p>重试机制：按照次数重发</p>
-<p>ACK模式：kafka Ack&#x3D;-1，0， 1 不同模式，所有副本都确认，只有leader确认 不需要确认。</p>
-<p>消息压缩机制：</p>
-<h2 id="Consumer层"><a href="#Consumer层" class="headerlink" title="Consumer层"></a>Consumer层</h2><p>推拉模式：拉取-&gt;客户端主动拉取消息 推模式：服务端主动推送给客户端消息</p>
-<p>Kafka: partition级别并行，consumer group 的每个consumer至多消费一个partition</p>
-<p>rocketMq: 消费模式基本跟kafka类似，但是它支持<u>消息广播</u></p>
-<p>pulsar：三种模式，独占模式、failover模式、共享模式，我们只讨论共享模式，consumer可任意扩展，不受partition分区数的限制。</p>
-<p><strong>Rebalance</strong>：consumer group数量有变化的时候，分区与cosumer的消费关系重新被分配。</p>
-<p><strong>顺序消费</strong>：</p>
-<p>至少一次，exactly一次消费：</p>
-<p><strong>回溯消费</strong>：offset重置位点</p>
-<p><strong>重试机制</strong>：</p>
-<h2 id="消息功能特性"><a href="#消息功能特性" class="headerlink" title="消息功能特性"></a>消息功能特性</h2><table>
-<thead>
-<tr>
-<th>功能</th>
-<th>kafka</th>
-<th>rocketMQ</th>
-<th>pulsar</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>消息轨迹查询</strong></td>
-<td>不支持</td>
-<td>支持</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>延迟消息</strong></td>
-<td>不支持</td>
-<td>支持</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>事务消息</strong></td>
-<td>支持</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>消息Tag</strong></td>
-<td>不支持</td>
-<td>支持</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>死信队列</strong></td>
-<td>不支持</td>
-<td>支持</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>顺序消息</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p>延迟消息的原理：</p>
-<p>  延迟级别：1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h</p>
-<p>  原理：rocketmq支持不同级别的延迟消息，具体的实现策略是会有一个单独的topic ___xxx_topic 记录所有延迟topic的消息，这条消息会多一个属性，就是延迟的消息级别。然后会有一个定时任务消费这个topic去扫描，是否满足延迟条件，如果满足，则将这条消息发送到真正的topic上。</p>
-<p><strong>死信队列</strong>：如果某条消息发送失败，会发送到一个默认的topic中，可以用这个队列做后面的重试工作等。</p>
-<p><strong>消息TTL</strong>：也就是消息的过期时间</p>
-<h2 id="高可用设计"><a href="#高可用设计" class="headerlink" title="高可用设计"></a>高可用设计</h2><h3 id="集群的Controller管理"><a href="#集群的Controller管理" class="headerlink" title="集群的Controller管理"></a>集群的Controller管理</h3><h3 id="分区的副本管理"><a href="#分区的副本管理" class="headerlink" title="分区的副本管理"></a>分区的副本管理</h3><p>kafka ISR的概念 每个分区都有Leader，N个副本，副本是异步拉取消息进行数据同步的。</p>
-<p>plusar：写的时候，并行写的，而不是靠副本拉取同步。</p>
-<p><strong>ACK机制</strong>：</p>
-<h2 id="高可靠性"><a href="#高可靠性" class="headerlink" title="高可靠性"></a>高可靠性</h2><p><strong>刷盘策略</strong>：同步刷盘、异步刷盘</p>
-<p>kafka是分区多副本 ，rocketmq 主备：master挂掉，slave切换服务</p>
-<p>数据一致性：</p>
-<p>kafka：弱一致性：</p>
-<p>pulsar：强一致性</p>
-<h2 id="高性能设计"><a href="#高性能设计" class="headerlink" title="高性能设计"></a>高性能设计</h2><p>PageCache：是操作系统的文件缓存机制。</p>
-<p>Zero-Copy</p>
-<p>顺序写磁盘</p>
+<h4 id="Flink是什么？"><a href="#Flink是什么？" class="headerlink" title="Flink是什么？"></a>Flink是什么？</h4><p>​    实时流计算框架、无界数据</p>
+<h4 id="同类竞品"><a href="#同类竞品" class="headerlink" title="同类竞品"></a>同类竞品</h4><p>   Spark Streaming（mini batch处理）</p>
+<h5 id="与其他Hadoop生态之间的依赖关系"><a href="#与其他Hadoop生态之间的依赖关系" class="headerlink" title="与其他Hadoop生态之间的依赖关系"></a>与其他Hadoop生态之间的依赖关系</h5><p> Hbase作为外部存储（列式存储）应对大数据存储，背后是Htable，底层是HDFS数据。</p>
+<p> Redis作为外部缓存，处理一些高频访问的场景，比如黑名单、白名单等</p>
+<h4 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h4><p> 因为现实场景中有很多实时计算的场景，同时spark 有局限性。</p>
+<h4 id="具体是如何实现的？"><a href="#具体是如何实现的？" class="headerlink" title="具体是如何实现的？"></a>具体是如何实现的？</h4><p><strong>部署框架</strong>：资源调度（Yarn、K8s、本地部署）、Job Manager（JobGraph、容灾等功能） 、 Task Manager（具体的执行节点）、后端state（内存、rocksDB或HDFS）</p>
+<p><strong>资源是如何分配的</strong>： TaskSlot、相互之间通信（actor系统） 、内存管理（堆内、堆外内存）</p>
+<p><strong>内部技术框架</strong>：算子（具体的计算逻辑，包括map、reduce、keyby、 groupby等）、窗口（用户侧接口，包括滑动窗口、翻转窗口等）、checkpoint（分布式快照） 、State（用于存储算子执行过程中的数据）、watermark机制</p>
+<p><strong>几个关键的技术</strong>：State技术、Checkpoint技术、反压技术、exactly once技术、高性能技术、JobGraph技术</p>
+<p><strong>Flink SQL 技术</strong></p>
+<p>&#x2F;&#x2F; 待开始</p>
+<h4 id="有哪些使用场景？"><a href="#有哪些使用场景？" class="headerlink" title="有哪些使用场景？"></a>有哪些使用场景？</h4><ol>
+<li>计算当前微博热搜 TOP N</li>
+<li>计算当前用户DAU、用户停留时长等</li>
+</ol>
+<h4 id="经典的一些问题"><a href="#经典的一些问题" class="headerlink" title="经典的一些问题"></a>经典的一些问题</h4><h5 id="1-性能出现瓶颈怎么办？如何进行调优？"><a href="#1-性能出现瓶颈怎么办？如何进行调优？" class="headerlink" title="1. 性能出现瓶颈怎么办？如何进行调优？"></a>1. 性能出现瓶颈怎么办？如何进行调优？</h5><p> <strong>问题定位</strong>： 否有反压、数据是否有倾斜 </p>
+<p> <strong>解决方案</strong>：资源调整（并行度、作业参数调优、Java内存调优）、用户代码调优（数据打散、预聚合等）</p>
+<h5 id="2-Exactly-once-是如何保证的？"><a href="#2-Exactly-once-是如何保证的？" class="headerlink" title="2. Exactly once 是如何保证的？"></a>2. Exactly once 是如何保证的？</h5><p>   checkpoint 、二阶段提交协议、下游保证分布式事务</p>
+<h5 id="3-高性能技术有哪些？"><a href="#3-高性能技术有哪些？" class="headerlink" title="3. 高性能技术有哪些？"></a>3. 高性能技术有哪些？</h5><p>  &#x2F;&#x2F; TODO 待开始</p>
 
                 
               </div>
@@ -446,13 +344,6 @@
     </div>
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">#消息队列</a>
-      
-    </div>
-  
 </div>
 
 
@@ -461,8 +352,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>消息队列-kafka rocketmq pulsar对比</div>
-      <div>https://yyb345.github.io/2024/10/10/08-消息队列对比/</div>
+      <div>实时计算-Flink技术总结</div>
+      <div>https://yyb345.github.io/2024/10/10/11-实时计算flink/</div>
     </div>
     <div class="license-meta">
       
@@ -506,9 +397,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/10/11-%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97flink/" title="实时计算-Flink技术总结">
+                      <a href="/2024/10/10/12-SpringCloud%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/" title="微服务-SpringCloud技术总结">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">实时计算-Flink技术总结</span>
+                        <span class="hidden-mobile">微服务-SpringCloud技术总结</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -516,8 +407,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/07/06-API%E7%BD%91%E5%85%B3/" title="网关-API网关核心技术">
-                        <span class="hidden-mobile">网关-API网关核心技术</span>
+                      <a href="/2024/10/10/08-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AF%B9%E6%AF%94/" title="消息队列-kafka rocketmq pulsar对比">
+                        <span class="hidden-mobile">消息队列-kafka rocketmq pulsar对比</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
