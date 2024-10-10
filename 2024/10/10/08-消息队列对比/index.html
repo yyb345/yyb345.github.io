@@ -16,21 +16,26 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Hexo 是一个基于 Node.js 的静态博客框架，允许你使用 Markdown 编写文章，然后通过 Hexo 生成静态网页。以下是一些常用的 Hexo 命令：">
+    <meta name="description" content="本文对常见的消息队列kafka rocketmq pulsar进行了全方位的对比，涉及部署架构、存储结构、网络通信层以及功能特性等方面。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo命令详解">
-<meta property="og:url" content="https://yyb345.github.io/2023/01/20/hexo/index.html">
+<meta property="og:title" content="消息队列kafka&#x2F;rocketmq&#x2F;pulsar对比">
+<meta property="og:url" content="https://yyb345.github.io/2024/10/10/08-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AF%B9%E6%AF%94/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="Hexo 是一个基于 Node.js 的静态博客框架，允许你使用 Markdown 编写文章，然后通过 Hexo 生成静态网页。以下是一些常用的 Hexo 命令：">
+<meta property="og:description" content="本文对常见的消息队列kafka rocketmq pulsar进行了全方位的对比，涉及部署架构、存储结构、网络通信层以及功能特性等方面。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-01-19T18:09:33.000Z">
-<meta property="article:modified_time" content="2024-10-10T13:33:25.796Z">
+<meta property="og:image" content="https://yyb345.github.io/images/deploy_model.jpg">
+<meta property="og:image" content="https://yyb345.github.io/Users/lyc/Desktop/code/interview_notes/Bigdata/kafka/rocketmq_netty.webp">
+<meta property="og:image" content="https://yyb345.github.io/images/mq_log_store.jpg">
+<meta property="article:published_time" content="2024-10-10T13:42:08.000Z">
+<meta property="article:modified_time" content="2024-10-10T13:51:24.235Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yyb345.github.io/images/deploy_model.jpg">
   
   
   
-  <title>Hexo命令详解 - 杨一博的博客</title>
+  <title>消息队列kafka/rocketmq/pulsar对比 - 杨一博的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +218,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hexo命令详解"></span>
+            <span id="subtitle" data-typed-text="消息队列kafka/rocketmq/pulsar对比"></span>
           
         </div>
 
@@ -224,8 +229,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-01-20 02:09" pubdate>
-          January 20, 2023 am
+        <time datetime="2024-10-10 21:42" pubdate>
+          October 10, 2024 pm
         </time>
       </span>
     
@@ -236,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          678 words
+          3k words
         
       </span>
     
@@ -247,7 +252,7 @@
         
         
         
-          6 mins
+          25 mins
         
       </span>
     
@@ -285,18 +290,132 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hexo命令详解</h1>
+            <h1 style="display: none">消息队列kafka/rocketmq/pulsar对比</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Hexo 是一个基于 Node.js 的静态博客框架，允许你使用 Markdown 编写文章，然后通过 Hexo 生成静态网页。以下是一些常用的 Hexo 命令：</p>
+                <p>本文对常见的消息队列kafka rocketmq pulsar进行了全方位的对比，涉及部署架构、存储结构、网络通信层以及功能特性等方面。</p>
 <span id="more"></span>
 
+<h1 id="常见消息队列kafka-rocketmq-pulsar对比"><a href="#常见消息队列kafka-rocketmq-pulsar对比" class="headerlink" title="常见消息队列kafka rocketmq pulsar对比"></a>常见消息队列kafka rocketmq pulsar对比</h1><h2 id="部署架构"><a href="#部署架构" class="headerlink" title="部署架构"></a>部署架构</h2><img src="/images/deploy_model.jpg" srcset="/img/loading.gif" lazyload alt="deploy_model" style="zoom:30%;" />
+
+<p>kafka：zookeeper集群、broker集群</p>
+<p>RocketMq：NameServer集群、broker集群</p>
+<p>Pulsar：bookeeper集群（日志存储系统）、broker集群 ，典型地计算与存储分离的架构。</p>
+<h2 id="元数据存储"><a href="#元数据存储" class="headerlink" title="元数据存储"></a>元数据存储</h2><p>kafka：2.8版本以前是在zookeeper上存储 2.8版本之后，抛弃zookeeper，采用类似RAFT协议，主要考虑到当集群节点比较多，topic数量比较多时，zookeeper就会成为系统瓶颈。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java">/brokers<br>	/broker/ids/   所有的broker节点，每个broker的配置文件中都需要指定一个数字类型的id<br>	/broker/topics/  所有的topic注册信息；<br>	/brokers/topics/[topic_name]/partitions/ 某个topic的partitions所有分配信息；<br><br>/controller<br>	/controller_epoch Controller的选举次数（默认从<span class="hljs-number">1</span>开始）<br><br>/consumers<br>	/consumers/[group_id]/ids/ Consumer订阅信息，每个consumer都有一个唯一的ID用来标记消费者信息；<br>	/consumers/[group_id]/owners/[topic_name]/[partition_id]  consumer group对应的各个topic及partition的消费者线程。<br>	/consumers/[group_id]/offsets/[topic_name]/[partition_id] consumer group对应的各个topic及partition的消费偏移量。<br><br>/admin<br>	/admin/reassign_partitions  partition重分配信息；<br>	/admin/preferred_replica_election 最优replica选举信息；<br>	/admin/delete_topics  近期删除的topic；<br>/isr_change_notification/  ISR变更通知信息；<br>                 <br></code></pre></td></tr></table></figure>
 
 
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs javascript">初始化博客：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo init &lt;folder&gt;<br>cd &lt;folder&gt;<br>用于在指定文件夹中初始化一个 <span class="hljs-title class_">Hexo</span> 博客。<br><br>生成静态文件：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo generate<br>用于将 <span class="hljs-title class_">Markdown</span> 文件转换为静态 <span class="hljs-variable constant_">HTML</span> 文件。<br><br>启动本地服务器：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo server<br>用于启动一个本地服务器，可以在浏览器中预览生成的静态网页。默认地址是 <span class="hljs-attr">http</span>:<span class="hljs-comment">//localhost:4000。</span><br><br>新建文章：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo <span class="hljs-keyword">new</span> [layout] &lt;title&gt;<br>用于新建一篇文章。可选的 layout 参数可以是 post（默认）、page 等。<br><br>部署到远程仓库（如<span class="hljs-title class_">GitHub</span>）：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo deploy<br>用于将生成的静态文件部署到配置好的远程仓库。<br><br>清理缓存文件：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo clean<br>用于清理 <span class="hljs-title class_">Hexo</span> 生成过程中产生的临时文件。<br><br>查看帮助：<br><br>bash<br><span class="hljs-title class_">Copy</span> code<br>hexo --help<br>用于查看 <span class="hljs-title class_">Hexo</span> 的帮助信息，包括可用命令和选项。<br><br>这些是一些基本的 <span class="hljs-title class_">Hexo</span> 命令，你可以根据需要进一步了解 <span class="hljs-title class_">Hexo</span> 的配置和插件系统以及其他更高级的用法。<br></code></pre></td></tr></table></figure>
 
+<p>Rocketmq：存储在nameserver上</p>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><h3 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h3><p>  kafka：</p>
+<p> 通用的通信协议格式：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-type">RequestMessage</span> =&gt; <span class="hljs-type">ApiKey</span> <span class="hljs-type">ApiVersion</span> <span class="hljs-type">CorrelationId</span> <span class="hljs-type">ClientId</span> <span class="hljs-type">RequestMessage</span><br>  <span class="hljs-type">ApiKey</span> =&gt; int16<br>  <span class="hljs-type">ApiVersion</span> =&gt; int16<br>  <span class="hljs-type">CorrelationId</span> =&gt; int32<br>  <span class="hljs-type">ClientId</span> =&gt; string<br>  <span class="hljs-type">RequestMessage</span> =&gt; <span class="hljs-type">MetadataRequest</span> | <span class="hljs-type">ProduceRequest</span> | <span class="hljs-type">FetchRequest</span> | <span class="hljs-type">OffsetRequest</span> | <span class="hljs-type">OffsetCommitRequest</span> | <span class="hljs-type">OffsetFetchReques</span><br></code></pre></td></tr></table></figure>
+
+<p>  rocketmq：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br>+ frame_size | header_length |         header_body        |     body     +<br>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br>+   <span class="hljs-number">4</span>bytes   |     <span class="hljs-number">4</span>bytes    | (<span class="hljs-number">21</span> + r_len + e_len) bytes | remain bytes +<br>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br></code></pre></td></tr></table></figure>
+
+<p>  pulsar：</p>
+<h3 id="通信框架"><a href="#通信框架" class="headerlink" title="通信框架"></a>通信框架</h3><p>kafka：基于Java NIO开发的kafka network 客户端</p>
+<p>rocketMq：基于Netty异步网络I&#x2F;O通信框架开发，NettyRemotingClient和NettyRemotingServer</p>
+<p>epoll和NIO的区别，NIO是select轮询，epoll是事件驱动。</p>
+<p>pulsar：基于Netty异步网络I&#x2F;O通信框架开发。</p>
+<img src="/Users/lyc/Desktop/code/interview_notes/Bigdata/kafka/rocketmq_netty.webp" srcset="/img/loading.gif" lazyload alt="rocketmq_netty" style="zoom:30%;" />
+
+
+
+<h2 id="存储层"><a href="#存储层" class="headerlink" title="存储层"></a>存储层</h2><h3 id="存储与计算是否分离？"><a href="#存储与计算是否分离？" class="headerlink" title="存储与计算是否分离？"></a>存储与计算是否分离？</h3><img src="/images/mq_log_store.jpg" srcset="/img/loading.gif" lazyload alt="mq_log_store" style="zoom:30%;" />
+
+
+
+<h3 id="存储格式"><a href="#存储格式" class="headerlink" title="存储格式"></a>存储格式</h3><p><strong>索引文件</strong>：Index文件，稀疏索引</p>
+<p><strong>日志文件</strong>：存储每条日志</p>
+<p>kafka：每个topic，每个分区，在一个日志文件中。</p>
+<p>rocketmq：多个topic的分区记录可以存储在一个日志文件中 commit log</p>
+<p>pulsar：每个topic每个分区的数据单独存储在bookeeper中</p>
+<h3 id="刷盘机制"><a href="#刷盘机制" class="headerlink" title="刷盘机制"></a>刷盘机制</h3><p>异步刷盘、同步刷盘</p>
+<h2 id="Producer层"><a href="#Producer层" class="headerlink" title="Producer层"></a>Producer层</h2><p>同步发送、异步发送（Callback或Future）、批量发送</p>
+<p>重试机制：按照次数重发</p>
+<p>ACK模式：kafka Ack&#x3D;-1，0， 1 不同模式，所有副本都确认，只有leader确认 不需要确认。</p>
+<p>消息压缩机制：</p>
+<h2 id="Consumer层"><a href="#Consumer层" class="headerlink" title="Consumer层"></a>Consumer层</h2><p>推拉模式：拉取-&gt;客户端主动拉取消息 推模式：服务端主动推送给客户端消息</p>
+<p>Kafka: partition级别并行，consumer group 的每个consumer至多消费一个partition</p>
+<p>rocketMq: 消费模式基本跟kafka类似，但是它支持<u>消息广播</u></p>
+<p>pulsar：三种模式，独占模式、failover模式、共享模式，我们只讨论共享模式，consumer可任意扩展，不受partition分区数的限制。</p>
+<p><strong>Rebalance</strong>：consumer group数量有变化的时候，分区与cosumer的消费关系重新被分配。</p>
+<p><strong>顺序消费</strong>：</p>
+<p>至少一次，exactly一次消费：</p>
+<p><strong>回溯消费</strong>：offset重置位点</p>
+<p><strong>重试机制</strong>：</p>
+<h2 id="消息功能特性"><a href="#消息功能特性" class="headerlink" title="消息功能特性"></a>消息功能特性</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>kafka</th>
+<th>rocketMQ</th>
+<th>pulsar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>消息轨迹查询</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>延迟消息</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>事务消息</strong></td>
+<td>支持</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>消息Tag</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>死信队列</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>顺序消息</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>延迟消息的原理：</p>
+<p>  延迟级别：1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h</p>
+<p>  原理：rocketmq支持不同级别的延迟消息，具体的实现策略是会有一个单独的topic ___xxx_topic 记录所有延迟topic的消息，这条消息会多一个属性，就是延迟的消息级别。然后会有一个定时任务消费这个topic去扫描，是否满足延迟条件，如果满足，则将这条消息发送到真正的topic上。</p>
+<p><strong>死信队列</strong>：如果某条消息发送失败，会发送到一个默认的topic中，可以用这个队列做后面的重试工作等。</p>
+<p><strong>消息TTL</strong>：也就是消息的过期时间</p>
+<h2 id="高可用设计"><a href="#高可用设计" class="headerlink" title="高可用设计"></a>高可用设计</h2><h3 id="集群的Controller管理"><a href="#集群的Controller管理" class="headerlink" title="集群的Controller管理"></a>集群的Controller管理</h3><h3 id="分区的副本管理"><a href="#分区的副本管理" class="headerlink" title="分区的副本管理"></a>分区的副本管理</h3><p>kafka ISR的概念 每个分区都有Leader，N个副本，副本是异步拉取消息进行数据同步的。</p>
+<p>plusar：写的时候，并行写的，而不是靠副本拉取同步。</p>
+<p><strong>ACK机制</strong>：</p>
+<h2 id="高可靠性"><a href="#高可靠性" class="headerlink" title="高可靠性"></a>高可靠性</h2><p><strong>刷盘策略</strong>：同步刷盘、异步刷盘</p>
+<p>kafka是分区多副本 ，rocketmq 主备：master挂掉，slave切换服务</p>
+<p>数据一致性：</p>
+<p>kafka：弱一致性：</p>
+<p>pulsar：强一致性</p>
+<h2 id="高性能设计"><a href="#高性能设计" class="headerlink" title="高性能设计"></a>高性能设计</h2><p>PageCache：是操作系统的文件缓存机制。</p>
+<p>Zero-Copy</p>
+<p>顺序写磁盘</p>
 
                 
               </div>
@@ -306,6 +425,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">#消息队列</a>
+      
+    </div>
+  
 </div>
 
 
@@ -314,8 +440,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hexo命令详解</div>
-      <div>https://yyb345.github.io/2023/01/20/hexo/</div>
+      <div>消息队列kafka/rocketmq/pulsar对比</div>
+      <div>https://yyb345.github.io/2024/10/10/08-消息队列对比/</div>
     </div>
     <div class="license-meta">
       
@@ -327,7 +453,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 20, 2023</div>
+          <div>October 10, 2024</div>
         </div>
       
       
@@ -359,15 +485,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/20/05-kafka%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98/" title="消息队列-kafka脑裂问题">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">消息队列-kafka脑裂问题</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/10/07/06-API%E7%BD%91%E5%85%B3/" title="API网关核心技术">
+                        <span class="hidden-mobile">API网关核心技术</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
