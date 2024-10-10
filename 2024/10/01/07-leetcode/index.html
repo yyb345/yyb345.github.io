@@ -16,21 +16,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="二叉树遍历题目号： 144  题目描述：输出前序遍历的结果 1234567891011121314public List&lt;Integer&gt; preorderTraversal(TreeNode root) &amp;#123;       List&lt;Integer&gt; ret &#x3D; new ArrayList&lt;&gt;();       travel(root,ret);">
+    <meta name="description" content="本文详细介绍了leetcode相关分类与解法。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode">
-<meta property="og:url" content="https://yyb345.github.io/2024/09/28/07-leetcode/index.html">
+<meta property="og:title" content="算法-leetcode总结">
+<meta property="og:url" content="https://yyb345.github.io/2024/10/01/07-leetcode/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="二叉树遍历题目号： 144  题目描述：输出前序遍历的结果 1234567891011121314public List&lt;Integer&gt; preorderTraversal(TreeNode root) &amp;#123;       List&lt;Integer&gt; ret &#x3D; new ArrayList&lt;&gt;();       travel(root,ret);">
+<meta property="og:description" content="本文详细介绍了leetcode相关分类与解法。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-09-28T13:34:18.000Z">
-<meta property="article:modified_time" content="2024-10-09T07:23:54.477Z">
+<meta property="article:published_time" content="2024-10-01T07:30:04.000Z">
+<meta property="article:modified_time" content="2024-10-10T13:28:34.077Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>leetcode - 杨一博的博客</title>
+  <title>算法-leetcode总结 - 杨一博的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="leetcode"></span>
+            <span id="subtitle" data-typed-text="算法-leetcode总结"></span>
           
         </div>
 
@@ -224,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-28 21:34" pubdate>
-          September 28, 2024 pm
+        <time datetime="2024-10-01 15:30" pubdate>
+          October 1, 2024 pm
         </time>
       </span>
     
@@ -236,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          350 words
+          1.5k words
         
       </span>
     
@@ -247,7 +248,7 @@
         
         
         
-          3 mins
+          13 mins
         
       </span>
     
@@ -285,16 +286,114 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">leetcode</h1>
+            <h1 style="display: none">算法-leetcode总结</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="二叉树遍历"><a href="#二叉树遍历" class="headerlink" title="二叉树遍历"></a>二叉树遍历</h2><p>题目号： 144 </p>
-<p>题目描述：输出前序遍历的结果</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> List&lt;Integer&gt; <span class="hljs-title function_">preorderTraversal</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>       List&lt;Integer&gt; ret = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>       travel(root,ret);<br>       <span class="hljs-keyword">return</span> ret;<br>   &#125;<br><br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">travel</span><span class="hljs-params">(TreeNode root,List&lt;Integer&gt; list)</span>&#123;<br>       <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>)&#123;<br>           <span class="hljs-keyword">return</span>;<br>       &#125;<br>       list.add(root.val);<br>       travel(root.left,list);<br>       travel(root.right,list);<br>   &#125;<br></code></pre></td></tr></table></figure>
+                <p>本文详细介绍了leetcode相关分类与解法。</p>
+<span id="more"></span>
 
-<h2 id="二叉树搜索"><a href="#二叉树搜索" class="headerlink" title="二叉树搜索"></a>二叉树搜索</h2>
+
+
+
+<h2 id="核心分类"><a href="#核心分类" class="headerlink" title="核心分类"></a>核心分类</h2><p>一维数组</p>
+<p>二维矩阵</p>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>快排</p>
+<p>归并排序</p>
+<h3 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h3><ol>
+<li>搜索插入的位置</li>
+<li>X的平方根</li>
+<li><a target="_blank" rel="noopener" href="https://www.cplusplus.com/reference/valarray/pow/">pow(x,n)</a>   递归进行计算 </li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/">#153 寻找旋转排序数组中的最小值</a> </li>
+<li>求复合某条件的最小值的最大值</li>
+</ol>
+<h3 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h3><ol>
+<li>两数之和 第二轮</li>
+<li>连续子数组之和大于目标值  <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-size-subarray-sum/">#209 长度最小的子数组</a>   【滑动窗口】有关</li>
+</ol>
+<h3 id="回溯"><a href="#回溯" class="headerlink" title="回溯"></a>回溯</h3><p>  <strong>Visited数组、访问过的变量List、终止条件、状态位标记复位和List回退</strong></p>
+<ol>
+<li>单词搜索 </li>
+<li>全排列 </li>
+<li>给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。</li>
+<li>电话号码的组合</li>
+<li>括号生成（左括号数量+右边括号数量）</li>
+</ol>
+<h3 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h3><ol>
+<li>单词拆分（一个长word和List[]单词）（搜索+中间状态存储）</li>
+<li>被围绕的区域，标记围绕的O为X <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/surrounded-regions/?envType=study-plan-v2&envId=top-interview-150">被围绕的区域</a> </li>
+<li>岛屿的数量 第一轮</li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game-ii/">#45 跳跃游戏 II</a> 贪心算法，本质上也是个搜索问题。</li>
+</ol>
+<h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><p>什么情况下用贪心算法，贪心算法看起来比较简单，局部最优–&gt; 全局最优</p>
+<p>我个人理解本质上是个搜索问题，只不过减枝了大部分不需要的搜索，那么问题来了，如何设计和寻找减枝的算法呢？先用暴力算法，然后再思考，有哪些不必要的计算？</p>
+<ol>
+<li>加油站⛽️问题  <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gas-station/description/?envType=study-plan-v2&envId=top-interview-150">加油站</a>  O(n^2)–&gt;O(n) </li>
+<li>买卖股票🏦的问题（一次和多次） </li>
+<li>容器盛水问题 【贪心+双指针】O(n^2)–&gt;O(n) </li>
+<li>跳跃游戏，<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game/?envType=study-plan-v2&envId=top-interview-150">跳跃游戏</a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game-ii/?envType=study-plan-v2&envId=top-interview-150">跳跃游戏2</a> nums[i]代表可以往前跳几步，是否可以到最后一步</li>
+</ol>
+<h3 id="链表-➡️➡️"><a href="#链表-➡️➡️" class="headerlink" title="链表 ➡️➡️"></a>链表 ➡️➡️</h3><ol>
+<li>反转链表 </li>
+<li>删除倒数K个节点 –快慢指针</li>
+<li>链表数学+1</li>
+<li>有序链表的合并</li>
+<li>环形链表 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle?envType=study-plan-v2&envId=top-interview-150">环形链表</a>  【快慢指针】 第一轮</li>
+<li>随机链表复制 【第一步 链表复制 &amp; 需要有一个Map保存 旧链表与新链表节点的映射，第二步 随机指针添加】</li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/rotate-list/">#61 旋转链表</a>  【先找到尾部节点，并且计算链表长度；然后再找到倒数第K+1个节点，然后进行指针转化】</li>
+<li>分隔链表 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/partition-list/?envType=study-plan-v2&envId=top-interview-150">分隔链表</a> 第一轮</li>
+</ol>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><ol>
+<li>最长连续不重复子字符串 第一轮</li>
+<li></li>
+</ol>
+<h3 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h3><ol>
+<li>括号匹配 第一轮</li>
+<li>最小栈 申请两个栈，一个原始的数据栈，另一个是保存当前最小值的栈。</li>
+<li>单调栈</li>
+</ol>
+<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>在Java中的数据结构叫 优先队列，默认是最小堆。如果是最大堆，需要改下compare函数。</p>
+<h3 id="二叉树-🌲"><a href="#二叉树-🌲" class="headerlink" title="二叉树 🌲"></a>二叉树 🌲</h3><p><strong>本质上是搜索【从上往下、从下往上、前、中、后】 解题思路：1. 从上往下搜索的过程中引入全局存储，可以记录搜索的路径等 2. 递归&#x2F;递归一般是从下往上传递结果值，也可以是从下往上按照规则进行搜索，从上反推。</strong></p>
+<p><strong>递归结果的值再进行逻辑判断。</strong></p>
+<ol>
+<li>前、中、后序遍历</li>
+<li>层次遍历（右视图、Z之形打印等）</li>
+<li>判断对称树</li>
+<li>二叉树最近公共祖先  review</li>
+<li>二叉树转为链表  （PreNode和左右child节点提前保存）</li>
+<li>二叉树+target数字，是否存在根节点到叶子结点之和为目标值。</li>
+</ol>
+<h4 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/kth-smallest-element-in-a-bst/">#230 二叉搜索树中第K小的元素</a>  中序遍历 O(K)</li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/validate-binary-search-tree?envType=study-plan-v2&envId=top-interview-150">验证二叉搜索树</a> </li>
+<li>验证二叉搜索树的后序遍历序列是否合法 再看下</li>
+<li>二叉搜索树最近公共祖先</li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-absolute-difference-in-bst/">#530 二叉搜索树的最小绝对差</a>  【中序遍历+前置节点】 </li>
+<li>判断是否为二叉搜索树 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/validate-binary-search-tree/?envType=study-plan-v2&envId=top-interview-150">判断是否为二叉搜索树</a> 【中序遍历+数值区间】</li>
+</ol>
+<h3 id="动态规划-🟪🟪➡️🟪🟪"><a href="#动态规划-🟪🟪➡️🟪🟪" class="headerlink" title="动态规划 🟪🟪➡️🟪🟪"></a>动态规划 🟪🟪➡️🟪🟪</h3><ul>
+<li>前置状态存储的含义</li>
+<li>状态转移方程  </li>
+<li>一维和多维</li>
+</ul>
+<ol>
+<li>最长回文子串  dp[i][j]&#x3D;true&#x2F;false代表是否是回文串【二维】O(N^2)</li>
+<li>最小路径和   向➡️向⬇️ 移动【二维】  O(N^2)</li>
+<li>最长递增子序列 【一维】F[N]代表小于等于nums[N]的子数组的最大长度 O(N^2)</li>
+</ol>
+<h3 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h3><p>本质上是个搜索问题，按照“业务逻辑”搜索，并且标记状态，然后继续进行搜索。</p>
+<ol>
+<li>最长连续序列–先保存数据，然后再进行连续数字搜索。 </li>
+<li>合并区间  – 先排序，再合并 O(NLogN)</li>
+<li></li>
+</ol>
+<h2 id="错题本❌"><a href="#错题本❌" class="headerlink" title="错题本❌"></a>错题本❌</h2><ol>
+<li>优先队列，默认是最小堆。</li>
+<li>二分搜索，注意边界条件，使用[1,2] 和[1,2,3]作为测试用例验证</li>
+<li>回溯，注意终止条件，以及visited、以及状态回溯等。</li>
+</ol>
+
                 
               </div>
             
@@ -302,6 +401,13 @@
             <div>
               <div class="post-metas my-3">
   
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+      
+    </div>
   
 </div>
 
@@ -311,8 +417,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>leetcode</div>
-      <div>https://yyb345.github.io/2024/09/28/07-leetcode/</div>
+      <div>算法-leetcode总结</div>
+      <div>https://yyb345.github.io/2024/10/01/07-leetcode/</div>
     </div>
     <div class="license-meta">
       
@@ -324,7 +430,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>September 28, 2024</div>
+          <div>October 1, 2024</div>
         </div>
       
       
@@ -356,12 +462,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2024/10/07/06-API%E7%BD%91%E5%85%B3/" title="API网关核心技术">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">API网关核心技术</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/13/spring%E6%80%BB%E7%BB%93/" title="spring总结">
-                        <span class="hidden-mobile">spring总结</span>
+                      <a href="/2024/08/07/04-Kafka%E5%8E%9F%E7%90%86/" title="消息队列-Kafka原理">
+                        <span class="hidden-mobile">消息队列-Kafka原理</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
