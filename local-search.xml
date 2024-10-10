@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>AI技术-李飞飞采访实录</title>
+    <link href="/2024/10/11/13-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E9%87%87%E8%AE%BF%E5%AE%9E%E5%BD%95/"/>
+    <url>/2024/10/11/13-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E9%87%87%E8%AE%BF%E5%AE%9E%E5%BD%95/</url>
+    
+    <content type="html"><![CDATA[<p><em><strong>最新事件</strong>：李飞飞WORLD LABS获得了2.3亿美元的投资，并接受彭博社采访，输出的核心观点：空间智能是一种可以理解、解释、生成真实世界，甚至可以与其交互的一种智能。这个真实的世界是由3D构成的，基础元素是像素，像图像就是二维的像素构成的。</em></p><div style="text-align: center;">  <img src="/images/FFL-7.jpg" alt="deploy_model" style="zoom:30%;" />   </div>  <div style="text-align: center;"> 2024年9月23日AI talk hosted by computer history mesum   </div>  <p>​                                              </p><p><strong>主持人：简要介绍下AI的发展历程？</strong><br><strong>飞飞</strong>：1990年代是AI的冬天，也是变革的开始。统计学方法流行，machine learning在NLP、计算机视觉、语音识别等场景上已经有所突破。李飞飞在2000年代当时还是博士生 ，神经网络已经诞生了。同时互联网开始诞生，意味着数据的产生和GPU的快速发展。2012 年之后，在华尔街开始诞生了很多AI的创业公司。不得不提及<strong>ImageNet</strong>（<strong>飞飞的代表作</strong>） 起源于2006，是一个数据集。1500万张图像，22000 物理的分类。开源的数据集，用于研究和挑战分类识别。AI的三个基本元素：<strong>神经网络（反向传播）、大数据、GPU计算</strong>。数据驱动神经网络和AI技术真正地被证明。</p><p><strong>飞飞</strong>：2016年AlphGO战胜了李世石。第一次让<strong>公众意识到</strong>计算机可以像人类一样思考，并且强于人类。也同时诞生了强化学习的概念。2016-2022 更多的投资在AI领域，Tech Clash， 自动驾驶2017。2022年10月 chatGPT诞生。在这之前gpt2已经让她意识到gpt的威力和强大之处。AlphaGO和ChatGPT的是让每个个体都接触到AI的技术。同时华盛顿政府注意到AI。</p><p><strong>飞飞</strong>：LLM （Large Language Model 大语言模型）的可解释性，模式识别、预测、甚至可以解释给你一些东西,也就是<strong>推理</strong>能力。</p><p><strong>主持人</strong>：如何评价此次AI的技术变革以及其带来的影响<strong>？</strong><br><strong>飞飞</strong>：这次AI 数字化变革，不仅仅是技术，更多地是让公众也就是普通人意识到AI技术带来的变革。语言只是一种智能化的形式，第一次工业革命和生物上DNA的发现也是智能。同时互联网的文本数据集已经几乎被挖掘尽了。她预测3-5年之后，不仅仅是商业化的进步比较明显，科学领域的研究发现也会更多。</p><p><strong>主持人</strong>：<strong>空间智能和具身机器人的发展如何看待？</strong><br>飞飞：距离很远，但是已经迫不及待。人类语言的学习，3D世界比语言的发展更早一些。规划你的生活、看见真实的世界，解释、生成与3D世界进行交互。</p><p><strong>主持人：AGI意味着什么？</strong><br>飞飞：AGI更多地是一个互联网工业化的用词，对于我们科技工作者来说，我会把它定义为 North-Star 问题。</p><p>PS: 有兴趣的朋友可以关注下ImageNet以及North-Star问题</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>AI技术</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>微服务-SpringCloud技术总结</title>
     <link href="/2024/10/10/12-SpringCloud%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/"/>
     <url>/2024/10/10/12-SpringCloud%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/</url>
