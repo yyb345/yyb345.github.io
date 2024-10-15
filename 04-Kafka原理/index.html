@@ -1,0 +1,864 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文主要介绍了kafka的核心设计原理，从客户端、网络层、存储层、高可用、高性能分别做了介绍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息队列-Kafka原理">
+<meta property="og:url" content="https://yyb345.github.io/04-Kafka%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="杨一博的博客">
+<meta property="og:description" content="本文主要介绍了kafka的核心设计原理，从客户端、网络层、存储层、高可用、高性能分别做了介绍。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://yyb345.github.io/throught_controller.png">
+<meta property="article:published_time" content="2024-08-07T15:34:51.000Z">
+<meta property="article:modified_time" content="2024-10-10T13:54:23.484Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="中间件,消息队列">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yyb345.github.io/throught_controller.png">
+  
+  
+  
+  <title>消息队列-Kafka原理 - 杨一博的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yyb345.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"format":"{} 次","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"GPy85OTIR6ADRJes88x9kqbF-MdYXbMMI","app_key":"W8WXm8E2luDROWIujAYGn2cs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>杨345</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="消息队列-Kafka原理"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-07 23:34" pubdate>
+          August 7, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">消息队列-Kafka原理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本文主要介绍了kafka的核心设计原理，从客户端、网络层、存储层、高可用、高性能分别做了介绍。</p>
+<span id="more"></span>
+
+<h1 id="Kafka-端到端源码解析"><a href="#Kafka-端到端源码解析" class="headerlink" title="Kafka 端到端源码解析"></a>Kafka 端到端源码解析</h1><h2 id="Kafka的场景"><a href="#Kafka的场景" class="headerlink" title="Kafka的场景"></a>Kafka的场景</h2><p>削峰、日志上所有的</p>
+<h2 id="Kafka概念"><a href="#Kafka概念" class="headerlink" title="Kafka概念"></a>Kafka概念</h2><ul>
+<li><strong>Broker</strong></li>
+<li><strong>Topic</strong></li>
+<li><strong>Partition</strong>   逻辑上最小的单元</li>
+<li><strong>Offset</strong></li>
+<li><strong>LogSegment</strong>   文件存储最小的单元</li>
+<li><strong>Producer</strong>   生产者</li>
+<li><strong>Consumer</strong>   消费者</li>
+<li><strong>Zookeeper</strong>  提供分布式协调服务</li>
+<li><strong>Controller</strong>   集群中的master</li>
+<li><strong>ISR(In-Sync-Replica)</strong>   Topic分区的副本状态</li>
+<li><strong>脑裂</strong> 集群中出现了双主，对于kafka来说是双controller</li>
+<li><strong>羊群效应</strong> 当zookeeper上一个znode节点发生变化时，所有监听该节点的客户端都会发生相应的动作</li>
+</ul>
+<h2 id="Topic-创建与删除"><a href="#Topic-创建与删除" class="headerlink" title="Topic 创建与删除"></a>Topic 创建与删除</h2><p>   zk注册，controller选举具体的数据结构与流程</p>
+<h3 id="Topic状态流转"><a href="#Topic状态流转" class="headerlink" title="Topic状态流转"></a>Topic状态流转</h3><p>   创建、在线、增加分区、下线、删除</p>
+<h3 id="Topic-一些问题"><a href="#Topic-一些问题" class="headerlink" title="Topic 一些问题"></a>Topic 一些问题</h3><ul>
+<li>topic分区数可不可以减少？如果可以，为什么？<br><br><strong>不可以</strong></li>
+<li>Kafka 目前有哪些内部topic？分别的作用是什么？<br><br><strong>__consumer_offset</strong> 用来保存用户groupId对应的消费topic offset</li>
+</ul>
+<h3 id="Topic分区初始化选择"><a href="#Topic分区初始化选择" class="headerlink" title="Topic分区初始化选择"></a>Topic分区初始化选择</h3><p>  按照broker数量均匀地分布在每个broker上</p>
+<h2 id="Kafka-Producer解析"><a href="#Kafka-Producer解析" class="headerlink" title="Kafka Producer解析"></a>Kafka Producer解析</h2><h3 id="1-发送流程"><a href="#1-发送流程" class="headerlink" title="1. 发送流程"></a>1. 发送流程</h3><ul>
+<li>第一步： 刷新元数据</li>
+<li>第二步： 序列化、选择分区、注册拦截器回调函数</li>
+<li>第三步： 往RecordAccmulator发送数据</li>
+<li>第四步：判断batch是否满了，满了的话唤醒send后台线程 <br><br><strong>有可能的异常：API版本不匹配；Buffer耗尽等</strong></li>
+<li>第五步 ： send后台线程退出时，扫尾工作</li>
+</ul>
+<h3 id="2-分区选择策略？"><a href="#2-分区选择策略？" class="headerlink" title="2. 分区选择策略？"></a>2. 分区选择策略？</h3><ul>
+<li>若该消息内无指定分区，则使用消息中指定的key哈希生成的分区</li>
+<li>若key为null，则按照轮询的方式生成分区</li>
+<li>最后一种，若仍然不满足需求，用户还可以自己指定partition分区策略类，每条消息都按照这个策略进行  <br><br>因此，分区策略可以有四个级别：用户自定义分区策略类、key哈希、轮询、任一消息选择任一分区，总的来说给用户很大的自由度。</li>
+</ul>
+<h3 id="3-拦截器有什么作用？"><a href="#3-拦截器有什么作用？" class="headerlink" title="3. 拦截器有什么作用？"></a>3. 拦截器有什么作用？</h3><p>在每次消息处理成功后增加一个回调函数，一般用来记录一些统计信息，为每条消息增加其他字段等等。</p>
+<h3 id="4-关键数据结构"><a href="#4-关键数据结构" class="headerlink" title="4. 关键数据结构"></a>4. 关键数据结构</h3><p>RecordAccmulator数据结构的作用</p>
+<p>的内部是如何运作的？这是个线程安全的数据结构</p>
+<p>ConcurrentHashMap《TopicPartition，Batch队列》</p>
+<p>Batch队列需要保证线程安全</p>
+<p>有一个缓冲池bufferPool，每次开始是已经有batch在发，如果不存在则开辟batchSize大小的空间；然后往Batch队列的append数据，并且使得offset+1,然后会生成一个FutureRecordMetadata，用来表示batch是否满</p>
+<p><strong>消息在如何在客户端存储的</strong>   <br><br>MemoryRecord 定义了一条消息在内存中的存储，</p>
+<p>传输到socketChannel</p>
+<h3 id="5-参数配置"><a href="#5-参数配置" class="headerlink" title="5.  参数配置"></a>5.  参数配置</h3><ol>
+<li>batch.size指的是大小，不是消息数</li>
+<li>ling.ms是每隔该时间就定时发送</li>
+<li>maxFlightPerConnection&#x3D;1保证了消息在单分区内的顺序性</li>
+</ol>
+<h3 id="6-ACK机制"><a href="#6-ACK机制" class="headerlink" title="6. ACK机制"></a>6. ACK机制</h3><p> 代表对于消息可靠性的容忍度 <br><br> Ack&#x3D;1 代表leader返回ack即可 Ack&#x3D;-1 代表所有副本返回ack Ack&#x3D;0代表不需要返回</p>
+<h3 id="7-Producer一些问题"><a href="#7-Producer一些问题" class="headerlink" title="7. Producer一些问题"></a>7. Producer一些问题</h3><ul>
+<li>kafka 分区器、序列化器、拦截器之间的处理顺序？<br><br><strong>序列化器、分区器、 拦截器</strong>（发送完成后才会调用）</li>
+<li>如何保证topic消息顺序性？<br><br><strong>全局消息顺序性</strong>：采用一个topic partition<br><strong>单分区顺序性</strong>：  maxFlightPerConnection&#x3D;1</li>
+<li>性能调优问题？</li>
+<li>数据压缩问题？</li>
+<li>数据幂等性？<br><br>kafka 0.11版本之后提供了producer的幂等性</li>
+<li>kafka 生产者客户端用了几个线程 <br><br> sender线程、producer主线程、</li>
+</ul>
+<h2 id="Kafka网络接收层"><a href="#Kafka网络接收层" class="headerlink" title="Kafka网络接收层"></a>Kafka网络接收层</h2><h3 id="Kafka-channel"><a href="#Kafka-channel" class="headerlink" title="Kafka channel"></a>Kafka channel</h3><h3 id="如何做限流的？"><a href="#如何做限流的？" class="headerlink" title="如何做限流的？"></a>如何做限流的？</h3><p>图中展示了通用的限流算法<br><img src="/throught_controller.png" srcset="/img/loading.gif" lazyload alt="avatar"></p>
+<p>server&#x2F;ClientQuatoManager负责进行流量控制</p>
+<h3 id="如何做数据安全的？"><a href="#如何做数据安全的？" class="headerlink" title="如何做数据安全的？"></a>如何做数据安全的？</h3><h4 id="PageCache、mmap、zero-copy在kafka中的场景分别是什么？"><a href="#PageCache、mmap、zero-copy在kafka中的场景分别是什么？" class="headerlink" title="PageCache、mmap、zero-copy在kafka中的场景分别是什么？"></a>PageCache、mmap、zero-copy在kafka中的场景分别是什么？</h4><p>PageCache是文件缓存，属于操作系统层面的优化 –这个一般用来数据的缓存</p>
+<p>mmap是内存映射文件 【MappedByteBuffer】用于index文件的读写</p>
+<p>zero-copy是指在sendfile函数，可以直接从操作系统的文件中转移到网络channel 中，不需要走内核中转。在java中是fileChannel的trasferTo函数</p>
+<p>那么这几个在kafka中，分别使用的是什么函数？ </p>
+<p>ByteBuffer 堆内、、DirectByteBuffer</p>
+<p>文件读写相关接口：FileChannel</p>
+<p>zero-copy相关接口：linux中 sendFile()，java中是trasferTo</p>
+<h2 id="Kafka内存管理"><a href="#Kafka内存管理" class="headerlink" title="Kafka内存管理"></a>Kafka内存管理</h2><h3 id="堆外内存"><a href="#堆外内存" class="headerlink" title="堆外内存"></a>堆外内存</h3><p>堆外内存主要用在kafka consumer中，一般为了提高I&#x2F;O效率，都采用NIO的方式读取文件，而读取后的数据都保存在ByteBuffer数据结构中，ByteBuffer封装了堆外内存的引用。<br>ByteBufferMessageSet 解读</p>
+<h2 id="kafka-存储层解析"><a href="#kafka-存储层解析" class="headerlink" title="kafka 存储层解析"></a>kafka 存储层解析</h2><p>存储层是利用本地文件系统的文件来存储的，首先每个topic对应N个分区，每个分区对应有三类文件（log文件、index文件与timeindex文件）。Log文件以每条二进制序列化后的消息为基本单位存储消息，每条消息的基本格式如下表格，而log文件分为很多个logsegment，每个segment的大小是一样的，例如1GB，三个文件的名字为文件中第一个消息的offset数值。</p>
+<h3 id="消息格式-V1版本"><a href="#消息格式-V1版本" class="headerlink" title="消息格式(V1版本)"></a>消息格式(V1版本)</h3><table>
+<thead>
+<tr>
+<th>filed</th>
+<th>size</th>
+<th>desciption</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>offset</td>
+<td>8 B</td>
+<td>偏移量</td>
+</tr>
+<tr>
+<td>message size</td>
+<td>4 B</td>
+<td>消息大小</td>
+</tr>
+<tr>
+<td>crc32</td>
+<td>4 B</td>
+<td>crc校验码</td>
+</tr>
+<tr>
+<td>magic</td>
+<td>1B</td>
+<td>Api的版本</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>8 B</td>
+<td>消息时间戳</td>
+</tr>
+<tr>
+<td>attributes</td>
+<td>1 B</td>
+<td>属性？</td>
+</tr>
+<tr>
+<td>key length</td>
+<td>4 B</td>
+<td>key的长度</td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td>key的消息体</td>
+</tr>
+<tr>
+<td>value length</td>
+<td>4B</td>
+<td>value长度</td>
+</tr>
+<tr>
+<td>value</td>
+<td></td>
+<td>消息体长度</td>
+</tr>
+</tbody></table>
+<h3 id="消息索引"><a href="#消息索引" class="headerlink" title="消息索引"></a>消息索引</h3><ol>
+<li><strong>给定时间戳—&gt;定位某个LogSegment—&gt;定位offset—&gt;定位消息位置?</strong> <br><br>根据时间戳查找offset，先顺序定位到LogSegment（找到第一个大于该时间戳的LogSegment),然后timeindex内部二分查找定位到offset</li>
+<li><strong>给定offset—&gt; 定位到某个LogSegment—&gt;定位消息位置 ?</strong> <br><br> 根据offset，跳表中定位到LogSegment,然后index内部二分查找定位到offset位置，再顺序搜索定位到文件位置</li>
+</ol>
+<h3 id="刷盘策略"><a href="#刷盘策略" class="headerlink" title="刷盘策略"></a>刷盘策略</h3><p>kafka是异步刷盘的，有后台线程专程将内存中的数据写入到磁盘中<br>index 文件通过mmap从磁盘映射到用户空间内存中，log文件则是普通的读取文件。</p>
+<h3 id="日志清理与Compaction"><a href="#日志清理与Compaction" class="headerlink" title="日志清理与Compaction"></a>日志清理与Compaction</h3><h3 id="流程与数据结构"><a href="#流程与数据结构" class="headerlink" title="流程与数据结构"></a>流程与数据结构</h3><h3 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h3><ul>
+<li>谈谈你对页缓存、内核层、块层、设备层的理解  <br><br>内核层 ：操作系统中的内存数据与用户态buffer进行相互拷贝<br><br>pagecache : 文件读到操作系统内存中，操作系统的内存管理系统会预读 <br><br>块层：管理设备I&#x2F;O队列，对I&#x2F;O请求进行合并、排序等<br>设备层：通过DMA与内存直接交互，将数据写到磁盘</li>
+</ul>
+<h2 id="副本管理"><a href="#副本管理" class="headerlink" title="副本管理"></a>副本管理</h2><p>为什么用ISR，不用Raft之类的协议？借鉴了PacificA算法协议。 两个重要的组件：配置管理（对应kafka ISR，leader epoch commited_point) <br><br>&#x3D;&#x3D;HighWaterMark的作用：commited 消息度量；读可见性&#x3D;&#x3D;<br><a target="_blank" rel="noopener" href="http://www.thinkingyu.com/articles/PacificA/">参考</a></p>
+<h3 id="Failover机制"><a href="#Failover机制" class="headerlink" title="Failover机制"></a>Failover机制</h3><ul>
+<li>若unclean.leader.election.enable为true，再去replica中去找存活的broker。而ISR中的broker存在是这样：只有当follower从leader拉取数据跟得上leader的数据速度时，才会在ISR中，否则，被剔除掉ISR列表中。</li>
+<li>若unclean.leader.election.enable为false，抛出异常</li>
+</ul>
+<p>为什么会有unclean.leader.election.enable这个参数呢？</p>
+<p>那么数据一致性是如何保证的呢，如何知道副本的状态是可靠的？ISR就保存了kafka认为可靠的副本，它们具备这样的条件：1 . 落后leader的消息条数在一定阈值内 2.或者落后在一定时间内；<br>但是，follower的复制状态谁又能保证一定能跟得上leader呢？这样，就存在着一种可能性，有可能ISR中只有leader,其他的副本都跟不上leader; 因此，这个时候，patition到底可用不可用？这就是一个权衡了，若只从ISR中获取leader，保证了数据的可靠性，但partition就不可用了，若从replica中获取，则可用性增强，但是数据可能存在丢失情况。<br>因此unclean.leader.election.enable这个参数设计为true，则保证了可用性，也就是CAP中的A P;设置为false，则保证了数据一致性，也就是CAP中的CP</p>
+<h2 id="kafka-Consumer解析"><a href="#kafka-Consumer解析" class="headerlink" title="kafka Consumer解析"></a>kafka Consumer解析</h2><h3 id="推拉模型"><a href="#推拉模型" class="headerlink" title="推拉模型"></a>推拉模型</h3><p>推: 主动给客户端推送消息 【客户端可能会overload】<br>拉：客户端主动向服务端拉取消息 【服务端可能会overload】</p>
+<p>commit消息存储：这个数据保存在zk上</p>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><h3 id="一些问题-1"><a href="#一些问题-1" class="headerlink" title="一些问题"></a>一些问题</h3><ul>
+<li>kafka 如何做到不重复消费? <br><br>现有的kafka可以做到写幂等性（0.11版本之后），但是做不到消费幂等性。消费完后写offset到zk失败，这个状态consumer客户端是感知不到的，二者并没有类似TCP的ack机制。因此下一次还是会从上次提交的offset继续读，就会出现重复消费。我个人觉得解决这个问题可以从两个方向来考虑：应用端做消费幂等性处理，也即每条消息会有一个全局的key，应用端保存消费过消息的key，每次新消费一条数据，key做重复判断，若重复，则丢弃这条数据。当然这会带来额外的内存与查询开销。<br><br>  同样，应用端也就是consumer端需要消息处理和offset提交这两步是事务的，也即要么操作成功要么撤回恢复之前的状态。这需要应用端有事务保障，但往往很多应用端是不支持事务的，比如kafka数据落盘hdfs，kafka数据消费完写入本地文件等等。但官方给的kafka consumer-process-kafka 给出了一个不错的参考的例子和思路。基本上遵循了分布式系统中的两阶段提交想法和思路，<a target="_blank" rel="noopener" href="http://matt33.com/2018/11/04/kafka-transaction/">具体可以参见</a></li>
+</ul>
+<p>个人理解重复消费出现的概率并不会很高，在服务端改进会带来很大的性能损耗，这可能是为什么大家都选择不处理的重要原因吧。另外，本身系统与系统之间传输数据，很难做到消息的exactly once的。无论是kafka到存储系统hdfs还是spark flink下游计算系统等。若数据传输都在一个系统之内，那相对好处理一些，比如kafka的事务，保证了consume-process-producer的事务场景，也就是从kafka消费处理完毕后再到kafka，这个可以做到exactly once。</p>
+<h2 id="zookeeper的作用"><a href="#zookeeper的作用" class="headerlink" title="zookeeper的作用"></a>zookeeper的作用</h2><h3 id="zookeeper在kafka中的作用"><a href="#zookeeper在kafka中的作用" class="headerlink" title="zookeeper在kafka中的作用"></a>zookeeper在kafka中的作用</h3><ol>
+<li><strong>controller选举</strong>，所有的broker在zk &#x2F;controller下注册临时节点，任意一个抢先的broker注册成功，则为controller</li>
+<li><strong>kafka consumer负载均衡</strong></li>
+<li><strong>集群节点存活状态监测</strong></li>
+<li><strong>topic创建触发</strong></li>
+<li><strong>broker上线、下线的通知</strong></li>
+<li><strong>ISR配置变更</strong></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="category-chain-item">大数据</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">#中间件,消息队列</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>消息队列-Kafka原理</div>
+      <div>https://yyb345.github.io/04-Kafka原理/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 7, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/07-leetcode%E6%80%BB%E7%BB%93/" title="算法-leetcode总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">算法-leetcode总结</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/10-Spring%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/" title="编程框架-Spring技术总结">
+                        <span class="hidden-mobile">编程框架-Spring技术总结</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"GPy85OTIR6ADRJes88x9kqbF-MdYXbMMI","appKey":"W8WXm8E2luDROWIujAYGn2cs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
