@@ -16,24 +16,21 @@
   <meta name="author" content="杨一博">
   <meta name="keywords" content="">
   
-    <meta name="description" content="bloomfilter是一种节省空间的概率数据结构，用于测试数据元素是否在一个集合中.">
+    <meta name="description" content="中文 英文 分类 发音    吞吐量 throughput performance &#x2F;ˈθruːpʊt&#x2F;   并发 Concurrency performance    最大 maximum performance &#x2F;ˈmæksɪməm&#x2F;   最小 minimum performance &#x2F;ˈmɪnɪməm&#x2F;   异步 async">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法-bloomfilter数据结构技术总结">
-<meta property="og:url" content="https://yyb345.github.io/14-bloomfilter%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="后端英语专业术语">
+<meta property="og:url" content="https://yyb345.github.io/%E5%90%8E%E7%AB%AF%E8%8B%B1%E8%AF%AD%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/index.html">
 <meta property="og:site_name" content="杨一博的博客">
-<meta property="og:description" content="bloomfilter是一种节省空间的概率数据结构，用于测试数据元素是否在一个集合中.">
+<meta property="og:description" content="中文 英文 分类 发音    吞吐量 throughput performance &#x2F;ˈθruːpʊt&#x2F;   并发 Concurrency performance    最大 maximum performance &#x2F;ˈmæksɪməm&#x2F;   最小 minimum performance &#x2F;ˈmɪnɪməm&#x2F;   异步 async">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://mmbiz.qpic.cn/sz_mmbiz_jpg/p4d89evpLkfxNHuicvxq2vjwlo5ibC4SO78RZwERBNibnI8m9AJ2gckF9YIVh6ibT24xGzN7Yq7aWAcWiaN6na0h68g/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="article:published_time" content="2024-10-10T16:35:45.000Z">
-<meta property="article:modified_time" content="2024-10-10T16:45:22.846Z">
+<meta property="article:published_time" content="2024-12-23T10:18:50.000Z">
+<meta property="article:modified_time" content="2024-12-23T10:21:09.081Z">
 <meta property="article:author" content="杨一博">
-<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://mmbiz.qpic.cn/sz_mmbiz_jpg/p4d89evpLkfxNHuicvxq2vjwlo5ibC4SO78RZwERBNibnI8m9AJ2gckF9YIVh6ibT24xGzN7Yq7aWAcWiaN6na0h68g/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
   
   
   
-  <title>算法-bloomfilter数据结构技术总结 - 杨一博的博客</title>
+  <title>后端英语专业术语 - 杨一博的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="算法-bloomfilter数据结构技术总结"></span>
+            <span id="subtitle" data-typed-text="后端英语专业术语"></span>
           
         </div>
 
@@ -227,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-11 00:35" pubdate>
-          October 11, 2024 am
+        <time datetime="2024-12-23 18:18" pubdate>
+          December 23, 2024 pm
         </time>
       </span>
     
@@ -239,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k words
+          2.7k words
         
       </span>
     
@@ -250,7 +247,7 @@
         
         
         
-          13 mins
+          23 mins
         
       </span>
     
@@ -296,40 +293,628 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">算法-bloomfilter数据结构技术总结</h1>
+            <h1 style="display: none">后端英语专业术语</h1>
             
             
               <div class="markdown-body">
                 
-                <p>bloomfilter是一种节省空间的概率数据结构，用于测试数据元素是否在一个集合中.</p>
-<span id="more"></span>
-
-
-
-<p><em>前言：bloomfilter是一种节省空间的概率数据结构，用于测试数据元素是否在一个集合中。核心是通过一个位数组来存储经过一组hash计算之后的值，通过判断位数组位置是否为1来判断元素是否存在。本质上是通过<strong>计算换空间</strong>的一种算法。类似的数据结构还有Trie前缀树，它是通过计算公共前缀来节省空间的。</em></p>
-<h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><ol>
-<li>大数据Hbase的rowkey是否存在某个数据块、API网关应用是否存在、邮件中某个用户是否在黑名单等</li>
-<li>解决缓存穿透问题，用于提前过滤掉无用的查询或者调用，减轻数据库的压力。</li>
-</ol>
-<h3 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h3><p><strong>解决什么问题</strong>：利用hash函数和位存储来解决判断是否一个元素存在的问题，因为可能会有hash冲突，所以当返回结果是true时，元素不一定会存在，但返回false，元素一定不存在。</p>
-<p><strong>核心数据结构</strong>：一组hash函数和位存储</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BloomFilter</span>&lt;T&gt; &#123;<br>    <span class="hljs-keyword">private</span> BitSet bitSet;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> size;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> hashFunctions;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">BloomFilter</span><span class="hljs-params">(<span class="hljs-type">int</span> size, <span class="hljs-type">int</span> hashFunctions)</span> &#123;<br>        <span class="hljs-built_in">this</span>.size = size;<br>        <span class="hljs-built_in">this</span>.hashFunctions = hashFunctions;<br>        <span class="hljs-built_in">this</span>.bitSet = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BitSet</span>(size);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">(T value)</span> &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; hashFunctions; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">hash</span> <span class="hljs-operator">=</span> hashFunction(i, value);<br>            bitSet.set(hash % size);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">contains</span><span class="hljs-params">(T value)</span> &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; hashFunctions; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">hash</span> <span class="hljs-operator">=</span> hashFunction(i, value);<br>            <span class="hljs-keyword">if</span> (!bitSet.get(hash % size)) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="Java数据结构BitSet实现"><a href="#Java数据结构BitSet实现" class="headerlink" title="Java数据结构BitSet实现"></a>Java数据结构BitSet实现</h3><h4 id="1-构建一个BitSet"><a href="#1-构建一个BitSet" class="headerlink" title="1.构建一个BitSet"></a>1.构建一个BitSet</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 初始化-&gt; nbits为容量，</span><br><span class="hljs-type">long</span>[] words = <span class="hljs-keyword">new</span> <span class="hljs-title class_">long</span>[wordIndex(nbits-<span class="hljs-number">1</span>) + <span class="hljs-number">1</span>]; <span class="hljs-comment">// 存储</span><br><br><span class="hljs-comment">// 相当于 N/64,这里用移位操作,向右移6位，也就是除以2^6</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">wordIndex</span><span class="hljs-params">(<span class="hljs-type">int</span> bitIndex)</span> &#123;<br>   <span class="hljs-keyword">return</span> bitIndex &gt;&gt; ADDRESS_BITS_PER_WORD; <span class="hljs-comment">// ADDRESS_BITS_PER_WORD为6</span><br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<p>BitSet数据结构：<strong>容量N、****Long[]</strong>(一个Long是8个Byte，一个Byte是8个bit，那么就是64个bit)</p>
-<h4 id="2-添加元素"><a href="#2-添加元素" class="headerlink" title="2. 添加元素"></a>2. 添加元素</h4><p>假设我们添加一个Key，经过hash计算后得到的值为7，那么意味着第7个位置为0，那么对应到Long的值为128，那么与此处之前的Long值进行或运算，意味着添加成功。</p>
-<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/p4d89evpLkfxNHuicvxq2vjwlo5ibC4SO78RZwERBNibnI8m9AJ2gckF9YIVh6ibT24xGzN7Yq7aWAcWiaN6na0h68g/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
-<p><em>BitSet添加一个元素的过程</em></p>
-<p><strong>开源的实现</strong></p>
-<p>Guava: <a target="_blank" rel="noopener" href="https://github.com/google/guava/blob/master/guava/src/com/google/common/hash/BloomFilter.java">https://github.com/google/guava/blob/master/guava/src/com/google/common/hash/BloomFilter.java</a></p>
-<p><strong>优势与不足</strong></p>
-<p>优势：节省内存，通常可以降低70%左右的内存</p>
-<p>不足：有一定的误判率、不可删除元素</p>
+                <hr>
+<table>
+<thead>
+<tr>
+<th>中文</th>
+<th>英文</th>
+<th>分类</th>
+<th>发音</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>吞吐量</td>
+<td>throughput</td>
+<td>performance</td>
+<td><em>&#x2F;<em>ˈθruːpʊt</em>&#x2F;</em></td>
+</tr>
+<tr>
+<td>并发</td>
+<td>Concurrency</td>
+<td>performance</td>
+<td></td>
+</tr>
+<tr>
+<td>最大</td>
+<td>maximum</td>
+<td>performance</td>
+<td><em>&#x2F;<em>ˈmæksɪməm</em>&#x2F;</em></td>
+</tr>
+<tr>
+<td>最小</td>
+<td>minimum</td>
+<td>performance</td>
+<td><em>&#x2F;<em>ˈmɪnɪməm</em>&#x2F;</em></td>
+</tr>
+<tr>
+<td>异步</td>
+<td>asynchronization</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>同步</td>
+<td>synchronization</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>线程池</td>
+<td>Thread Pool</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>边界</td>
+<td><strong>boundaries</strong></td>
+<td>algorithm</td>
+<td><em>&#x2F;<em>ˈbaʊndriz</em>&#x2F;</em></td>
+</tr>
+<tr>
+<td>递归</td>
+<td>recursive</td>
+<td>algorithm</td>
+<td><em>&#x2F;<em>rɪˈkɜːrsɪv</em>&#x2F;</em></td>
+</tr>
+<tr>
+<td>二分搜索</td>
+<td>binary search</td>
+<td>algorithm</td>
+<td></td>
+</tr>
+<tr>
+<td>二叉树</td>
+<td>binary tree</td>
+<td>algorithm</td>
+<td></td>
+</tr>
+<tr>
+<td>回溯</td>
+<td>Backtracking</td>
+<td>algorithm</td>
+<td></td>
+</tr>
+<tr>
+<td>排列</td>
+<td>Permutation</td>
+<td>algorithm</td>
+<td><em>&#x2F;<em>ˌpɜːrmjuˈteɪʃ(ə)n</em>&#x2F;</em></td>
+</tr>
+<tr>
+<td>括号</td>
+<td>parentheses</td>
+<td>algorithm</td>
+<td>&#x2F;pəˈrenθəsiːz&#x2F;</td>
+</tr>
+<tr>
+<td>轮询</td>
+<td>poll</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>分代</td>
+<td>generations</td>
+<td>JVM</td>
+<td></td>
+</tr>
+<tr>
+<td>老年代</td>
+<td><em>tenured generation</em></td>
+<td>JVM</td>
+<td></td>
+</tr>
+<tr>
+<td>垃圾回收</td>
+<td>Garbage collection</td>
+<td>JVM</td>
+<td></td>
+</tr>
+<tr>
+<td>年轻代</td>
+<td><em>young generation</em></td>
+<td>JVM</td>
+<td></td>
+</tr>
+<tr>
+<td>eden区</td>
+<td>eden space</td>
+<td>JVM</td>
+<td></td>
+</tr>
+<tr>
+<td>survivor 区</td>
+<td>survivor space</td>
+<td>JVM</td>
+<td></td>
+</tr>
+<tr>
+<td>垃圾回收停顿时间</td>
+<td><strong>Garbage Collection Pause Time</strong></td>
+<td>JVM</td>
+<td></td>
+</tr>
+<tr>
+<td>停顿时间长</td>
+<td>Long Pause Time</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>内存碎片</td>
+<td>Memory Fragmentation</td>
+<td></td>
+<td>&#x2F;ˈmɛməri ˌfræɡmɛnˈteɪʃən&#x2F;</td>
+</tr>
+<tr>
+<td>频繁GC</td>
+<td>Frequent FullGC</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>吞吐量下降</td>
+<td>Throughput Drop</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GC过多</td>
+<td>Excessive GC</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>晋升失败</td>
+<td>Promotion Failure</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>老年代满了</td>
+<td>Old Generation Full</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>元空间溢出</td>
+<td>Metaspace Overflow</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>堆内存不足</td>
+<td>Heap Memory Insufficient</td>
+<td></td>
+<td>&#x2F;hiːp ˈmɛməri ˌɪnsəˈfɪʃənt&#x2F;</td>
+</tr>
+<tr>
+<td>GC时间比例</td>
+<td>GCTimeRatio</td>
+<td>JVM</td>
+<td></td>
+</tr>
+<tr>
+<td>串行垃圾回收器</td>
+<td>Serial Garbage Collector</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>并行垃圾回收器</td>
+<td>Parallel Garbage Collector</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>避免内存泄漏</td>
+<td>Avoid Memory Leaks</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>调整堆大小</td>
+<td>Adjust Heap Size</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>调整垃圾回收器参数</td>
+<td>Tuning Garbage Collector Parameters</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>减少对象创建</td>
+<td>Reduce Object Creation</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>优化内存分配</td>
+<td>Optimize Memory Allocation</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>增加元空间大小</td>
+<td>Increase Metaspace Size</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>命令行</td>
+<td>command-line</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事务</td>
+<td>Transactions</td>
+<td>Mysql</td>
+<td></td>
+</tr>
+<tr>
+<td>一致性</td>
+<td>Consistency</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>隔离级别</td>
+<td>Isolation level</td>
+<td>Mysql</td>
+<td></td>
+</tr>
+<tr>
+<td>脏读</td>
+<td>dirty-read</td>
+<td>Mysql</td>
+<td></td>
+</tr>
+<tr>
+<td>不可重复读</td>
+<td>Non-repeatable-read</td>
+<td>Mysql</td>
+<td></td>
+</tr>
+<tr>
+<td>幻读</td>
+<td>phantom-read</td>
+<td>Mysql</td>
+<td></td>
+</tr>
+<tr>
+<td>主键索引</td>
+<td>primary-index</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>唯一索引</td>
+<td>unique-index</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>普通索引</td>
+<td>Secondary-index</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>联合索引</td>
+<td>Composite-index</td>
+<td></td>
+<td><em>&#x2F;<em>kəmˈpɑːzət</em>&#x2F;</em></td>
+</tr>
+<tr>
+<td>连续</td>
+<td>consecutive</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>相邻</td>
+<td>adjacent</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>回文结构</td>
+<td>palindromic</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>重复</td>
+<td>duplicates</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>填充</td>
+<td>populate</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>单调的</td>
+<td>monotonic</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>限流</td>
+<td><strong>throttling</strong></td>
+<td></td>
+<td>&#x2F;ˈθrɒtəlɪŋ&#x2F;</td>
+</tr>
+<tr>
+<td>断路器</td>
+<td>Circuit Breaker</td>
+<td></td>
+<td>&#x2F;ˈsɜːrkɪtˌbreɪkər&#x2F;</td>
+</tr>
+<tr>
+<td>降级处理</td>
+<td>Degrade Handling</td>
+<td></td>
+<td>&#x2F;dɪˈɡreɪd ˈhændlɪŋ&#x2F;</td>
+</tr>
+<tr>
+<td>自动故障恢复</td>
+<td>Automatic Recovery</td>
+<td></td>
+<td>&#x2F;ˌɔːtəˈmætɪk rɪˈkʌvəri&#x2F;</td>
+</tr>
+<tr>
+<td>网络延迟</td>
+<td>Network Latency</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>延迟抖动</td>
+<td>Latency Jitter</td>
+<td></td>
+<td>&#x2F;ˈleɪtənsi ˈʤɪtər&#x2F;</td>
+</tr>
+<tr>
+<td>数据包丢失</td>
+<td>Packet Loss</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>带宽优化</td>
+<td>Bandwidth Optimization</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>连接池</td>
+<td>Connection Pooling</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>线程安全</td>
+<td>Thread Safety</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>死锁</td>
+<td>Deadlock</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>自旋锁</td>
+<td>Spinlock</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>乐观锁</td>
+<td>Optimistic Lock</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>分段锁</td>
+<td>Segment Lock</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>偏向锁</td>
+<td>Biased Lock</td>
+<td></td>
+<td>&#x2F;ˈbaɪəst lɒk&#x2F;</td>
+</tr>
+<tr>
+<td>无锁编程</td>
+<td>Lock-free Programming</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>乐观并发控制</td>
+<td>Optimistic Concurrency Control</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>原子操作</td>
+<td>Atomic Operation</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>生产-消费者模型</td>
+<td>Producer-Consumer Model</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>发布-订阅模型</td>
+<td>Publish-Subscribe Model</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>线程本地存储</td>
+<td>Thread-local Storage</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Java线程池框架</td>
+<td>Java Thread Pool Framework</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>并发集合</td>
+<td>Concurrent Collections</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>并发队列</td>
+<td>Concurrent Queue</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>原子变量</td>
+<td>Atomic Variables</td>
+<td></td>
+<td>&#x2F;əˈtɒmɪk ˈvɛriəbəlz&#x2F;</td>
+</tr>
+<tr>
+<td>CompletableFuture类</td>
+<td>CompletableFuture Class</td>
+<td></td>
+<td>&#x2F;kəmˈpliːtəbl ˈfjuːʧər klɑːs&#x2F;</td>
+</tr>
+<tr>
+<td>线程复用</td>
+<td>Thread Reuse</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>非阻塞队列</td>
+<td>Non-blocking Queue</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>分布式并发控制</td>
+<td>Distributed Concurrency Control</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>降低锁争用</td>
+<td>Reduce Lock Contention</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>延迟加载</td>
+<td>Lazy Loading</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>火焰图</td>
+<td>Flame Graph</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>日志分析</td>
+<td>Log Analysis</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>流量削峰</td>
+<td>Peak Shaving</td>
+<td></td>
+<td>&#x2F;piːk ˈʃeɪvɪŋ&#x2F;</td>
+</tr>
+<tr>
+<td>滑动窗口算法</td>
+<td>Sliding Window Algorithm</td>
+<td></td>
+<td>&#x2F;ˈslaɪdɪŋ ˈwɪndoʊ ˈælɡərɪðəm&#x2F;</td>
+</tr>
+<tr>
+<td>零拷贝</td>
+<td>Zero-copy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>批处理</td>
+<td>Batch Processing</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件驱动架构</td>
+<td>Event-driven Architecture</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>后台任务调度</td>
+<td>Background Task Scheduling</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>线程竞争</td>
+<td>Thread Contention</td>
+<td></td>
+<td>&#x2F;θrɛd kənˈtɛnʃən&#x2F;</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>Availability</td>
+<td></td>
+<td>&#x2F;əˌveɪləˈbɪlɪti&#x2F;</td>
+</tr>
+<tr>
+<td>容错机制</td>
+<td>Fault Tolerance</td>
+<td></td>
+<td>&#x2F;fɔːlt ˈtɒlərəns&#x2F;</td>
+</tr>
+<tr>
+<td>瓶颈</td>
+<td>Bottleneck</td>
+<td></td>
+<td>&#x2F;ˈbɒtlˌnɛk&#x2F;</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
 
                 
               </div>
@@ -338,34 +923,6 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="category-chain-item">后端技术</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
-      
-    </div>
   
 </div>
 
@@ -375,8 +932,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>算法-bloomfilter数据结构技术总结</div>
-      <div>https://yyb345.github.io/14-bloomfilter技术总结/</div>
+      <div>后端英语专业术语</div>
+      <div>https://yyb345.github.io/后端英语专业术语/</div>
     </div>
     <div class="license-meta">
       
@@ -388,7 +945,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>October 11, 2024</div>
+          <div>December 23, 2024</div>
         </div>
       
       
@@ -420,18 +977,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E5%90%8E%E7%AB%AF%E8%8B%B1%E8%AF%AD%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/" title="后端英语专业术语">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">后端英语专业术语</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/13-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E9%87%87%E8%AE%BF%E5%AE%9E%E5%BD%95/" title="AI技术-李飞飞采访实录">
-                        <span class="hidden-mobile">AI技术-李飞飞采访实录</span>
+                      <a href="/14-bloomfilter%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/" title="算法-bloomfilter数据结构技术总结">
+                        <span class="hidden-mobile">算法-bloomfilter数据结构技术总结</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
