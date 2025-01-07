@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://yyb345.github.io/images/api_gateway_deploy.png">
 <meta property="og:image" content="https://yyb345.github.io/images/smartqa.jpg">
 <meta property="article:published_time" content="2024-10-07T15:13:26.000Z">
-<meta property="article:modified_time" content="2024-10-11T09:01:27.164Z">
+<meta property="article:modified_time" content="2025-01-07T13:03:38.290Z">
 <meta property="article:author" content="杨一博">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yyb345.github.io/images/gatway_overview.png">
@@ -241,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.6k words
+          3.8k words
         
       </span>
     
@@ -252,7 +252,7 @@
         
         
         
-          31 mins
+          32 mins
         
       </span>
     
@@ -331,14 +331,18 @@
 <p>南北向流量、东西向流量</p>
 <p>硬件负载、软负载</p>
 <p>中心化网关、去中心化网关</p>
-<h2 id="核心指标"><a href="#核心指标" class="headerlink" title="核心指标"></a>核心指标</h2><h4 id="网关核心指标"><a href="#网关核心指标" class="headerlink" title="网关核心指标"></a>网关核心指标</h4><p>​	性能指标：RT 、吞吐量QPS<br>​	稳定性指标：SLA可用性4个9<br>​	业务指标：API的成功率</p>
-<p>ISV核心指标：</p>
-<p>​    应用开发和迭代效率 和 稳定性</p>
+<h2 id="核心指标"><a href="#核心指标" class="headerlink" title="核心指标"></a>核心指标</h2><h4 id="网关核心指标"><a href="#网关核心指标" class="headerlink" title="网关核心指标"></a>网关核心指标</h4><p>​	性能指标：响应时间RT 、吞吐量QPS、HTTP请求成功率或失败率、<br>​	稳定性指标：SLA可用性4个9<br>​	业务指标：API的整体成功率、核心电商API的成功率</p>
+<h4 id="ISV核心指标："><a href="#ISV核心指标：" class="headerlink" title="ISV核心指标："></a>ISV核心指标：</h4><p>​    迭代效率 </p>
+<p>​     稳定性</p>
 <h2 id="核心技术点"><a href="#核心技术点" class="headerlink" title="核心技术点"></a>核心技术点</h2><h4 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h4><p>授权、权限认证、限流、路由、参数转化</p>
 <p>南北向+业务网关</p>
 <h4 id="Jetty有哪些比较好的设计？"><a href="#Jetty有哪些比较好的设计？" class="headerlink" title="Jetty有哪些比较好的设计？"></a>Jetty有哪些比较好的设计？</h4><p>Jetty（connector、线程池、Handler三部分）</p>
 <p>I&#x2F;O模型（NIO）、池化技术、减少系统调用、零拷贝、高效的并发编程模型（用原子变量和CAS取代锁、ConcurrentLinkedQueue无锁化队列）</p>
-<p><strong>问题：为什么是servelet，不采用netty？</strong></p>
+<p><strong>问题：为什么是jetty，不采用netty？</strong></p>
+<p>一个是servelet层面，一个是网络通信框架</p>
+<p>Jetty原生支持http协议，netty更底层，灵活，需要实现自定义实现http协议的解析等</p>
+<p>jetty是内置线程池，netty是reactor模型，可以深入定制线程模型</p>
+<p>netty的学习曲线较高，netty高效的内存分配机制</p>
 <h4 id="异步化具体是如何做的？"><a href="#异步化具体是如何做的？" class="headerlink" title="异步化具体是如何做的？"></a>异步化具体是如何做的？</h4><p>异步化：HSF异步化callback&#x2F;Jetty serverlet异步</p>
 <h4 id="高性能缓存是如何做的？"><a href="#高性能缓存是如何做的？" class="headerlink" title="高性能缓存是如何做的？"></a>高性能缓存是如何做的？</h4><p>多层元数据缓存：bloomfiter&#x2F; 本地缓存&#x2F;分布式缓存</p>
 <p>缓存穿透解决：采用bloom filter 或 缓存&lt;K,NULL&gt;可以解决，本处采用bloom filter ，猜测大概率是因为如何设置为null值的话，内存无限制增长。</p>
