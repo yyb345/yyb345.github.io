@@ -26,7 +26,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://yyb345.github.io/throught_controller.png">
 <meta property="article:published_time" content="2024-08-07T15:34:51.000Z">
-<meta property="article:modified_time" content="2024-10-10T13:54:23.484Z">
+<meta property="article:modified_time" content="2025-01-21T03:11:20.935Z">
 <meta property="article:author" content="杨一博">
 <meta property="article:tag" content="中间件,消息队列">
 <meta name="twitter:card" content="summary_large_image">
@@ -240,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.7k words
+          5.1k words
         
       </span>
     
@@ -251,7 +251,7 @@
         
         
         
-          40 mins
+          43 mins
         
       </span>
     
@@ -305,7 +305,7 @@
                 <p>本文主要介绍了kafka的核心设计原理，从客户端、网络层、存储层、高可用、高性能分别做了介绍。</p>
 <span id="more"></span>
 
-<h1 id="Kafka-端到端源码解析"><a href="#Kafka-端到端源码解析" class="headerlink" title="Kafka 端到端源码解析"></a>Kafka 端到端源码解析</h1><h2 id="Kafka的场景"><a href="#Kafka的场景" class="headerlink" title="Kafka的场景"></a>Kafka的场景</h2><p>削峰、日志上所有的</p>
+<h1 id="Kafka-端到端源码解析"><a href="#Kafka-端到端源码解析" class="headerlink" title="Kafka 端到端源码解析"></a>Kafka 端到端源码解析</h1><h2 id="Kafka的场景"><a href="#Kafka的场景" class="headerlink" title="Kafka的场景"></a>Kafka的场景</h2><p>削峰、异步化（Kafka-&gt;Spring框架）、流式处理（Kafka-&gt;Spark&#x2F;Flink）</p>
 <h2 id="Kafka概念"><a href="#Kafka概念" class="headerlink" title="Kafka概念"></a>Kafka概念</h2><ul>
 <li><strong>Broker</strong></li>
 <li><strong>Topic</strong></li>
@@ -448,7 +448,22 @@
 <p>那么数据一致性是如何保证的呢，如何知道副本的状态是可靠的？ISR就保存了kafka认为可靠的副本，它们具备这样的条件：1 . 落后leader的消息条数在一定阈值内 2.或者落后在一定时间内；<br>但是，follower的复制状态谁又能保证一定能跟得上leader呢？这样，就存在着一种可能性，有可能ISR中只有leader,其他的副本都跟不上leader; 因此，这个时候，patition到底可用不可用？这就是一个权衡了，若只从ISR中获取leader，保证了数据的可靠性，但partition就不可用了，若从replica中获取，则可用性增强，但是数据可能存在丢失情况。<br>因此unclean.leader.election.enable这个参数设计为true，则保证了可用性，也就是CAP中的A P;设置为false，则保证了数据一致性，也就是CAP中的CP</p>
 <h2 id="kafka-Consumer解析"><a href="#kafka-Consumer解析" class="headerlink" title="kafka Consumer解析"></a>kafka Consumer解析</h2><h3 id="推拉模型"><a href="#推拉模型" class="headerlink" title="推拉模型"></a>推拉模型</h3><p>推: 主动给客户端推送消息 【客户端可能会overload】<br>拉：客户端主动向服务端拉取消息 【服务端可能会overload】</p>
 <p>commit消息存储：这个数据保存在zk上</p>
-<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><h3 id="一些问题-1"><a href="#一些问题-1" class="headerlink" title="一些问题"></a>一些问题</h3><ul>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><h4 id="Rebalance的原理"><a href="#Rebalance的原理" class="headerlink" title="Rebalance的原理"></a>Rebalance的原理</h4><p>groupcordernator 负责 消费者offset管理以及消费者 rebalance</p>
+<p>group-&gt;多个memberid</p>
+<p>第一次加入的过程：</p>
+<ol>
+<li>第一次加入–&gt;随机选取一个broker作为GroupCoordinator–&gt;选取一个member作为leader</li>
+<li>member进行 分区的分配，定义好后，发送给GroupCoordinator</li>
+<li>GroupCoordinator将这个分区分配信息同步给其他所有member</li>
+</ol>
+<p>什么场景下会触发rebalance</p>
+<ol>
+<li>有新的memer加入</li>
+<li>有member掉线</li>
+<li>topic的分区有增加</li>
+<li>GroupCoordinator所在的broker fail</li>
+</ol>
+<h3 id="一些问题-1"><a href="#一些问题-1" class="headerlink" title="一些问题"></a>一些问题</h3><ul>
 <li>kafka 如何做到不重复消费? <br><br>现有的kafka可以做到写幂等性（0.11版本之后），但是做不到消费幂等性。消费完后写offset到zk失败，这个状态consumer客户端是感知不到的，二者并没有类似TCP的ack机制。因此下一次还是会从上次提交的offset继续读，就会出现重复消费。我个人觉得解决这个问题可以从两个方向来考虑：应用端做消费幂等性处理，也即每条消息会有一个全局的key，应用端保存消费过消息的key，每次新消费一条数据，key做重复判断，若重复，则丢弃这条数据。当然这会带来额外的内存与查询开销。<br><br>  同样，应用端也就是consumer端需要消息处理和offset提交这两步是事务的，也即要么操作成功要么撤回恢复之前的状态。这需要应用端有事务保障，但往往很多应用端是不支持事务的，比如kafka数据落盘hdfs，kafka数据消费完写入本地文件等等。但官方给的kafka consumer-process-kafka 给出了一个不错的参考的例子和思路。基本上遵循了分布式系统中的两阶段提交想法和思路，<a target="_blank" rel="noopener" href="http://matt33.com/2018/11/04/kafka-transaction/">具体可以参见</a></li>
 </ul>
 <p>个人理解重复消费出现的概率并不会很高，在服务端改进会带来很大的性能损耗，这可能是为什么大家都选择不处理的重要原因吧。另外，本身系统与系统之间传输数据，很难做到消息的exactly once的。无论是kafka到存储系统hdfs还是spark flink下游计算系统等。若数据传输都在一个系统之内，那相对好处理一些，比如kafka的事务，保证了consume-process-producer的事务场景，也就是从kafka消费处理完毕后再到kafka，这个可以做到exactly once。</p>

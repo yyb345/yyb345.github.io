@@ -25,7 +25,7 @@
 <meta property="og:description" content="本文详细介绍了leetcode相关分类与解法。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-10-01T07:30:04.000Z">
-<meta property="article:modified_time" content="2025-01-20T07:23:05.089Z">
+<meta property="article:modified_time" content="2025-01-21T01:39:15.475Z">
 <meta property="article:author" content="杨一博">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.7k words
+          5.2k words
         
       </span>
     
@@ -249,7 +249,7 @@
         
         
         
-          40 mins
+          44 mins
         
       </span>
     
@@ -312,11 +312,18 @@
 <p>归并排序</p>
 <h3 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h3><p><strong>满足：单调性、搜索结果收敛</strong>，注意 上界和下界</p>
 <ol>
-<li>搜索插入的位置</li>
-<li>X的平方根</li>
-<li><a target="_blank" rel="noopener" href="https://www.cplusplus.com/reference/valarray/pow/">pow(x,n)</a>   递归进行计算 </li>
-<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/">#153 寻找旋转排序数组中的最小值</a> </li>
-<li>求复合某条件的最小值的最大值</li>
+<li><p>搜索插入的位置</p>
+</li>
+<li><p>X的平方根</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cplusplus.com/reference/valarray/pow/">pow(x,n)</a>   递归进行计算 </p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/">#153 寻找旋转排序数组中的最小值</a> </p>
+</li>
+<li><p>求复合某条件的最小值的最大值</p>
+</li>
+<li><p>求峰值</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findPeakElement</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>        <br>        <span class="hljs-type">int</span> <span class="hljs-variable">l</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">h</span> <span class="hljs-operator">=</span> nums.length-<span class="hljs-number">1</span>;<br><br>        <span class="hljs-keyword">while</span>(l&lt;h)&#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">mid</span> <span class="hljs-operator">=</span> l +(h-l)/<span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">if</span>(mid+<span class="hljs-number">1</span>&lt;nums.length &amp;&amp; nums[mid]&gt;nums[mid+<span class="hljs-number">1</span>])&#123;<br>                h=mid;<br>            &#125;<span class="hljs-keyword">else</span> &#123;<br>                l=mid+<span class="hljs-number">1</span>;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> l;<br>    &#125;<br></code></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h3><ol>
 <li>两数之和 第二轮</li>
@@ -372,7 +379,10 @@
 </li>
 <li><p>有序链表的合并</p>
 </li>
-<li><p>环形链表 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle?envType=study-plan-v2&envId=top-interview-150">环形链表</a>  【快慢指针】 第一轮</p>
+<li><p>环形链表 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle?envType=study-plan-v2&envId=top-interview-150">环形链表</a>  【快慢指针】</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">hasCycle</span><span class="hljs-params">(ListNode head)</span> &#123;<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">slow</span> <span class="hljs-operator">=</span> head;<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">fast</span> <span class="hljs-operator">=</span> head;<br>        <span class="hljs-keyword">while</span>(fast!=<span class="hljs-literal">null</span> &amp;&amp; fast.next!=<span class="hljs-literal">null</span>)&#123;<br>            slow = slow.next;<br>            fast = fast.next.next;<br>            <span class="hljs-keyword">if</span>(slow==fast)&#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
 </li>
 <li><p>随机链表复制 【第一步 链表复制 &amp; 需要有一个Map保存 旧链表与新链表节点的映射，第二步 随机指针添加】</p>
 </li>
