@@ -25,7 +25,7 @@
 <meta property="og:description" content="本文围绕Spring技术最核心的是IOC和AOP的两个概念进行详细介绍。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-06-13T07:30:04.000Z">
-<meta property="article:modified_time" content="2024-10-10T14:27:47.183Z">
+<meta property="article:modified_time" content="2025-01-23T12:11:08.970Z">
 <meta property="article:author" content="杨一博">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -237,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          630 words
+          977 words
         
       </span>
     
@@ -248,7 +248,7 @@
         
         
         
-          6 mins
+          9 mins
         
       </span>
     
@@ -324,6 +324,13 @@
 <p>具体实现方式</p>
 <p>设计模式：</p>
 <p>工场模式、责任链模式、代理模式、单例模式、适配器模式</p>
+<h1 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h1><p>如果让你设计mysql高可用方案的话，你会优先考虑哪些方面</p>
+<p>2、抖音评论系统怎么设计，如果加入好友关系呢？（考虑到数据读取的性能，可以采用写扩散的方式）</p>
+<p>3、怎么设计一个短链地址，要考虑跨机房部署问题</p>
+<p>你说要哈希算法生成短链，会存在什么问题（哈希冲突），该怎么解决？（可以用布隆过滤器，但是不好控制，而且仍存在hash冲突）</p>
+<p>有没有更好的方案？（自增序列算法，每次接收一个长链，就分配一个ID，转成62进制再拼到短域后面）</p>
+<p>存在的问题？（自增id方案如果用雪花算法，可能存在机器时钟回拨的问题，导致id重复，说到这里，我终于明白那家伙为什么说要考虑跨机房部署问题）</p>
+<p>该怎么解决？（用Redis做自增id生成器，性能高，但要考虑持久性的问题；或者改造雪花算法，通过改造workId解决时钟回拨的问题）</p>
 
                 
               </div>
