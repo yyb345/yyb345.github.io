@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://yyb345.github.io/images/api_gateway_deploy.png">
 <meta property="og:image" content="https://yyb345.github.io/images/smartqa.jpg">
 <meta property="article:published_time" content="2024-10-07T15:13:26.000Z">
-<meta property="article:modified_time" content="2025-01-07T13:03:38.290Z">
+<meta property="article:modified_time" content="2025-02-13T02:41:38.368Z">
 <meta property="article:author" content="杨一博">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yyb345.github.io/images/gatway_overview.png">
@@ -252,7 +252,7 @@
         
         
         
-          32 mins
+          33 mins
         
       </span>
     
@@ -363,58 +363,7 @@
 <li>影子表、缓存和MQ等</li>
 <li>压测复盘</li>
 </ol>
-<h4 id="常见的排查指标以及排查思路"><a href="#常见的排查指标以及排查思路" class="headerlink" title="常见的排查指标以及排查思路"></a>常见的排查指标以及排查思路</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>指标维度</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>业务接口</td>
-<td>接口QPS、RT（TP99）</td>
-</tr>
-<tr>
-<td>Flink</td>
-<td>反压、数据倾斜情况</td>
-</tr>
-<tr>
-<td>缓存</td>
-<td>本地缓存、分布式缓存、缓存不一致</td>
-</tr>
-<tr>
-<td>消息队列</td>
-<td>数据消费进度</td>
-</tr>
-<tr>
-<td>数据库</td>
-<td>并发事务、慢SQL</td>
-</tr>
-<tr>
-<td>JVM</td>
-<td>GC情况&#x2F;Jstack&#x2F;线程池负载</td>
-</tr>
-<tr>
-<td>操作系统</td>
-<td>文件缓存、网络连接数、文件句柄数量</td>
-</tr>
-<tr>
-<td>硬件</td>
-<td>CPU占用率&#x2F;磁盘&#x2F;网络情况</td>
-</tr>
-<tr>
-<td>业务日志定位</td>
-<td>SLS日志</td>
-</tr>
-<tr>
-<td>全链路排查</td>
-<td>traceId，每个trace的调用情况</td>
-</tr>
-<tr>
-<td>代码排查</td>
-<td>Arthas排查</td>
-</tr>
-</tbody></table>
+<h4 id="常见的排查指标以及排查思路"><a href="#常见的排查指标以及排查思路" class="headerlink" title="常见的排查指标以及排查思路"></a>常见的排查指标以及排查思路</h4><p>|              | 指标维度                           |<br>    | ———— | ———————————- |<br>| 业务接口     | 接口QPS、RT（TP99）                |<br>| Flink        | 反压、数据倾斜情况                 |<br>| 缓存         | 本地缓存、分布式缓存、缓存不一致   |<br>| 消息队列     | 数据消费进度                       |<br>| 数据库       | 并发事务、慢SQL                    |<br>| JVM          | GC情况&#x2F;Jstack&#x2F;线程池负载           |<br>| 操作系统     | 文件缓存、网络连接数、文件句柄数量 |<br>| 硬件         | CPU占用率&#x2F;磁盘&#x2F;网络情况            |<br>| 业务日志定位 | SLS日志                            |<br>| 全链路排查   | traceId，每个trace的调用情况       |<br>| 代码排查     | Arthas排查                         |</p>
 <p>CPU利用率不高，线程数增大，GC频率无明显变化，RT变高，大概率是依赖的服务超时或者死锁</p>
 <p>CPU利用率变高，线程数增大，GC频率明显变快，分析Jmap，有可能会有内存泄漏</p>
 <p><u><em>引出：GC的相关知识点和线上排查日志的相关知识点</em></u></p>
