@@ -25,7 +25,7 @@
 <meta property="og:description" content="本文详细介绍了leetcode相关分类与解法。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-10-01T07:30:04.000Z">
-<meta property="article:modified_time" content="2025-02-24T12:08:15.076Z">
+<meta property="article:modified_time" content="2025-02-25T12:16:56.725Z">
 <meta property="article:author" content="杨一博">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.2k words
+          9.6k words
         
       </span>
     
@@ -249,7 +249,7 @@
         
         
         
-          77 mins
+          81 mins
         
       </span>
     
@@ -420,8 +420,8 @@
 
 
 </li>
-<li><p>单调栈</p>
-</li>
+<li><p>单调栈（也就是说栈中的元素是单调的，递增或递减，一般用来解决符合某种单调条件的差值）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// leetcode 739 日常温度 </span><br><span class="hljs-keyword">public</span> <span class="hljs-type">int</span>[] dailyTemperatures(<span class="hljs-type">int</span>[] temperatures) &#123;<br>        <span class="hljs-comment">// stack 存储的是未被处理的数据，一旦满足条件，就处理，pop，stack的元素满足某种单调条件</span><br>        Stack&lt;Integer&gt; stack = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stack</span>&lt;&gt;();<br>        <span class="hljs-type">int</span>[] ret = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[temperatures.length];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; temperatures.length; i++) &#123;<br>            <span class="hljs-keyword">while</span> (!stack.isEmpty() &amp;&amp; temperatures[i] &gt; temperatures[stack.peek()]) &#123;<br>                <span class="hljs-type">int</span> <span class="hljs-variable">peek</span> <span class="hljs-operator">=</span> stack.pop();<br>                ret[peek] = i - peek;<br>            &#125;<br>            stack.push(i);<br>        &#125;<br>        <span class="hljs-keyword">return</span> ret;<br>    &#125;<br></code></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>在Java中的数据结构叫 优先队列，默认是最小堆。如果是最大堆，需要改下compare函数。</p>
 <h3 id="二叉树-🌲"><a href="#二叉树-🌲" class="headerlink" title="二叉树 🌲"></a>二叉树 🌲</h3><p><strong>本质上是搜索【从上往下、从下往上、前、中、后】 解题思路：1. 从上往下搜索的过程中引入全局存储，可以记录搜索的路径等 2. 递归&#x2F;递归一般是从下往上传递结果值，也可以是从下往上按照规则进行搜索，从上反推。</strong></p>
