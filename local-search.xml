@@ -288,25 +288,6 @@
   
   
   <entry>
-    <title>编程框架-Spring技术总结</title>
-    <link href="/10-Spring%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/"/>
-    <url>/10-Spring%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/</url>
-    
-    <content type="html"><![CDATA[<p>本文围绕Spring技术最核心的是IOC和AOP的两个概念进行详细介绍。</p><span id="more"></span><h1 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>IOC是控制反转，传统的编程情况下，如果一个对象依赖另一个对象，是需要程序员自己定义和初始化一个对象的。现在在Spring框架下，初始化的工作交给了Spring。Spring来负责管理这部分工作。那么具体是如何管理的呢？</p><ol><li>扫描类与类之间的关系</li><li>有一个对象容器，存放每个对象</li></ol><h2 id="关键过程"><a href="#关键过程" class="headerlink" title="关键过程"></a>关键过程</h2><p>有几个关键的概念：SpringContext  BeanFactory  FactoryBean</p><h2 id="常见的问题："><a href="#常见的问题：" class="headerlink" title="常见的问题："></a>常见的问题：</h2><h4 id="如果存在循环依赖怎么办？"><a href="#如果存在循环依赖怎么办？" class="headerlink" title="如果存在循环依赖怎么办？"></a>如果存在循环依赖怎么办？</h4><p>  spring三层缓存</p><h4 id="Spring生命周期可以用来做什么？"><a href="#Spring生命周期可以用来做什么？" class="headerlink" title="Spring生命周期可以用来做什么？"></a>Spring生命周期可以用来做什么？</h4><p>   初始化、属性赋值</p><p>   PostProcess afterproerset</p><h4 id="FactoryBean-跟-BeanFactory有什么区别？"><a href="#FactoryBean-跟-BeanFactory有什么区别？" class="headerlink" title="FactoryBean 跟 BeanFactory有什么区别？"></a>FactoryBean 跟 BeanFactory有什么区别？</h4><p>  FactoryBean是一种特殊的bean，一般使用场景是将繁琐的初始化事项屏蔽，对外提供一个Bean，比如与数据库的连接</p><p>  BeanFactory是用来生产Bean的，它提供了通用的接口。</p><h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>AOP是面向切面编程。面向切面相当于对一段函数进行能力强化，一般场景是打印日志、权限控制等。那么它是如何实现的呢？</p><p> 动态代理，使用JDK动态代理或者CGLIB进行代理，JDK是利用<strong>反射机制</strong>，对有实现<strong>接口的类</strong>进行代理。CGLIB是通过生成子类来实现的。JDK代理是本身JDK自带的。CGLIB是一个外部库，它是通过字节码agent技术</p><p>具体实现方式</p><p>设计模式：</p><p>工场模式、责任链模式、代理模式、单例模式、适配器模式</p><h1 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h1><p>如果让你设计mysql高可用方案的话，你会优先考虑哪些方面</p><p>2、抖音评论系统怎么设计，如果加入好友关系呢？（考虑到数据读取的性能，可以采用写扩散的方式）</p><p>3、怎么设计一个短链地址，要考虑跨机房部署问题</p><p>你说要哈希算法生成短链，会存在什么问题（哈希冲突），该怎么解决？（可以用布隆过滤器，但是不好控制，而且仍存在hash冲突）</p><p>有没有更好的方案？（自增序列算法，每次接收一个长链，就分配一个ID，转成62进制再拼到短域后面）</p><p>存在的问题？（自增id方案如果用雪花算法，可能存在机器时钟回拨的问题，导致id重复，说到这里，我终于明白那家伙为什么说要考虑跨机房部署问题）</p><p>该怎么解决？（用Redis做自增id生成器，性能高，但要考虑持久性的问题；或者改造雪花算法，通过改造workId解决时钟回拨的问题）</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>后端技术</category>
-      
-    </categories>
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>AI技术-大模型工程技术汇总</title>
     <link href="/01-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B7%A5%E7%A8%8B%E6%8A%80%E6%9C%AF%E6%B1%87%E6%80%BB/"/>
     <url>/01-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B7%A5%E7%A8%8B%E6%8A%80%E6%9C%AF%E6%B1%87%E6%80%BB/</url>
@@ -317,6 +298,25 @@
     <categories>
       
       <category>AI技术</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>编程框架-Spring技术总结</title>
+    <link href="/10-Spring%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/"/>
+    <url>/10-Spring%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/</url>
+    
+    <content type="html"><![CDATA[<p>本文围绕Spring技术最核心的是IOC和AOP的两个概念进行详细介绍。</p><span id="more"></span><h1 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>IOC是控制反转，传统的编程情况下，如果一个对象依赖另一个对象，是需要程序员自己定义和初始化一个对象的。现在在Spring框架下，初始化的工作交给了Spring。Spring来负责管理这部分工作。那么具体是如何管理的呢？</p><ol><li>扫描类与类之间的关系</li><li>有一个对象容器，存放每个对象</li></ol><h2 id="关键过程"><a href="#关键过程" class="headerlink" title="关键过程"></a>关键过程</h2><p>有几个关键的概念：SpringContext  BeanFactory  FactoryBean</p><h2 id="常见的问题："><a href="#常见的问题：" class="headerlink" title="常见的问题："></a>常见的问题：</h2><h4 id="如果存在循环依赖怎么办？"><a href="#如果存在循环依赖怎么办？" class="headerlink" title="如果存在循环依赖怎么办？"></a>如果存在循环依赖怎么办？</h4><p>  spring三层缓存</p><h4 id="Spring生命周期可以用来做什么？"><a href="#Spring生命周期可以用来做什么？" class="headerlink" title="Spring生命周期可以用来做什么？"></a>Spring生命周期可以用来做什么？</h4><p>   初始化、属性赋值</p><p>   PostProcess afterproerset</p><h4 id="FactoryBean-跟-BeanFactory有什么区别？"><a href="#FactoryBean-跟-BeanFactory有什么区别？" class="headerlink" title="FactoryBean 跟 BeanFactory有什么区别？"></a>FactoryBean 跟 BeanFactory有什么区别？</h4><p>  FactoryBean是一种特殊的bean，一般使用场景是将繁琐的初始化事项屏蔽，对外提供一个Bean，比如与数据库的连接</p><p>  BeanFactory是用来生产Bean的，它提供了通用的接口。</p><h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>AOP是面向切面编程。面向切面相当于对一段函数进行能力强化，一般场景是打印日志、权限控制等。那么它是如何实现的呢？</p><p> 动态代理，使用JDK动态代理或者CGLIB进行代理，JDK是利用<strong>反射机制</strong>，对有实现<strong>接口的类</strong>进行代理。CGLIB是通过生成子类来实现的。JDK代理是本身JDK自带的。CGLIB是一个外部库，它是通过字节码agent技术</p><p>具体实现方式</p><p>设计模式：</p><p>工场模式、责任链模式、代理模式、单例模式、适配器模式</p><h1 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h1><p>如果让你设计mysql高可用方案的话，你会优先考虑哪些方面</p><p>2、抖音评论系统怎么设计，如果加入好友关系呢？（考虑到数据读取的性能，可以采用写扩散的方式）</p><p>3、怎么设计一个短链地址，要考虑跨机房部署问题</p><p>你说要哈希算法生成短链，会存在什么问题（哈希冲突），该怎么解决？（可以用布隆过滤器，但是不好控制，而且仍存在hash冲突）</p><p>有没有更好的方案？（自增序列算法，每次接收一个长链，就分配一个ID，转成62进制再拼到短域后面）</p><p>存在的问题？（自增id方案如果用雪花算法，可能存在机器时钟回拨的问题，导致id重复，说到这里，我终于明白那家伙为什么说要考虑跨机房部署问题）</p><p>该怎么解决？（用Redis做自增id生成器，性能高，但要考虑持久性的问题；或者改造雪花算法，通过改造workId解决时钟回拨的问题）</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>后端技术</category>
       
     </categories>
     
