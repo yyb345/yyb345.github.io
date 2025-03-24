@@ -25,7 +25,7 @@
 <meta property="og:description" content="本文详细介绍了leetcode相关分类与解法。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-10-01T07:30:04.000Z">
-<meta property="article:modified_time" content="2025-03-24T11:49:10.470Z">
+<meta property="article:modified_time" content="2025-03-24T11:55:16.047Z">
 <meta property="article:author" content="杨一博">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11k words
+          12k words
         
       </span>
     
@@ -249,7 +249,7 @@
         
         
         
-          94 mins
+          99 mins
         
       </span>
     
@@ -380,10 +380,19 @@
 <h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><p>什么情况下用贪心算法，贪心算法看起来比较简单，局部最优–&gt; 全局最优</p>
 <p>我个人理解本质上是个搜索问题，只不过减枝了大部分不需要的搜索，那么问题来了，如何设计和寻找减枝的算法呢？先用暴力算法，然后再思考，有哪些不必要的计算？</p>
 <ol>
-<li>加油站⛽️问题  <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gas-station/description/?envType=study-plan-v2&envId=top-interview-150">加油站</a>  O(n^2)–&gt;O(n) </li>
-<li>买卖股票🏦的问题（一次和多次） </li>
-<li>容器盛水问题 【贪心+双指针】O(n^2)–&gt;O(n) </li>
-<li>跳跃游戏，<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game/?envType=study-plan-v2&envId=top-interview-150">跳跃游戏</a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game-ii/?envType=study-plan-v2&envId=top-interview-150">跳跃游戏2</a> nums[i]代表可以往前跳几步，是否可以到最后一步</li>
+<li><p>加油站⛽️问题  <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gas-station/description/?envType=study-plan-v2&envId=top-interview-150">加油站</a>  O(n^2)–&gt;O(n) </p>
+</li>
+<li><p>买卖股票🏦的问题（一次和多次） </p>
+</li>
+<li><p>容器盛水问题 【贪心+双指针】O(n^2)–&gt;O(n) </p>
+</li>
+<li><p>跳跃游戏 nums[i]代表可以跳跃的步数, 是否可以到达最后一个位置 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">canJump</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>   <br>      <span class="hljs-type">int</span> max=<span class="hljs-number">0</span>;  <br>     <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;=max &amp;&amp; i&lt;nums.length;i++)&#123;<br>        max = Math.max(max,nums[i]+i);<br>        <span class="hljs-keyword">if</span>(max&gt;=(nums.length-<span class="hljs-number">1</span>))&#123;<br>           <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>     &#125;<br>   <br>     <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;   <br>   &#125;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>跳跃游戏2，到达最后一个位置的，最小的步数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">jump</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>   <br>       <span class="hljs-type">int</span> <span class="hljs-variable">step</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>       <span class="hljs-type">int</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>       <span class="hljs-type">int</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>       <span class="hljs-type">int</span> <span class="hljs-variable">maxEnd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>       <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>   <br>           <span class="hljs-comment">// 判断是否已经满足条件</span><br>           <span class="hljs-keyword">if</span> (maxEnd &gt;= (nums.length - <span class="hljs-number">1</span>)) &#123;<br>               <span class="hljs-keyword">break</span>;<br>           &#125;<br>           <span class="hljs-comment">// 一轮迭代最远到那个地方</span><br>           <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> start; i &lt;= end; i++) &#123;<br>               maxEnd = Math.max(nums[i] + i, maxEnd);<br>           &#125;<br>           <span class="hljs-comment">// 迭代步数+1</span><br>           step++;<br>           start = end + <span class="hljs-number">1</span>;<br>           end = maxEnd;<br>       &#125;<br>       <span class="hljs-keyword">return</span> step;<br>   &#125;<br></code></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="链表-➡️➡️"><a href="#链表-➡️➡️" class="headerlink" title="链表 ➡️➡️"></a>链表 ➡️➡️</h3><ol>
 <li><p>反转链表 </p>
